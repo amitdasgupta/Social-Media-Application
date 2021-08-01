@@ -3,6 +3,7 @@ const customResponse = require('../../helpers/customResponse');
 const User = require('../../database/models/User');
 const { generateNewPassword } = require('../../helpers/authentication');
 const { isUserAllowedOperation } = require('../../helpers/users');
+const { doesObjectIdExistInList } = require('../../helpers/queryHelpers');
 
 const router = express.Router();
 // create a user
@@ -15,7 +16,9 @@ router.put('/:id', async (req, res, next) => {
   try {
     const userId = req.params.id;
     if (isUserAllowedOperation(req, userId)) {
-      const { password } = req.body;
+      const { password, email, username, isAdmin } = req.body;
+      if ((email || username || isAdmin) && !req.user.isAdmin)
+        return customResponse(res, 403);
       if (password) {
         const newPassword = await generateNewPassword(password);
         req.body.password = newPassword;
@@ -59,11 +62,41 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id/follow', async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    if (isUserAllowedOperation(req, userId)) {
-      return customResponse(res, 200);
-    }
-    return customResponse(res, 403);
+    const userIdFollowed = req.params.id;
+    const currentUserId = req.user.id;
+    const userData = await User.findByIdAndUpdate(currentUserId).lean();
+    if (doesObjectIdExistInList(userData.following, userIdFollowed))
+      return customResponse(res, 200, null, 'Already following the user');
+    await Promise.all([
+      User.findByIdAndUpdate(currentUserId, {
+        $push: { following: userIdFollowed },
+      }),
+      User.findByIdAndUpdate(userIdFollowed, {
+        $push: { followers: currentUserId },
+      }),
+    ]);
+    return customResponse(res, 200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/:id/unfollow', async (req, res, next) => {
+  try {
+    const userIdFollowed = req.params.id;
+    const currentUserId = req.user.id;
+    const userData = await User.findByIdAndUpdate(currentUserId).lean();
+    if (!doesObjectIdExistInList(userData.following, userIdFollowed))
+      return customResponse(res, 403);
+    await Promise.all([
+      User.findByIdAndUpdate(currentUserId, {
+        $pull: { following: userIdFollowed },
+      }),
+      User.findByIdAndUpdate(userIdFollowed, {
+        $pull: { followers: currentUserId },
+      }),
+    ]);
+    return customResponse(res, 200);
   } catch (error) {
     next(error);
   }

@@ -3,7 +3,7 @@ function customResponse(res, statusCode, json = null, message = null) {
     case 200:
       return res
         .status(statusCode)
-        .json({ data: { ...json }, message: message || 'Success' });
+        .json({ data: json, message: message || 'Success' });
     case 403:
       return res.status(statusCode).json({ message: 'Not Authorized' });
     case 404:

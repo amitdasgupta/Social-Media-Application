@@ -8,5 +8,6 @@ router.use('/auth', require('./authController'));
 router.use(authMiddleWare);
 
 router.use('/user', require('./usersController'));
+router.use('/post', require('./postController'));
 
 module.exports = router;

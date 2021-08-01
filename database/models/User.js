@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const { ObjectId } = mongoose.Schema.Types;
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -30,12 +31,19 @@ const UserSchema = new mongoose.Schema(
       default: '',
     },
     followers: {
-      type: Array,
+      type: [ObjectId],
       default: [],
+      ref: 'User',
     },
     following: {
-      type: Array,
+      type: [ObjectId],
       default: [],
+      ref: 'User',
+    },
+    posts: {
+      type: [ObjectId],
+      default: [],
+      ref: 'Post',
     },
     isAdmin: {
       type: Boolean,
@@ -62,10 +70,6 @@ const UserSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-UserSchema.query.getPassword = function () {
-  return this.get('password');
-};
 
 const userModel = mongoose.model('User', UserSchema);
 

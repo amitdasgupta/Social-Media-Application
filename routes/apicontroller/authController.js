@@ -29,7 +29,7 @@ router.post('/register', async (req, res, next) => {
       password: encryptedPassword,
     });
     user.save();
-    return customResponse(res, { message: 'Successfully Registered' }, 200);
+    return customResponse(res, 200);
   } catch (err) {
     return next(err);
   }
