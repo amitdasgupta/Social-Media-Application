@@ -1,0 +1,85 @@
+@import '../abstracts/variables';
+
+.topBarContainer {
+  background-color: $theme_color;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .topBarLeft {
+    font-size: $heading_font_size;
+    font-weight: bold;
+  }
+  .topBarRight {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    justify-content: space-between;
+    align-items: center;
+    .topBarLinks {
+      width: 45%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .topBarLink {
+        font-weight: 500;
+        font-size: $heading_font_size2;
+      }
+    }
+    .topBarIcons {
+      width: 35%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      color: white;
+      .topBarIcon {
+        position: relative;
+        .topBarIconImage {
+          font-size: $icons_size;
+          color: $icons_color;
+        }
+        .topBarIconBadge {
+          position: absolute;
+          font-size: 10px;
+          left: 30px;
+          background-color: #f01414;
+          line-height: 14px;
+          width: 16px;
+          text-align: center;
+          border-radius: 15px;
+          height: 16px;
+          font-weight: bold;
+          top: -5px;
+        }
+      }
+    }
+  }
+  .topBarCenter {
+    width: 40%;
+    .searchBar {
+      position: relative;
+      .searchIcon {
+        position: absolute;
+        top: 5px;
+        left: 14px;
+      }
+      input {
+        width: 100%;
+        border-radius: 10px;
+        padding: 6px;
+        font-size: $content_font_size;
+        padding-left: 50px;
+        outline: none;
+        border: none;
+      }
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  .profilePic {
+    height: 50px;
+    width: 50px;
+  }
+}
