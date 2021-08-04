@@ -1,0 +1,39 @@
+@import '../abstracts/variables';
+.sideBarMain {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .sideBarMainTop {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .showMore {
+      text-align: center;
+      background: #978f8f;
+      padding: 15px;
+      border-radius: 7px;
+      margin-top: 5px;
+      width: 65%;
+    }
+    .sideBarMainTopIcon {
+      margin: 20px 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      .sideBarMainTopIconName {
+        font-size: $heading_font_size2;
+      }
+      .icon {
+        font-size: $icons_size;
+        margin-right: 25px;
+      }
+    }
+  }
+  .sideBarMainBottom {
+  }
+  hr {
+    margin-top: 20px;
+  }
+}
