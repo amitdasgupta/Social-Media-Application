@@ -1,0 +1,74 @@
+@import '../abstracts/variables';
+
+.mainFeed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 55%;
+  margin: 20px 25px;
+  .mainFeedTop {
+    width: 70%;
+  }
+  .mainFeedBottom {
+    .feedItem {
+    }
+  }
+}
+.createFeed {
+  width: 100%;
+  padding: 10px 10px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  -webkit-box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
+  box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
+  border-radius: 10px;
+  .input {
+    width: 85%;
+    margin: 15px 20px;
+    border-color: #c1d5e6;
+    border: 'none';
+    background: white;
+  }
+  .top {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    .icon {
+      width: 50px;
+      height: 50px;
+    }
+    .placeholder {
+      margin-left: 10px;
+      color: grey;
+    }
+  }
+  .bottom {
+    width: 85%;
+    margin: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    .bottomButtons {
+      .start {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+    .button {
+      text-transform: none;
+      margin-right: 20px;
+    }
+    .buttonEnd {
+      text-transform: none;
+      color: white;
+      background: green;
+      padding: 5px 25px;
+      margin-left: 20px;
+    }
+  }
+}

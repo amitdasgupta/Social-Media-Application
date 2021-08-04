@@ -1,9 +1,13 @@
 @import '../abstracts/variables';
 .sideBarMain {
-  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  width: 280px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-right: 15px;
+  color: #2b0f0f;
   .sideBarMainTop {
     display: flex;
     flex-direction: column;
@@ -14,26 +18,31 @@
       padding: 15px;
       border-radius: 7px;
       margin-top: 5px;
-      width: 65%;
-    }
-    .sideBarMainTopIcon {
-      margin: 20px 10px;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      .sideBarMainTopIconName {
-        font-size: $heading_font_size2;
-      }
-      .icon {
-        font-size: $icons_size;
-        margin-right: 25px;
-      }
+      width: 80%;
+      margin: 15px 0px;
     }
   }
-  .sideBarMainBottom {
-  }
+
   hr {
     margin-top: 20px;
+    color: grey;
+  }
+  .sideBarMainTopIcon {
+    width: 70%;
+    cursor: pointer;
+    margin: 15px 10px;
+    display: flex;
+    justify-self: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    .sideBarMainTopIconName {
+      font-size: $heading_font_size2;
+    }
+    .icon {
+      font-size: $icons_size;
+      margin-right: 35px;
+      color: black;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import styles from '../../stylesheets/components/TopBar.module.scss';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
+import { Input, InputAdornment, Avatar } from '@material-ui/core';
 
 export default function TopBar() {
   return (
@@ -10,8 +11,17 @@ export default function TopBar() {
         </div>
         <div className={styles.topBarCenter}>
           <div className={styles.searchBar}>
-            <Search className={styles.searchIcon} />
-            <input placeholder="Search friends,videos or posts" />
+            <Input
+              id="input-with-icon-adornment"
+              className={styles.input}
+              placeholder="Search friends,videos or posts"
+              startAdornment={
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              }
+              disableUnderline
+            />
           </div>
         </div>
         <div className={styles.topBarRight}>
@@ -34,9 +44,8 @@ export default function TopBar() {
             </div>
           </div>
         </div>
-        <img
-          className={styles.profilePic}
-          alt="Profile Pic"
+        <Avatar
+          alt="Cindy Baker"
           src="https://avatars.githubusercontent.com/u/25057271?s=400&u=f475d749d61767325c66668e7adf165d5460c135&v=4"
         />
       </div>

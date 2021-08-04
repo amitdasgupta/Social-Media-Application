@@ -58,20 +58,14 @@
   .topBarCenter {
     width: 40%;
     .searchBar {
-      position: relative;
-      .searchIcon {
-        position: absolute;
-        top: 5px;
-        left: 14px;
-      }
-      input {
+      .input {
         width: 100%;
-        border-radius: 10px;
+        border-radius: 15px;
         padding: 6px;
         font-size: $content_font_size;
-        padding-left: 50px;
         outline: none;
         border: none;
+        background-color: white;
       }
       display: flex;
       flex-direction: row;
