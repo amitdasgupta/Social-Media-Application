@@ -7,25 +7,27 @@ import {
   PersonPinCircle,
   EmojiEmotions,
 } from '@material-ui/icons';
+
+const feedOperationsObject = {
+  'Photo or Video': {
+    icon: PhotoLibrary,
+    color: ' #ffa9b8',
+  },
+  Tag: {
+    icon: Loyalty,
+    color: 'blue',
+  },
+  Location: {
+    icon: PersonPinCircle,
+    color: 'green',
+  },
+  Feelings: {
+    icon: EmojiEmotions,
+    color: '#cece14',
+  },
+};
+
 export default function CreateFeed() {
-  const feedOperationsObject = {
-    'Photo or Video': {
-      icon: PhotoLibrary,
-      color: ' #ffa9b8',
-    },
-    Tag: {
-      icon: Loyalty,
-      color: 'blue',
-    },
-    Location: {
-      icon: PersonPinCircle,
-      color: 'green',
-    },
-    Feelings: {
-      icon: EmojiEmotions,
-      color: '#cece14',
-    },
-  };
   const giveCreateFeedsOperation = () => {
     return Object.keys(feedOperationsObject).map((name) => {
       const Icon = feedOperationsObject[name].icon;
