@@ -1,4 +1,4 @@
-import styles from '../../stylesheets/pages/Rightbar.module.scss';
+import styles from '../../stylesheets/components/OnlineUser.module.scss';
 
 export default function Onlineuser() {
   return (

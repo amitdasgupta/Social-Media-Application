@@ -1,0 +1,80 @@
+@import '../abstracts/variables';
+.feedCard {
+  -webkit-box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
+  box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
+  padding: 20px 10px;
+  margin: 35px 0;
+  width: 100%;
+  border-radius: 10px;
+  .top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .start {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      .postUser {
+        margin-left: 20px;
+        font-weight: 500;
+      }
+      .postDate {
+        margin-left: 20px;
+        font-size: 14px;
+        color: gray;
+      }
+    }
+    .end {
+      align-self: flex-start;
+    }
+  }
+  .details {
+    margin: 15px 0;
+  }
+  .feedPic {
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
+  .feedDetails {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .start {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      .thumbUp {
+        background-color: $theme_color;
+        color: white;
+        color: white;
+        padding: 4px;
+        border-radius: 18px;
+        font-size: 18px;
+      }
+      .heart {
+        margin-left: 10px;
+        background-color: #ff294e;
+        color: white;
+        padding: 4px;
+        border-radius: 18px;
+        font-size: 18px;
+      }
+      .reactions {
+        margin-left: 10px;
+        font-size: 14px;
+        color: gray;
+      }
+    }
+    .end {
+      font-size: 14px;
+      color: gray;
+    }
+  }
+}

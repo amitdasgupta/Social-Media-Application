@@ -1,4 +1,4 @@
-import styles from '../../stylesheets/pages/Feed.module.scss';
+import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar } from '@material-ui/core';
 import { ThumbUp, Favorite, MoreVert } from '@material-ui/icons';
 

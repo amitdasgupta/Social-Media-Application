@@ -1,6 +1,6 @@
 import styles from '../../stylesheets/pages/Feed.module.scss';
-import CreateFeed from './CreateFeed';
-import FeedCard from './FeedCard';
+import CreateFeed from '../../components/CreateFeedCard';
+import FeedCard from '../../components/FeedCard';
 function Feed() {
   return (
     <div className={styles.mainFeed}>

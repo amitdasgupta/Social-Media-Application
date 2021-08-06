@@ -1,4 +1,4 @@
-import styles from '../../stylesheets/pages/Rightbar.module.scss';
+import styles from '../../stylesheets/components/Notifications.module.scss';
 import { CancelOutlined } from '@material-ui/icons';
 export default function Notifications() {
   return (

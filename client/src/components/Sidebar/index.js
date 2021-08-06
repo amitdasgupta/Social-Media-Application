@@ -1,4 +1,4 @@
-import styles from '../../stylesheets/pages/Sidebar.module.scss';
+import styles from '../../stylesheets/components/Sidebar.module.scss';
 import {
   RssFeed,
   Chat,

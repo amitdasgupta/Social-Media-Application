@@ -1,6 +1,6 @@
 import styles from '../../stylesheets/pages/Rightbar.module.scss';
-import Notifications from './Notifications';
-import Onlineuser from './Onlineuser';
+import Notifications from '../../components/Notifications.js';
+import Onlineuser from '../../components/OnlineUser';
 
 function Rightbar() {
   return (

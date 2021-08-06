@@ -1,4 +1,4 @@
-import styles from '../../stylesheets/pages/Feed.module.scss';
+import styles from '../../stylesheets/components/CreateFeedCard.module.scss';
 import { Avatar, Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import {
