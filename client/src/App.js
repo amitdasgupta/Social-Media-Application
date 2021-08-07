@@ -1,8 +1,8 @@
-import Home from './Pages/Home';
+import PrivatePages from './PrivatePages';
 function App() {
   return (
     <div className="App">
-      <Home />
+      <PrivatePages />
     </div>
   );
 }
