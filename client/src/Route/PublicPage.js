@@ -8,16 +8,15 @@ export default function ProtectRoute({
   ...rest
 }) {
   const isAuthenticated = true;
-  console.log(rest, 'rest');
   return (
     <Suspense fallback={'Loading......'}>
       <Route
         {...rest}
         render={(props) =>
-          isAuthenticated ? (
+          !isAuthenticated ? (
             <Component routes={routes} {...props} />
           ) : (
-            <Redirect to={{ pathname: '/login' }} />
+            <Redirect to={{ pathname: '/app' }} />
           )
         }
       />

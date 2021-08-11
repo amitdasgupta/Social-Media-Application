@@ -1,19 +1,27 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import ProtectedRoute from '../ProtectedRoute';
-const HomeComponent = React.lazy(() => import('../Pages/Home'));
+import { Redirect, Route } from 'react-router-dom';
+import Home from '../Pages/Home';
+import PrivatePage from './PrivatePage';
+import PublicPage from './PublicPage';
 
 const ROUTES = {
   PUBLIC: [
     {
-      path: '/login',
+      path: '/',
       key: 'ROOT',
+      exact: true,
+      component: () => <Redirect to="/" />,
+    },
+    {
+      path: '/login',
+      key: 'LOGIN',
       exact: true,
       component: () => <h1>Log in</h1>,
     },
     {
       path: '/signup',
       exact: true,
+      key: 'SIGNUP',
       component: () => <h1>Sign up</h1>,
     },
   ],
@@ -21,58 +29,38 @@ const ROUTES = {
     {
       path: '/app',
       key: 'APP',
-      component: RenderRoutes, // here's the update
-      routes: [
-        {
-          path: '/app',
-          key: 'APP_ROOT',
-          exact: true,
-          component: () => <HomeComponent />,
-        },
-        {
-          path: '/app/page',
-          key: 'APP_PAGE',
-          component: RenderRoutes,
-          routes: [
-            {
-              path: '/app/page',
-              key: 'APP_PAGE_1',
-              exact: true,
-              component: () => <h1>App Page</h1>,
-            },
-            {
-              path: '/app/page/data',
-              key: 'APP_PAGE_2',
-              exact: true,
-              component: () => <h1>App Page Data</h1>,
-            },
-          ],
-        },
-      ],
+      component: Home,
+      exact: true,
+    },
+    {
+      path: '/app/profile',
+      key: 'Profile Page',
+      component: () => <h1>Profile Page</h1>,
+      exact: true,
+    },
+    {
+      path: '/app/chat',
+      key: 'Chat Page',
+      component: () => <h1>Chat Page</h1>,
+      exact: true,
     },
   ],
 };
 export default ROUTES;
 
-function RouteWithSubRoutes(route) {
-  console.log(route, 'in sub');
-  return <ProtectedRoute path={route.path} exact={route.exact} {...route} />;
-}
-
-export function RenderRoutes({ routes }) {
-  console.log(routes, 'renderroutes');
+export function RouteWithSubRoutes(route, type) {
   return (
-    <Switch>
-      {routes.map((route, i) => {
-        return (
-          <RouteWithSubRoutes
-            key={route.key}
-            // RouteType={RouteType}
-            {...route}
-          />
-        );
-      })}
-      <Route component={() => <h1>Not Found!</h1>} />
-    </Switch>
+    <Route
+      key={route.key}
+      path={route.path}
+      exact={route.exact}
+      render={(props) =>
+        type === 'public' ? (
+          <PublicPage {...route} {...props} />
+        ) : (
+          <PrivatePage {...route} {...props} />
+        )
+      }
+    />
   );
 }
