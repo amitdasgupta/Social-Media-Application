@@ -3,7 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 import Home from '../Pages/Home';
 import PrivatePage from './PrivatePage';
 import PublicPage from './PublicPage';
-import Login from '../Pages/Login';
+import Login from '../Pages/Auth';
 
 const ROUTES = {
   PUBLIC: [
@@ -11,19 +11,13 @@ const ROUTES = {
       path: '/',
       key: 'ROOT',
       exact: true,
-      component: () => <Redirect to="/login" />,
+      component: () => <Redirect to="/auth" />,
     },
     {
-      path: '/login',
+      path: '/auth',
       key: 'LOGIN',
       exact: true,
       component: Login,
-    },
-    {
-      path: '/signup',
-      exact: true,
-      key: 'SIGNUP',
-      component: () => <h1>Sign up</h1>,
     },
   ],
   PRIVATE: [
