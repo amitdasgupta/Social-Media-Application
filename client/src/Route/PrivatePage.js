@@ -4,8 +4,8 @@ import TopBar from '../components/Topbar/TopBar';
 import styles from '../stylesheets/pages/Home.module.scss';
 import { Suspense } from 'react';
 import { Route } from 'react-router-dom';
+import { isAuthenticated } from '../helpers/auth';
 export default function ProtectRoute({ component: Component, ...rest }) {
-  const isAuthenticated = true;
   return (
     <Suspense fallback={'Loading......'}>
       <Route
