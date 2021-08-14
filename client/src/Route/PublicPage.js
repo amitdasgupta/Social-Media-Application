@@ -13,7 +13,7 @@ export default function ProtectRoute({
       <Route
         {...rest}
         render={(props) =>
-          !isAuthenticated ? (
+          !isAuthenticated() ? (
             <Component routes={routes} {...props} />
           ) : (
             <Redirect to={{ pathname: '/app' }} />

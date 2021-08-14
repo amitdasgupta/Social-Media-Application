@@ -14,6 +14,7 @@ import styles from '../../stylesheets/pages/Auth.module.scss';
 import cx from 'classnames';
 import FormValidator from '../../helpers/validator';
 import FormRules from '../../helpers/validator/config/signup';
+import { postRequest } from '../../helpers/axios';
 const validator = new FormValidator(FormRules);
 
 export default function Signup({ setAuthPage }) {
@@ -36,7 +37,12 @@ export default function Signup({ setAuthPage }) {
     const validation = validator.validate(signup);
     setSignup({ ...signup, validationError: validation });
     if (validation.isValid) {
-      console.log('we can submit the form here');
+      postRequest('auth/register', {
+        username: username,
+        email,
+        password,
+        gender,
+      });
     }
   };
   const {

@@ -11,7 +11,7 @@ export default function ProtectRoute({ component: Component, ...rest }) {
       <Route
         {...rest}
         render={(props) =>
-          isAuthenticated ? (
+          isAuthenticated() ? (
             <>
               <TopBar />
               <div className={styles.mainContent}>

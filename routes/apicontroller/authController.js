@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post('/register', async (req, res, next) => {
   try {
-    const { username, password, email } = req.body;
+    const { username, password, email, gender } = req.body;
     const doesUserExistWithSameEmail = await User.findOne({
       $or: [{ email }, { username }],
     });
@@ -24,9 +24,10 @@ router.post('/register', async (req, res, next) => {
       );
     const encryptedPassword = await giveEncryptedPassword(password);
     const user = await new User({
-      username: username,
-      email: email,
+      username,
+      email,
       password: encryptedPassword,
+      gender,
     });
     user.save();
     return customResponse(res, 200);

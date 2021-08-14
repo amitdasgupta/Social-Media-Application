@@ -15,7 +15,7 @@ const ROUTES = {
     },
     {
       path: '/auth',
-      key: 'LOGIN',
+      key: 'Auth',
       exact: true,
       component: Login,
     },

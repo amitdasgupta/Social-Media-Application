@@ -7,8 +7,8 @@ import cx from 'classnames';
 function App() {
   const { PUBLIC = [], PRIVATE = [] } = ROUTES;
   const _className = cx({
-    [styles.main]: !isAuthenticated,
-    [styles.loggedIn]: isAuthenticated,
+    [styles.main]: !isAuthenticated(),
+    [styles.loggedIn]: isAuthenticated(),
   });
   return (
     <div className={_className}>
