@@ -8,7 +8,6 @@ export default function ProtectRoute({
   routes,
   ...rest
 }) {
-  console.log(Component, rest);
   return (
     <Suspense fallback={'Loading......'}>
       <Route
