@@ -6,14 +6,13 @@ import {
 } from '@material-ui/core';
 import { useState } from 'react';
 import { Email, VpnKey } from '@material-ui/icons';
-import styles from '../../stylesheets/pages/Auth.module.scss';
+import styles from '../../../stylesheets/pages/Auth.module.scss';
 import cx from 'classnames';
-import FormValidator from '../../helpers/validator';
-import FormRules from '../../helpers/validator/config/login';
-import { postRequest } from '../../helpers/axios';
+import FormValidator from '../../../helpers/validator';
+import FormRules from '../../../helpers/validator/config/login';
 const validator = new FormValidator(FormRules);
 
-export default function Login({ setAuthPage }) {
+export default function Login({ setAuthPage, loginUser }) {
   const authPageChange = (type) => {
     return () => setAuthPage(type);
   };
@@ -31,7 +30,7 @@ export default function Login({ setAuthPage }) {
     const validation = validator.validate(login);
     setLogin({ ...login, validationError: validation });
     if (validation.isValid) {
-      postRequest('auth/login', {
+      loginUser({
         email,
         password,
       });
