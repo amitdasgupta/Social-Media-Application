@@ -7,7 +7,7 @@ export default function userReducer(
   { type, payload }
 ) {
   switch (type) {
-    case types.USER_LOGIN_SUCCESS:
+    case types.LOGGEDIN_USERDATA_SUCCESS:
       return { ...state, loggedInUser: payload };
     default:
       return state;

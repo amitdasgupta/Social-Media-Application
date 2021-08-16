@@ -45,15 +45,14 @@ router.post('/login', async (req, res, next) => {
       .select('+password')
       .lean();
     if (!user) return customResponse(res, 404);
-    const { password: userPassword, ...restDataOfUser } = user;
+    const { password: userPassword, _id } = user;
     const isPasswordCorrect = await compareUserPassword(password, userPassword);
     if (!isPasswordCorrect) return customResponse(res, 403);
     const jwtToken = getToken({
       // eslint-disable-next-line no-underscore-dangle
-      userId: restDataOfUser._id,
+      userId: _id,
     });
     return customResponse(res, 200, {
-      ...restDataOfUser,
       accessToken: jwtToken,
     });
   } catch (err) {

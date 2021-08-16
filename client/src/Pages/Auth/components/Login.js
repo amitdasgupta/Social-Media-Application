@@ -10,9 +10,13 @@ import styles from '../../../stylesheets/pages/Auth.module.scss';
 import cx from 'classnames';
 import FormValidator from '../../../helpers/validator';
 import FormRules from '../../../helpers/validator/config/login';
+import { loginUser } from '../../../apis/user';
+import { setToken } from '../../../helpers/auth';
+import { useHistory } from 'react-router-dom';
 const validator = new FormValidator(FormRules);
 
-export default function Login({ setAuthPage, loginUser }) {
+export default function Login({ setAuthPage }) {
+  const history = useHistory();
   const authPageChange = (type) => {
     return () => setAuthPage(type);
   };
@@ -26,14 +30,22 @@ export default function Login({ setAuthPage, loginUser }) {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
-  const handleFormSubmit = (e) => {
-    const validation = validator.validate(login);
-    setLogin({ ...login, validationError: validation });
-    if (validation.isValid) {
-      loginUser({
-        email,
-        password,
-      });
+  const handleFormSubmit = async (e) => {
+    try {
+      const validation = validator.validate(login);
+      setLogin({ ...login, validationError: validation });
+      if (validation.isValid) {
+        const userData = await loginUser({ email, password });
+        const {
+          data: {
+            response: { accessToken },
+          },
+        } = userData;
+        setToken(accessToken);
+        history.go('/app');
+      }
+    } catch (error) {
+      console.log(error, '********');
     }
   };
   const {

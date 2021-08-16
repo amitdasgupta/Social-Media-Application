@@ -60,6 +60,16 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.get('/', async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    return customResponse(res, 200, user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.put('/:id/follow', async (req, res, next) => {
   try {
     const userIdFollowed = req.params.id;

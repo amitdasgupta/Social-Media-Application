@@ -13,3 +13,8 @@ export async function loginUser(loginData) {
   });
   return result;
 }
+
+export async function getAuthUserData(loginData) {
+  const result = await getRequest('/user');
+  return result;
+}
