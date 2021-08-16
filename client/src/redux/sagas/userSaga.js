@@ -1,7 +1,7 @@
 import { put, call, takeLatest, all } from 'redux-saga/effects';
 import { loginUser } from '../../apis/user';
 import * as types from '../constants/user';
-import { setToken, isAuthenticated } from '../../helpers/auth';
+import { setToken } from '../../helpers/auth';
 
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
@@ -12,7 +12,6 @@ export function* login({ payload }) {
     const { data: { response: { accessToken, ...remainingData } } = {} } =
       userData;
     setToken(accessToken);
-    console.log(isAuthenticated());
     yield put({ type: types.USER_LOGIN_SUCCESS, remainingData });
   } catch (error) {
     console.log('error', error);

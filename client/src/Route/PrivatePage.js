@@ -20,7 +20,7 @@ export default function ProtectRoute({ component: Component, ...rest }) {
               </div>
             </>
           ) : (
-            <Redirect to={{ pathname: '/login' }} />
+            <Redirect to={{ pathname: '/auth' }} />
           )
         }
       />

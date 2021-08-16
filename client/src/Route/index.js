@@ -39,6 +39,11 @@ const ROUTES = {
       component: () => <h1>Chat Page</h1>,
       exact: true,
     },
+    {
+      path: '/',
+      key: 'pageNotFound',
+      component: () => <h1>404 Page not found</h1>,
+    },
   ],
 };
 export default ROUTES;

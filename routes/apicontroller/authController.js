@@ -54,7 +54,7 @@ router.post('/login', async (req, res, next) => {
     });
     return customResponse(res, 200, {
       ...restDataOfUser,
-      acessToken: jwtToken,
+      accessToken: jwtToken,
     });
   } catch (err) {
     next(err);
