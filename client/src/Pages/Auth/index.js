@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from '../../stylesheets/pages/Auth.module.scss';
-import Login from './containers/Login';
+import Login from './Login';
 import Signup from './Signup';
 
 export default function Auth() {

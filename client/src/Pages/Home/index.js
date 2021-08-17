@@ -1,12 +1,18 @@
-import React from 'react';
-import Feed from '../Feed';
-import Rightbar from '../Rightbar';
+import { connect } from 'react-redux';
+import { getLoggedInUserData } from '../../redux/actions/userActions';
+import Home from './Home';
 
-export default function Home() {
-  return (
-    <>
-      <Feed />
-      <Rightbar />
-    </>
-  );
-}
+const mapStateToProps = (state) => {
+  const {
+    user: { loggedInUser },
+  } = state;
+  return {
+    loggedInUser,
+  };
+};
+
+const mapDispatchToProps = {
+  getLoggedInUserData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

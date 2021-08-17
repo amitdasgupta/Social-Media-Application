@@ -15,6 +15,6 @@ export async function loginUser(loginData) {
 }
 
 export async function getAuthUserData(loginData) {
-  const result = await getRequest('/user');
+  const result = await getRequest('user');
   return result;
 }

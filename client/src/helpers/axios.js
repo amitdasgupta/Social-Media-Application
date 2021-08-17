@@ -13,10 +13,10 @@ axiosClient.defaults.timeout = 2000;
 
 axiosClient.defaults.withCredentials = true;
 
-axios.interceptors.request.use(
+axiosClient.interceptors.request.use(
   function (request) {
     request.headers['Content-Type'] = 'multipart/form-data';
-    request.headers['Authorization'] = getToken();
+    request.headers['Authorization'] = `Bearer ${getToken()}`;
     return request;
   },
   null,

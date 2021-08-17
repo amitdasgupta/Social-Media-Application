@@ -1,10 +1,22 @@
 const initialState = {
   user: {
-    loggedInUser: {},
-    followedUser: {},
-    userSuggestion: {},
+    loggedInUser: {
+      isFetched: false,
+      data: {},
+    },
+    followedUser: {
+      isFetched: false,
+      data: {},
+    },
+    userSuggestion: {
+      isFetched: false,
+      data: {},
+    },
   },
-  posts: [],
+  posts: {
+    isFetched: false,
+    data: [],
+  },
 };
 
 export default initialState;

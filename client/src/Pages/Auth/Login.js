@@ -6,12 +6,12 @@ import {
 } from '@material-ui/core';
 import { useState } from 'react';
 import { Email, VpnKey } from '@material-ui/icons';
-import styles from '../../../stylesheets/pages/Auth.module.scss';
+import styles from '../../stylesheets/pages/Auth.module.scss';
 import cx from 'classnames';
-import FormValidator from '../../../helpers/validator';
-import FormRules from '../../../helpers/validator/config/login';
-import { loginUser } from '../../../apis/user';
-import { setToken } from '../../../helpers/auth';
+import FormValidator from '../../helpers/validator';
+import FormRules from '../../helpers/validator/config/login';
+import { loginUser } from '../../apis/user';
+import { setToken } from '../../helpers/auth';
 import { useHistory } from 'react-router-dom';
 const validator = new FormValidator(FormRules);
 

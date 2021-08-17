@@ -5,7 +5,7 @@ import * as types from '../constants/user';
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
-export function* getLoggedInUserData({ payload }) {
+export function* getLoggedInUserData() {
   try {
     const userData = yield call(getAuthUserData);
     console.log(userData);
