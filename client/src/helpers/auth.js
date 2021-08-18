@@ -10,5 +10,6 @@ export const setToken = function (token) {
 };
 
 export const logout = function () {
-  return localStorage.removeItem('socialAuthToken');
+  localStorage.removeItem('socialAuthToken');
+  window.location.reload();
 };

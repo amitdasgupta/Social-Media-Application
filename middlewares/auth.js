@@ -17,6 +17,7 @@ async function isAuthorized(req, res, next) {
     }
     return customResponse(res, { message: 'You are not authenticated' }, 403);
   } catch (error) {
+    error.status = 403;
     return next(error);
   }
 }

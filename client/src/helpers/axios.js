@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from './auth';
+import { getToken, logout } from './auth';
 
 const axiosClient = axios.create();
 
@@ -9,7 +9,7 @@ axiosClient.defaults.headers = {
 };
 
 //All request will wait 2 seconds before timeout
-axiosClient.defaults.timeout = 2000;
+axiosClient.defaults.timeout = 20000 * 60;
 
 axiosClient.defaults.withCredentials = true;
 
@@ -21,6 +21,18 @@ axiosClient.interceptors.request.use(
   },
   null,
   { synchronous: true }
+);
+
+axiosClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async function (result) {
+    const { response: { data: { message = '' } = {} } = {} } = result;
+    if (message === 'jwt expired') {
+      logout();
+    }
+  }
 );
 
 export function getRequest(URL) {
