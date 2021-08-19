@@ -15,7 +15,7 @@ axiosClient.defaults.withCredentials = true;
 
 axiosClient.interceptors.request.use(
   function (request) {
-    request.headers['Content-Type'] = 'multipart/form-data';
+    request.headers['Content-Type'] = 'application/json';
     request.headers['Authorization'] = `Bearer ${getToken()}`;
     return request;
   },
