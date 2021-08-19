@@ -8,10 +8,8 @@ import * as types from '../constants/user';
 export function* getLoggedInUserData() {
   try {
     const userData = yield call(getAuthUserData);
-    console.log(userData);
-    // const { data: { response: { accessToken } } = {} } = userData;
-    // setToken(accessToken);
-    // yield put({ type: types.USER_LOGIN_SUCCESS });
+    const { data: { response = {} } = {} } = userData;
+    yield put({ type: types.LOGGEDIN_USERDATA_SUCCESS, payload: response });
   } catch (error) {
     console.log('error', error);
     yield put({ type: types.LOGGEDIN_USERDATA_FAIL, error });

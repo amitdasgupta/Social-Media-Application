@@ -2,16 +2,17 @@ const initialState = {
   user: {
     loggedInUser: {
       isFetched: false,
-      data: {},
+      id: null,
     },
     followedUser: {
       isFetched: false,
-      data: {},
+      data: [],
     },
     userSuggestion: {
       isFetched: false,
-      data: {},
+      data: [],
     },
+    appUsers: {},
   },
   posts: {
     isFetched: false,
