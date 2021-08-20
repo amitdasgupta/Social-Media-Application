@@ -30,8 +30,9 @@ axiosClient.interceptors.response.use(
   async function (result) {
     const { response: { data: { message = '' } = {} } = {} } = result;
     if (message === 'jwt expired') {
-      logout();
+      return logout();
     }
+    return Promise.reject(result);
   }
 );
 

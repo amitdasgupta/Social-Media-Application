@@ -18,7 +18,7 @@ router.post('/register', async (req, res, next) => {
     if (doesUserExistWithSameEmail)
       return customResponse(
         res,
-        200,
+        400,
         null,
         'User with same email or username already exist'
       );

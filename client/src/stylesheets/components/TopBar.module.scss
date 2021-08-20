@@ -1,6 +1,7 @@
 @import '../abstracts/variables';
 
 .topBarContainer {
+  position: sticky;
   background-color: $theme_color;
   padding: 10px 10px;
   display: flex;
@@ -73,7 +74,14 @@
     }
   }
   .profilePic {
-    height: 50px;
-    width: 50px;
+    cursor: pointer;
   }
+  .menuItemStyle {
+  }
+}
+
+.mainConatiner {
+  position: sticky;
+  top: 0%;
+  z-index: 500;
 }

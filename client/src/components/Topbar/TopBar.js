@@ -1,10 +1,34 @@
 import styles from '../../stylesheets/components/TopBar.module.scss';
+import { useState } from 'react';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
-import { Input, InputAdornment, Avatar } from '@material-ui/core';
+import { Redirect } from 'react-router';
+import { logout } from '../../helpers/auth';
+import {
+  Input,
+  InputAdornment,
+  Avatar,
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
+
+const menuItems = [
+  { name: 'Profile', func: () => <Redirect to="/app/myprofile" /> },
+  { name: 'Settings', func: () => <Redirect to="/app/settings" /> },
+  { name: 'Logout', func: logout },
+];
 
 export default function TopBar() {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
-    <div>
+    <div className={styles.mainConatiner}>
       <div className={styles.topBarContainer}>
         <div className={styles.topBarLeft}>
           <div className="">Socialize</div>
@@ -45,9 +69,28 @@ export default function TopBar() {
           </div>
         </div>
         <Avatar
+          onClick={handleClick}
           alt="Cindy Baker"
+          className={styles.profilePic}
           src="https://avatars.githubusercontent.com/u/25057271?s=400&u=f475d749d61767325c66668e7adf165d5460c135&v=4"
         />
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {menuItems.map(({ name, func }) => (
+            <MenuItem
+              className={styles.menuItemStyle}
+              key={name}
+              onClick={func}
+            >
+              {name}
+            </MenuItem>
+          ))}
+        </Menu>
       </div>
     </div>
   );

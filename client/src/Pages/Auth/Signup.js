@@ -29,20 +29,32 @@ export default function Signup({ setAuthPage }) {
     gender: 'male',
     validationError: {},
   });
+  const [apiError, setApiError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setSignup({ ...signup, [name]: value });
   };
-  const handleFormSubmit = (e) => {
-    const validation = validator.validate(signup);
-    setSignup({ ...signup, validationError: validation });
-    if (validation.isValid) {
-      postRequest('auth/register', {
-        username: username,
-        email,
-        password,
-        gender,
-      });
+  const handleFormSubmit = async (e) => {
+    try {
+      const validation = validator.validate(signup);
+      setSignup({ ...signup, validationError: validation });
+      if (validation.isValid) {
+        await postRequest('auth/register', {
+          username: username,
+          email,
+          password,
+          gender,
+        });
+        setSuccessMessage('Successfully Registered');
+        setApiError(null);
+      }
+    } catch (error) {
+      const {
+        response: { data = 'Something went wrong' },
+      } = error;
+      setApiError(data);
+      console.log(error);
     }
   };
   const {
@@ -62,6 +74,8 @@ export default function Signup({ setAuthPage }) {
   return (
     <FormControl className={styles.rightForm}>
       <h1 className={styles.welcome}>Register</h1>
+      {apiError && <h1 className={styles.errorMessage}>{apiError}</h1>}
+      {successMessage && <h1 className={styles.success}>{successMessage}</h1>}
       <TextField
         id="input-with-icon-textfield"
         InputProps={{
