@@ -36,8 +36,8 @@ router.post('/', async (req, res, next) => {
     await User.findByIdAndUpdate(userId, {
       $push: { posts: post.id },
     });
-    post.save();
-    return customResponse(res, 200);
+    await post.save();
+    return customResponse(res, 200, post);
   } catch (err) {
     return next(err);
   }
