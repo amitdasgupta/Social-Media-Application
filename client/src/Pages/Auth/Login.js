@@ -26,6 +26,7 @@ export default function Login({ setAuthPage }) {
     password: '',
     validationError: {},
   });
+  const [apiError, setApiError] = useState(null);
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
@@ -42,10 +43,15 @@ export default function Login({ setAuthPage }) {
           },
         } = userData;
         setToken(accessToken);
+        setApiError(null);
         history.go('/app');
       }
     } catch (error) {
-      console.log(error, '********');
+      const {
+        response: { data = 'Either email or password is incorrect' } = {},
+      } = error;
+      setApiError(data);
+      console.log(error);
     }
   };
   const {
@@ -60,6 +66,7 @@ export default function Login({ setAuthPage }) {
   return (
     <FormControl className={styles.rightForm}>
       <h1 className={styles.welcome}>Welcome</h1>
+      {apiError && <h1 className={styles.errorMessage}>{apiError}</h1>}
       <TextField
         id="input-with-icon-textfield"
         InputProps={{

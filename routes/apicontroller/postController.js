@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+const saltedMd5 = require('salted-md5');
 const customResponse = require('../../helpers/customResponse');
 const User = require('../../database/models/User');
 const Post = require('../../database/models/Post');
@@ -6,6 +8,7 @@ const {
   isPostManipulationAllowed,
   isPostVisible,
 } = require('../../helpers/Post');
+const { bucket } = require('../../helpers/firebase');
 
 const router = express.Router();
 // create a post
@@ -18,11 +21,17 @@ const router = express.Router();
 // get timeline post
 router.post('/', async (req, res, next) => {
   try {
+    const { file } = req;
+    if (file) {
+      const name = saltedMd5(req.file.originalname, process.env.imageNameSalt);
+      const fileName = name + path.extname(req.file.originalname);
+      const fileToBeUploaded = bucket.file(fileName);
+      await fileToBeUploaded.createWriteStream().end(file.buffer);
+    }
     const userId = req.user.id;
-    const { desc, image = '' } = req.body;
+    const { desc } = req.body;
     const post = new Post({
       desc,
-      image,
       userId,
     });
     await User.findByIdAndUpdate(userId, {

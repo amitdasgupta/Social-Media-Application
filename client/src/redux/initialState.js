@@ -15,9 +15,17 @@ const initialState = {
     appUsers: {},
   },
   posts: {
-    isFetched: false,
-    data: [],
+    userPosts: {
+      isFetched: false,
+      data: [],
+    },
+    followPosts: {
+      isFetched: false,
+      data: [],
+    },
+    posts: {},
   },
+  comments: {},
 };
 
 export default initialState;

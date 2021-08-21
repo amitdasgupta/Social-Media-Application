@@ -47,7 +47,13 @@ router.post('/login', async (req, res, next) => {
     if (!user) return customResponse(res, 404);
     const { password: userPassword, _id } = user;
     const isPasswordCorrect = await compareUserPassword(password, userPassword);
-    if (!isPasswordCorrect) return customResponse(res, 403);
+    if (!isPasswordCorrect)
+      return customResponse(
+        res,
+        403,
+        null,
+        'Either email or password is incorrect'
+      );
     const jwtToken = getToken({
       // eslint-disable-next-line no-underscore-dangle
       userId: _id,

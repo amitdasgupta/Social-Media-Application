@@ -37,15 +37,30 @@
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+
+    .start {
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
     .bottomButtons {
       .start {
         display: flex;
         flex-direction: row;
       }
     }
+    .labelMain {
+      text-transform: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 140px;
+    }
     .button {
       text-transform: none;
-      margin-right: 20px;
     }
     .buttonEnd {
       text-transform: none;
@@ -53,6 +68,18 @@
       background: green;
       padding: 5px 25px;
       margin-left: 20px;
+    }
+  }
+  .feedButtonMessage {
+    font-size: 12px;
+    color: gray;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    .cancel {
+      margin-left: 5px;
+      font-weight: bold;
+      color: red;
+      cursor: pointer;
     }
   }
 }

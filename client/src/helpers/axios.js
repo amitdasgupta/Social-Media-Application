@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { getToken, logout } from './auth';
-
 const axiosClient = axios.create();
 
 axiosClient.defaults.headers = {
-  'Content-Type': 'application/json',
+  'Content-Type': 'multipart/form-data',
   Accept: 'application/json',
 };
 
@@ -15,8 +14,18 @@ axiosClient.defaults.withCredentials = true;
 
 axiosClient.interceptors.request.use(
   function (request) {
-    request.headers['Content-Type'] = 'application/json';
+    if (request.data) {
+      const data = request.data;
+      console.log(data, 'request');
+      const formData = new FormData();
+      Object.keys(data).forEach((name) => {
+        formData.append(name, data[name]);
+      });
+      request.data = formData;
+    }
+    request.headers['Content-Type'] = 'multipart/form-data';
     request.headers['Authorization'] = `Bearer ${getToken()}`;
+
     return request;
   },
   null,

@@ -54,7 +54,6 @@ export default function Signup({ setAuthPage }) {
         response: { data = 'Something went wrong' },
       } = error;
       setApiError(data);
-      console.log(error);
     }
   };
   const {

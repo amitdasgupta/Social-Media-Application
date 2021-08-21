@@ -1,17 +1,22 @@
-import styles from '../../stylesheets/pages/Feed.module.scss';
-import CreateFeed from '../../components/CreateFeedCard';
-import FeedCard from '../../components/FeedCard';
-function Feed() {
-  return (
-    <div className={styles.mainFeed}>
-      <div className={styles.mainFeedTop}>
-        <CreateFeed />
-      </div>
-      <div className={styles.mainFeedBottom}>
-        <FeedCard />
-      </div>
-    </div>
-  );
-}
+import { connect } from 'react-redux';
+import { createPost } from '../../redux/actions/postActions';
+import Feed from './Feed';
 
-export default Feed;
+const mapStateToProps = (state) => {
+  const {
+    user: { loggedInUser } = {},
+    posts: { followPosts, userPosts } = {},
+  } = state;
+  const isLoading = !loggedInUser.isFetched;
+  return {
+    isLoading,
+    followPosts,
+    userPosts,
+  };
+};
+
+const mapDispatchToProps = {
+  createPost,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);

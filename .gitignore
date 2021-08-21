@@ -2,3 +2,4 @@
 /.vscode
 /.env
 /client/node_modules
+serviceAccountKey.json
