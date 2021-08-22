@@ -16,7 +16,6 @@ axiosClient.interceptors.request.use(
   function (request) {
     if (request.data) {
       const data = request.data;
-      console.log(data, 'request');
       const formData = new FormData();
       Object.keys(data).forEach((name) => {
         formData.append(name, data[name]);

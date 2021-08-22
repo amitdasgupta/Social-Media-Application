@@ -15,15 +15,19 @@ const initialState = {
     appUsers: {},
   },
   posts: {
+    createPost: {
+      postBeingCreated: false,
+      error: null,
+    },
     userPosts: {
-      isFetched: false,
+      isFetched: true,
       data: [],
     },
     followPosts: {
       isFetched: false,
       data: [],
     },
-    posts: {},
+    allPostsData: {},
   },
   comments: {},
 };

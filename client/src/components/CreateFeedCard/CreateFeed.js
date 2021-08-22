@@ -9,6 +9,7 @@ import {
   PersonPinCircle,
   EmojiEmotions,
 } from '@material-ui/icons';
+import Skeleton from 'react-loading-skeleton';
 
 const feedOperationsObject = {
   'Photo or Video': {
@@ -130,18 +131,14 @@ export default function CreateFeed(props) {
   };
 
   const handleFormSubmit = async (e) => {
-    try {
-      console.log('hello');
-      const { createPost } = props;
-      await createPost(postFormData);
-    } catch (error) {
-      console.log('error');
-    }
+    const { createPost } = props;
+    createPost(postFormData);
   };
 
-  console.log(postFormData);
-
-  return (
+  const { postBeingCreated, error } = props;
+  return postBeingCreated ? (
+    <Skeleton height={200} />
+  ) : (
     <div className={styles.createFeed}>
       <div className={styles.top}>
         <Avatar
@@ -150,6 +147,7 @@ export default function CreateFeed(props) {
           className={styles.icon}
         />
         <div className={styles.placeholder}>What's in your mind?</div>
+        {error && <div className={styles.error}>{error}</div>}
       </div>
       <TextField
         id="standard-multiline-flexible"

@@ -7,7 +7,7 @@ function Feed(props) {
   return (
     <div className={styles.mainFeed}>
       <div className={styles.mainFeedTop}>
-        {isLoading ? <Skeleton height={200} /> : <CreateFeed />}
+        <CreateFeed />
       </div>
       <div className={styles.mainFeedBottom}>
         {isLoading ? <Skeleton height={600} /> : <FeedCard />}

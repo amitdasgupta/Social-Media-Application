@@ -19,7 +19,7 @@
   .top {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     .icon {
       width: 50px;
@@ -28,6 +28,12 @@
     .placeholder {
       margin-left: 10px;
       color: grey;
+    }
+    .error {
+      margin-left: 100px;
+      color: red;
+      font-weight: bold;
+      font-size: 14px;
     }
   }
   .bottom {

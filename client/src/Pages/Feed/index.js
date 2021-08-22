@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
     user: { loggedInUser } = {},
     posts: { followPosts, userPosts } = {},
   } = state;
-  const isLoading = !loggedInUser.isFetched;
+  const isLoading = !(loggedInUser.isFetched && userPosts.isFetched);
   return {
     isLoading,
     followPosts,
