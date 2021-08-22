@@ -1,8 +1,12 @@
 import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar } from '@material-ui/core';
 import { ThumbUp, Favorite, MoreVert } from '@material-ui/icons';
+import moment from 'moment';
 
-function FeedCard() {
+function FeedCard(props) {
+  const {
+    postData: { desc = '', image, createdAt = '' },
+  } = props;
   return (
     <div className={styles.feedCard}>
       <div className={styles.top}>
@@ -13,22 +17,20 @@ function FeedCard() {
             className={styles.icon}
           />
           <div className={styles.postUser}>Jon Snow</div>
-          <div className={styles.postDate}>5 mins ago</div>
+          <div className={styles.postDate}>
+            {moment(`${createdAt}`).calendar()}
+          </div>
         </div>
         <div className={styles.end}>
           <MoreVert />
         </div>
       </div>
-      <div className={styles.details}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry.
-      </div>
-      <div className={styles.feedPic}>
-        <img
-          alt="shimla-post"
-          src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/201810/SHIMLA.jpeg?p8rkDgUaxdIezLOdixVSYZfIdYEkHBUU"
-        />
-      </div>
+      <div className={styles.details}>{desc}</div>
+      {image && (
+        <div className={styles.feedPic}>
+          <img alt={desc} src={image} />
+        </div>
+      )}
       <div className={styles.feedDetails}>
         <div className={styles.start}>
           <ThumbUp className={styles.thumbUp} />

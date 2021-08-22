@@ -59,3 +59,7 @@ export function patchRequest(URL, payload) {
 export function deleteRequest(URL) {
   return axiosClient.delete(`/${URL}`).then((response) => response);
 }
+
+export function putRequest(URL, payload) {
+  return axiosClient.put(`/${URL}`, payload).then((response) => response);
+}

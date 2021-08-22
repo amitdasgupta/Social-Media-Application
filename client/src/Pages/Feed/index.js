@@ -1,22 +1,33 @@
 import { connect } from 'react-redux';
-import { createPost } from '../../redux/actions/postActions';
+import { getTimeLinePosts } from '../../redux/actions/postActions';
 import Feed from './Feed';
+import moment from 'moment';
 
 const mapStateToProps = (state) => {
   const {
-    user: { loggedInUser } = {},
-    posts: { followPosts, userPosts } = {},
+    user: { loggedInUser: { isFetched: isUserFetched = false } } = {},
+    posts: { followPosts = {}, userPosts = {}, allPostsData } = {},
   } = state;
-  const isLoading = !(loggedInUser.isFetched && userPosts.isFetched);
+  const isLoading = !(userPosts.isFetched && followPosts.isFetched);
+  const allPost = [...(userPosts.data || []), ...(followPosts.data || [])];
+  const allSortedPost = allPost.sort((post1, post2) => {
+    const post1Data = allPostsData[post1] || {};
+    const post2Data = allPostsData[post2] || {};
+    const post1Date = moment(post1Data.createdAt || '');
+    const post2Date = moment(post2Data.createdAt || '');
+    if (post1Date.isBefore(post2Date)) return 1;
+    return -1;
+  });
   return {
     isLoading,
-    followPosts,
-    userPosts,
+    allPosts: allSortedPost,
+    isUserFetched,
+    allPostsData,
   };
 };
 
 const mapDispatchToProps = {
-  createPost,
+  getTimeLinePosts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feed);

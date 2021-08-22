@@ -38,6 +38,7 @@ export default function CreateFeed(props) {
   const [postFormData, setPostFormData] = useState({
     desc: '',
     image: null,
+    validationError: null,
   });
   const { image, desc } = postFormData;
   const handleFormChange = (event) => {
@@ -131,11 +132,26 @@ export default function CreateFeed(props) {
   };
 
   const handleFormSubmit = async (e) => {
+    const { desc, image } = postFormData;
+    if (desc === '' && !image) {
+      setPostFormData({
+        ...postFormData,
+        validationError:
+          'Fill either description or attach image to create post',
+      });
+      return;
+    }
+    setPostFormData({
+      desc: '',
+      image: null,
+      validationError: null,
+    });
     const { createPost } = props;
     createPost(postFormData);
   };
 
   const { postBeingCreated, error } = props;
+  const { validationError } = postFormData;
   return postBeingCreated ? (
     <Skeleton height={200} />
   ) : (
@@ -148,6 +164,10 @@ export default function CreateFeed(props) {
         />
         <div className={styles.placeholder}>What's in your mind?</div>
         {error && <div className={styles.error}>{error}</div>}
+        {error && <div className={styles.error}>{error}</div>}
+        {validationError && (
+          <div className={styles.error}>{validationError}</div>
+        )}
       </div>
       <TextField
         id="standard-multiline-flexible"

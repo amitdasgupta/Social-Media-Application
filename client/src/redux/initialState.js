@@ -24,7 +24,7 @@ const initialState = {
       data: [],
     },
     followPosts: {
-      isFetched: false,
+      isFetched: true,
       data: [],
     },
     allPostsData: {},
