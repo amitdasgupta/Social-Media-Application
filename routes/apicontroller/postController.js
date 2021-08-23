@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
     }
     const userId = req.user.id;
     const { desc } = req.body;
-    const post = new Post({
+    let post = new Post({
       desc,
       userId,
       image: uploadedImageUrl,
@@ -36,6 +36,13 @@ router.post('/', async (req, res, next) => {
     await User.findByIdAndUpdate(userId, {
       $push: { posts: post.id },
     });
+    post = await post
+      .populate({
+        path: 'userId',
+        select: 'username',
+      })
+      .execPopulate();
+    console.log(post);
     await post.save();
     return customResponse(res, 200, post);
   } catch (err) {
@@ -140,7 +147,11 @@ router.get('/timelinePosts/all', async (req, res, next) => {
       },
     })
       .sort({ updatedAt: -1 })
-      .lean();
+      .lean()
+      .populate({
+        path: 'userId',
+        select: 'username',
+      });
     return customResponse(res, 200, allPosts);
   } catch (err) {
     return next(err);

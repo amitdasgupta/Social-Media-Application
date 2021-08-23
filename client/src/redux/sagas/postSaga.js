@@ -10,6 +10,11 @@ export function* createPostOfUser({ payload }) {
   try {
     const userData = yield call(createPost, payload);
     const { data: { response = {} } = {} } = userData;
+    const { userId = null } = response;
+    if (userId) {
+      response.userId = userId._id;
+      response.userName = userId.username;
+    }
     yield put({ type: types.CREATE_POST_SUCCESS, payload: response });
   } catch (error) {
     yield put({ type: types.CREATE_POST_FAIL, payload: error.response.data });
@@ -19,8 +24,20 @@ export function* createPostOfUser({ payload }) {
 export function* getAllTimeLinePosts() {
   try {
     const allPosts = yield call(fetchTimeLinePosts);
-    const { data: { response = {} } = {} } = allPosts;
+    let { data: { response = {} } = {} } = allPosts;
     const { id: userId } = yield select(getLoggedInUser);
+
+    //take the followed user data from here
+    const followedUserData = [];
+    response = response.map((post) => {
+      const { userId = null } = post;
+      if (userId) {
+        followedUserData.push(userId);
+        post.userId = userId._id;
+        post.userName = userId.username;
+      }
+      return post;
+    });
     yield put({
       type: types.FETCH_TIMELINE_POST_SUCCESS,
       payload: { userId, result: response },

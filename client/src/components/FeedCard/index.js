@@ -5,7 +5,7 @@ import moment from 'moment';
 
 function FeedCard(props) {
   const {
-    postData: { desc = '', image, createdAt = '' },
+    postData: { desc = '', image, createdAt = '', userName = 'Social Connect' },
   } = props;
   return (
     <div className={styles.feedCard}>
@@ -16,7 +16,7 @@ function FeedCard(props) {
             src="https://avatars.githubusercontent.com/u/25057271?s=400&u=f475d749d61767325c66668e7adf165d5460c135&v=4"
             className={styles.icon}
           />
-          <div className={styles.postUser}>Jon Snow</div>
+          <div className={styles.postUser}>{userName}</div>
           <div className={styles.postDate}>
             {moment(`${createdAt}`).calendar()}
           </div>
