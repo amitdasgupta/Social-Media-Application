@@ -1,5 +1,12 @@
-import { put, call, takeLatest, all, select } from 'redux-saga/effects';
-import { createPost, fetchTimeLinePosts } from '../../apis/post';
+import {
+  put,
+  call,
+  takeLatest,
+  all,
+  select,
+  takeEvery,
+} from 'redux-saga/effects';
+import { createPost, fetchTimeLinePosts, likePost } from '../../apis/post';
 import { getLoggedInUser } from '../selectors/users';
 import * as types from '../constants/post';
 
@@ -30,12 +37,13 @@ export function* getAllTimeLinePosts() {
     //take the followed user data from here
     const followedUserData = [];
     response = response.map((post) => {
-      const { userId = null } = post;
+      const { userId = null, _id } = post;
       if (userId) {
         followedUserData.push(userId);
         post.userId = userId._id;
         post.userName = userId.username;
       }
+      post.id = _id;
       return post;
     });
     yield put({
@@ -50,9 +58,26 @@ export function* getAllTimeLinePosts() {
   }
 }
 
+export function* likeAPost({ id }) {
+  try {
+    yield call(likePost, id);
+    const { id: userId } = yield select(getLoggedInUser);
+    yield put({
+      type: types.LIKE_POST_SUCCESS,
+      payload: { id, userId },
+    });
+  } catch (error) {
+    yield put({
+      type: types.FETCH_TIMELINE_POST_FAIL,
+      payload: error.response.data,
+    });
+  }
+}
+
 export default function* postRoot() {
   yield all([
     takeLatest(types.CREATE_POST_REQUEST, createPostOfUser),
     takeLatest(types.FETCH_TIMELINE_POST_REQUEST, getAllTimeLinePosts),
+    takeEvery(types.LIKE_POST_REQUEST, likeAPost),
   ]);
 }

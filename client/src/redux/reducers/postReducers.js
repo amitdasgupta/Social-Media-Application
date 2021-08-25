@@ -84,8 +84,6 @@ export default function userReducer(
     case types.FETCH_TIMELINE_POST_SUCCESS:
       const [userPostsUpdated, followPostsUpdated, allPostsUpdated] =
         cleanTimeLinePosts(payload);
-      // console.log(userPostsUpdated);
-      // return state;
       return {
         ...state,
         userPosts: {
@@ -98,6 +96,18 @@ export default function userReducer(
         },
         allPostsData: {
           ...allPostsUpdated,
+        },
+      };
+    case types.LIKE_POST_SUCCESS:
+      const { id, userId } = payload;
+
+      const updatedPost = { ...allPostsData[id] };
+      if (!updatedPost.likes.includes(userId)) updatedPost.likes.push(userId);
+      allPostsData[id] = updatedPost;
+      return {
+        ...state,
+        allPostsData: {
+          ...allPostsData,
         },
       };
     default:

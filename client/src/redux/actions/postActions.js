@@ -8,3 +8,8 @@ export const createPost = (payload) => ({
 export const getTimeLinePosts = () => ({
   type: types.FETCH_TIMELINE_POST_REQUEST,
 });
+
+export const likePost = (id) => ({
+  type: types.LIKE_POST_REQUEST,
+  id: id,
+});

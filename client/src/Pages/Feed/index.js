@@ -4,10 +4,8 @@ import Feed from './Feed';
 import moment from 'moment';
 
 const mapStateToProps = (state) => {
-  const {
-    user: { loggedInUser: { isFetched: isUserFetched = false } } = {},
-    posts: { followPosts = {}, userPosts = {}, allPostsData } = {},
-  } = state;
+  const { posts: { followPosts = {}, userPosts = {}, allPostsData } = {} } =
+    state;
   const isLoading = !(userPosts.isFetched && followPosts.isFetched);
   const allPost = [...(userPosts.data || []), ...(followPosts.data || [])];
   const allSortedPost = allPost.sort((post1, post2) => {
@@ -21,8 +19,6 @@ const mapStateToProps = (state) => {
   return {
     isLoading,
     allPosts: allSortedPost,
-    isUserFetched,
-    allPostsData,
   };
 };
 

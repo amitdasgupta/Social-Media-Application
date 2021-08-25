@@ -4,17 +4,9 @@ import CreateFeed from '../../components/CreateFeedCard';
 import FeedCard from '../../components/FeedCard';
 import Skeleton from 'react-loading-skeleton';
 function Feed(props) {
-  const {
-    isLoading,
-    getTimeLinePosts,
-    isUserFetched,
-    allPosts = [],
-    allPostsData = {},
-  } = props;
+  const { isLoading, getTimeLinePosts, isUserFetched, allPosts = [] } = props;
   useEffect(() => {
-    if (isUserFetched) {
-      getTimeLinePosts();
-    }
+    getTimeLinePosts();
   }, [isUserFetched, getTimeLinePosts]);
   return (
     <div className={styles.mainFeed}>
@@ -23,12 +15,11 @@ function Feed(props) {
       </div>
       <div className={styles.mainFeedBottom}>
         {isLoading ? (
-          <Skeleton height={600} />
+          <div styles={styles.skeleton}>
+            <Skeleton height={400} count={5} />
+          </div>
         ) : (
-          allPosts.map((postId) => {
-            const postData = allPostsData[postId];
-            return postData && <FeedCard key={postId} postData={postData} />;
-          })
+          allPosts.map((postId) => <FeedCard key={postId} postId={postId} />)
         )}
       </div>
     </div>

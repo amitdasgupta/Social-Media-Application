@@ -91,9 +91,11 @@ router.put('/:postId/like', async (req, res, next) => {
   try {
     const { postId } = req.params;
     const userId = req.user.id;
-    await Post.findByIdAndUpdate(postId, {
-      $push: { likes: userId },
-    });
+    const post = await Post.findById(postId);
+    if (post.likes.includes(userId))
+      return customResponse(res, 200, 'Already liked this post');
+    post.likes.push(userId);
+    await post.save();
     return customResponse(res, 200);
   } catch (err) {
     return next(err);
