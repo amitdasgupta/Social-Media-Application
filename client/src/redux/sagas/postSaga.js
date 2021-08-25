@@ -6,7 +6,12 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects';
-import { createPost, fetchTimeLinePosts, likePost } from '../../apis/post';
+import {
+  createPost,
+  fetchTimeLinePosts,
+  likePost,
+  unlikePost,
+} from '../../apis/post';
 import { getLoggedInUser } from '../selectors/users';
 import * as types from '../constants/post';
 
@@ -68,7 +73,23 @@ export function* likeAPost({ id }) {
     });
   } catch (error) {
     yield put({
-      type: types.FETCH_TIMELINE_POST_FAIL,
+      type: types.LIKE_POST_FAIL,
+      payload: error.response.data,
+    });
+  }
+}
+
+export function* unLikeAPost({ id }) {
+  try {
+    yield call(unlikePost, id);
+    const { id: userId } = yield select(getLoggedInUser);
+    yield put({
+      type: types.UNLIKE_POST_SUCCESS,
+      payload: { id, userId },
+    });
+  } catch (error) {
+    yield put({
+      type: types.UNLIKE_POST_FAIL,
       payload: error.response.data,
     });
   }
@@ -78,6 +99,7 @@ export default function* postRoot() {
   yield all([
     takeLatest(types.CREATE_POST_REQUEST, createPostOfUser),
     takeLatest(types.FETCH_TIMELINE_POST_REQUEST, getAllTimeLinePosts),
-    takeEvery(types.LIKE_POST_REQUEST, likeAPost),
+    takeLatest(types.LIKE_POST_REQUEST, likeAPost),
+    takeLatest(types.UNLIKE_POST_REQUEST, unLikeAPost),
   ]);
 }

@@ -1,5 +1,6 @@
 import initialState from '../initialState';
 import * as types from '../constants/post';
+import { pull } from 'lodash';
 
 //initial state
 // posts: {
@@ -40,9 +41,15 @@ function cleanTimeLinePosts(payload) {
 
 export default function userReducer(
   state = initialState.posts,
-  { type, payload }
+  { type, payload = {} }
 ) {
   const { userPosts, allPostsData, createPost, followPosts } = state;
+  let updatedPost = {};
+  //postId  and user Id
+  const { id, userId } = payload;
+  if (id) {
+    updatedPost = { ...allPostsData[id] };
+  }
   switch (type) {
     case types.CREATE_POST_REQUEST:
       return {
@@ -99,9 +106,6 @@ export default function userReducer(
         },
       };
     case types.LIKE_POST_SUCCESS:
-      const { id, userId } = payload;
-
-      const updatedPost = { ...allPostsData[id] };
       if (!updatedPost.likes.includes(userId)) updatedPost.likes.push(userId);
       allPostsData[id] = updatedPost;
       return {
@@ -110,6 +114,18 @@ export default function userReducer(
           ...allPostsData,
         },
       };
+    case types.UNLIKE_POST_SUCCESS:
+      if (updatedPost.likes.includes(userId)) {
+        updatedPost.likes = pull(updatedPost.likes, userId);
+      }
+      allPostsData[id] = updatedPost;
+      return {
+        ...state,
+        allPostsData: {
+          ...allPostsData,
+        },
+      };
+
     default:
       return state;
   }

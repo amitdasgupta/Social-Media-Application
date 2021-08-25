@@ -13,3 +13,8 @@ export const likePost = (id) => ({
   type: types.LIKE_POST_REQUEST,
   id: id,
 });
+
+export const unLikePost = (id) => ({
+  type: types.UNLIKE_POST_REQUEST,
+  id: id,
+});

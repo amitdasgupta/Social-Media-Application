@@ -1,10 +1,10 @@
 import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar } from '@material-ui/core';
-import { ThumbUp, Favorite, MoreVert } from '@material-ui/icons';
+import { ThumbUp, ThumbDown, MoreVert } from '@material-ui/icons';
 import moment from 'moment';
 
 function FeedCard(props) {
-  const { postData = null } = props;
+  const { postData = null, isPostLiked } = props;
   const {
     desc = '',
     image,
@@ -13,9 +13,19 @@ function FeedCard(props) {
     likes = [],
     id,
   } = postData || {};
-  const { likePost } = props;
+  const { likePost, unLikePost } = props;
   const handleReaction = () => {
-    likePost(id);
+    if (isPostLiked) unLikePost(id);
+    else likePost(id);
+  };
+  const giveUserInteractionMsg = () => {
+    const size = likes.length;
+    if (size === 0) return '';
+    if (isPostLiked) {
+      if (size > 1) return `You and ${size - 1} others liked this`;
+      return 'You  liked this';
+    }
+    return `${size} others liked this`;
   };
   return (
     postData && (
@@ -44,9 +54,17 @@ function FeedCard(props) {
         )}
         <div className={styles.feedDetails}>
           <div className={styles.start}>
-            <ThumbUp className={styles.thumbUp} onClick={handleReaction} />
+            {isPostLiked ? (
+              <ThumbDown className={styles.thumbUp} onClick={handleReaction} />
+            ) : (
+              <ThumbUp className={styles.thumbUp} onClick={handleReaction} />
+            )}
+
             {/* <Favorite className={styles.heart} /> */}
             <div className={styles.reactions}>{likes.length}</div>
+            <div className={styles.interactionMsg}>
+              {giveUserInteractionMsg()}
+            </div>
           </div>
           <div className={styles.end}>5 comments</div>
         </div>

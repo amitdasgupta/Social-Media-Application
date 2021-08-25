@@ -32,7 +32,7 @@ export async function likePost(id) {
 }
 
 export async function unlikePost(id) {
-  const result = await putRequest(`post/${id}/like`);
+  const result = await putRequest(`post/${id}/unlike`);
   return result;
 }
 

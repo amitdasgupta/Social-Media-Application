@@ -1,17 +1,25 @@
 import { connect } from 'react-redux';
-import { likePost } from '../../redux/actions/postActions';
+import { likePost, unLikePost } from '../../redux/actions/postActions';
 import FeedCard from './FeedCard';
 
 const mapStateToProps = (state, ownProps) => {
-  const { posts: { allPostsData = {} } = {} } = state;
+  const {
+    posts: { allPostsData = {} } = {},
+    user: { loggedInUser: { id: userId } = {} } = {},
+  } = state;
+  let isPostLiked = false;
   const { postId } = ownProps;
+  const postData = allPostsData[postId];
+  if (postData.likes.includes(userId)) isPostLiked = true;
   return {
-    postData: allPostsData[postId],
+    postData,
+    isPostLiked,
   };
 };
 
 const mapDispatchToProps = {
   likePost,
+  unLikePost,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedCard);
