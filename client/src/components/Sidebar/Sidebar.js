@@ -9,6 +9,7 @@ import {
   Work,
   Event,
   CastForEducation,
+  GroupAdd,
 } from '@material-ui/icons';
 import { Avatar, Button } from '@material-ui/core';
 import Skeleton from 'react-loading-skeleton';
@@ -53,9 +54,12 @@ function Sidebar(props) {
     return friendList.map((item, index) => {
       const { name, profilePic } = item;
       const jsx = isSidebarDataFetched ? (
-        <div className={styles.sideBarMainTopIcon} key={`name-${index}`}>
-          <Avatar alt={name} src={profilePic} className={styles.icon} />
-          <div className={styles.sideBarMainTopIconName}>{name}</div>
+        <div className={styles.followDiv} key={`name-${index}`}>
+          <div className={styles.sideBarMainTopIcon}>
+            <Avatar alt={name} src={profilePic} className={styles.icon} />
+            <div className={styles.sideBarMainTopIconName}>{name}</div>
+          </div>
+          <GroupAdd className={styles.icon} />
         </div>
       ) : (
         <Skeleton

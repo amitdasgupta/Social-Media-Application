@@ -41,10 +41,17 @@
     .sideBarMainTopIconName {
       font-size: $heading_font_size2;
     }
-    .icon {
-      font-size: $icons_size;
-      margin-right: 35px;
-      color: black;
-    }
   }
+  .icon {
+    font-size: $icons_size;
+    margin-right: 35px;
+    color: black;
+  }
+}
+
+.followDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

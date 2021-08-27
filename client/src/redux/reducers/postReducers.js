@@ -58,6 +58,7 @@ export default function userReducer(
       };
     case types.CREATE_POST_SUCCESS:
       const { _id } = payload;
+      payload.id = _id;
       const updatedPosts = { ...allPostsData, [_id]: payload };
       const userPostsData = [...userPosts.data, _id];
       return {
