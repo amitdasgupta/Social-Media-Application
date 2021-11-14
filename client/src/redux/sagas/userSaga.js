@@ -1,5 +1,5 @@
 import { put, call, takeLatest, all } from 'redux-saga/effects';
-import { getAuthUserData } from '../../apis/user';
+import { getAuthUserData, getAllUserData } from '../../apis/user';
 import * as types from '../constants/user';
 
 // Responsible for searching media library, making calls to the API
@@ -16,6 +16,20 @@ export function* getLoggedInUserData() {
   }
 }
 
+export function* getAllValidUsersData() {
+  try {
+    const userData = yield call(getAllUserData);
+    const { data: { response = {} } = {} } = userData;
+    yield put({ type: types.ALL_USERSDATA_SUCCESS, payload: response });
+  } catch (error) {
+    console.log('error', error);
+    yield put({ type: types.LOGGEDIN_USERDATA_FAIL, error });
+  }
+}
+
 export default function* userRoot() {
-  yield all([takeLatest(types.LOGGEDIN_USERDATA_REQUEST, getLoggedInUserData)]);
+  yield all([
+    takeLatest(types.LOGGEDIN_USERDATA_REQUEST, getLoggedInUserData),
+    takeLatest(types.ALL_USERSDATA_REQUEST, getAllValidUsersData),
+  ]);
 }

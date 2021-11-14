@@ -112,4 +112,20 @@ router.put('/:id/unfollow', async (req, res, next) => {
   }
 });
 
+router.get('/validusers/all', async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    const allUsers = await User.find({
+      id: {
+        $ne: userId,
+      },
+    }).select('username profilepic followers following');
+
+    return customResponse(res, 200, allUsers);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

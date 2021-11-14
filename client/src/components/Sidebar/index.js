@@ -1,23 +1,28 @@
 import { connect } from 'react-redux';
-import { getLoggedInUserData } from '../../redux/actions/userActions';
 import Sidebar from './Sidebar';
+import { getAllUsersData } from '../../redux/actions/userActions';
 
 const mapStateToProps = (state) => {
   const {
-    user: { loggedInUser, userSuggestion, followedUser },
+    user: { loggedInUser, userSuggestion, followedUser, appUsers },
   } = state;
 
-  const isSidebarDataFetched = loggedInUser?.isFetched;
+  const isAllUserDataFetched =
+    userSuggestion?.isFetched && followedUser?.isFetched;
+
+  const isLoggedInUserDataFetched = loggedInUser?.isFetched;
 
   return {
-    isSidebarDataFetched,
+    isAllUserDataFetched,
+    isLoggedInUserDataFetched,
     userSuggestion,
     followedUser,
+    appUsers,
   };
 };
 
 const mapDispatchToProps = {
-  getLoggedInUserData,
+  getAllUsersData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
