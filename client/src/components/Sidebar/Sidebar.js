@@ -14,6 +14,7 @@ import {
 } from '@material-ui/icons';
 import { Avatar, Button } from '@material-ui/core';
 import Skeleton from 'react-loading-skeleton';
+import cx from 'classnames';
 
 function Sidebar(props) {
   const {
@@ -57,6 +58,35 @@ function Sidebar(props) {
       return jsx;
     });
   };
+
+  const userListRowItem = (isAllUserDataFetched, index, userData, isFriend) => {
+    const classNameForGroupLogo = cx(styles.icon, {
+      [styles.friend]: isFriend,
+    });
+    console.log(classNameForGroupLogo);
+    const { username, profilePic } = userData;
+    const jsx = isAllUserDataFetched ? (
+      <div className={styles.followDiv} key={`name-${index}`}>
+        <div className={styles.sideBarMainTopIcon}>
+          <Avatar alt={username} src={profilePic} className={styles.icon} />
+          <div className={styles.sideBarMainTopIconName}>{username}</div>
+        </div>
+        {isFriend ? (
+          <Group className={classNameForGroupLogo} />
+        ) : (
+          <GroupAdd className={classNameForGroupLogo} />
+        )}
+      </div>
+    ) : (
+      <Skeleton
+        className={styles.sideBarMainTopIcon}
+        key={`name-${index}`}
+        height={40}
+      />
+    );
+    return jsx;
+  };
+
   const giveFriendList = () => {
     const {
       userSuggestion: { data: userSuggestionList = [] },
@@ -64,26 +94,32 @@ function Sidebar(props) {
       appUsers = {},
       isAllUserDataFetched,
     } = props;
-    const userList = [...followedUserList, ...userSuggestionList];
-    return userList.map((item, index) => {
-      const { username, profilePic } = appUsers[item];
-      const jsx = isAllUserDataFetched ? (
-        <div className={styles.followDiv} key={`name-${index}`}>
-          <div className={styles.sideBarMainTopIcon}>
-            <Avatar alt={username} src={profilePic} className={styles.icon} />
-            <div className={styles.sideBarMainTopIconName}>{username}</div>
-          </div>
-          <GroupAdd className={styles.icon} />
-        </div>
-      ) : (
-        <Skeleton
-          className={styles.sideBarMainTopIcon}
-          key={`name-${index}`}
-          height={40}
-        />
-      );
-      return jsx;
-    });
+    const userList = [];
+    userList.push([
+      ...followedUserList.map((item, index) => {
+        const userData = appUsers[item];
+        const jsx = userListRowItem(
+          isAllUserDataFetched,
+          index,
+          userData,
+          true
+        );
+        return jsx;
+      }),
+    ]);
+    userList.push([
+      ...userSuggestionList.map((item, index) => {
+        const userData = appUsers[item];
+        const jsx = userListRowItem(
+          isAllUserDataFetched,
+          index,
+          userData,
+          false
+        );
+        return jsx;
+      }),
+    ]);
+    return userList;
   };
 
   return (

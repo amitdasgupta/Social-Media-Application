@@ -4,7 +4,7 @@
   top: 6%;
   height: 100vh;
   overflow-y: auto;
-  width: 280px;
+  width: 325px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,6 +46,10 @@
     font-size: $icons_size;
     margin-right: 35px;
     color: black;
+    cursor: pointer;
+  }
+  .friend {
+    color: $theme_color;
   }
 }
 
