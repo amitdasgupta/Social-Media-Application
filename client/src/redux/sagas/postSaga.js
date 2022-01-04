@@ -1,17 +1,11 @@
-import {
-  put,
-  call,
-  takeLatest,
-  all,
-  select,
-  takeEvery,
-} from 'redux-saga/effects';
+import { put, call, takeLatest, all, select } from 'redux-saga/effects';
 import {
   createPost,
   fetchTimeLinePosts,
   likePost,
   unlikePost,
 } from '../../apis/post';
+import { setSuccessMsg } from '../actions/successActions';
 import { getLoggedInUser } from '../selectors/users';
 import * as types from '../constants/post';
 
@@ -28,6 +22,7 @@ export function* createPostOfUser({ payload }) {
       response.userName = userId.username;
     }
     yield put({ type: types.CREATE_POST_SUCCESS, payload: response });
+    yield put(setSuccessMsg('Post created successfully'));
   } catch (error) {
     yield put({ type: types.CREATE_POST_FAIL, payload: error.response.data });
   }

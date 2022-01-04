@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
+import Notification from '../Notification/index';
 
 const menuItems = [
   { name: 'Profile', func: () => <Redirect to="/app/myprofile" /> },
@@ -29,6 +30,7 @@ export default function TopBar() {
   };
   return (
     <div className={styles.mainConatiner}>
+      <Notification />
       <div className={styles.topBarContainer}>
         <div className={styles.topBarLeft}>
           <div className="">Socialize</div>

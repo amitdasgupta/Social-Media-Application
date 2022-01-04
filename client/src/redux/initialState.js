@@ -30,6 +30,14 @@ const initialState = {
     allPostsData: {},
   },
   comments: {},
+  error: {
+    errorMsg: 'Hey Error',
+    isOpen: false,
+  },
+  success: {
+    successMsg: 'Hey Success ',
+    isOpen: false,
+  },
 };
 
 export default initialState;
