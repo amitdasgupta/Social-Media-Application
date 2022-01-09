@@ -7,3 +7,13 @@ export const getLoggedInUserData = () => ({
 export const getAllUsersData = () => ({
   type: types.ALL_USERSDATA_REQUEST,
 });
+
+export const followUser = (userData) => ({
+  type: types.FOLLOW_USER_REQUEST,
+  payload: userData,
+});
+
+export const unFollowUser = (userData) => ({
+  type: types.UNFOLLOW_USER_REQUEST,
+  payload: userData,
+});

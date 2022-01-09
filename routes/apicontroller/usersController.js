@@ -76,7 +76,7 @@ router.put('/:id/follow', async (req, res, next) => {
     const currentUserId = req.user.id;
     const userData = await User.findByIdAndUpdate(currentUserId).lean();
     if (doesObjectIdExistInList(userData.following, userIdFollowed))
-      return customResponse(res, 200, null, 'Already following the user');
+      return customResponse(res, 200, userIdFollowed);
     await Promise.all([
       User.findByIdAndUpdate(currentUserId, {
         $push: { following: userIdFollowed },
@@ -85,7 +85,7 @@ router.put('/:id/follow', async (req, res, next) => {
         $push: { followers: currentUserId },
       }),
     ]);
-    return customResponse(res, 200);
+    return customResponse(res, 200, userIdFollowed);
   } catch (error) {
     next(error);
   }
@@ -97,7 +97,7 @@ router.put('/:id/unfollow', async (req, res, next) => {
     const currentUserId = req.user.id;
     const userData = await User.findByIdAndUpdate(currentUserId).lean();
     if (!doesObjectIdExistInList(userData.following, userIdFollowed))
-      return customResponse(res, 403);
+      return customResponse(res, 200, userIdFollowed);
     await Promise.all([
       User.findByIdAndUpdate(currentUserId, {
         $pull: { following: userIdFollowed },
@@ -106,7 +106,7 @@ router.put('/:id/unfollow', async (req, res, next) => {
         $pull: { followers: currentUserId },
       }),
     ]);
-    return customResponse(res, 200);
+    return customResponse(res, 200, userIdFollowed);
   } catch (error) {
     next(error);
   }

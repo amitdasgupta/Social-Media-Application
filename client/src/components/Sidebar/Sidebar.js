@@ -59,28 +59,50 @@ function Sidebar(props) {
     });
   };
 
-  const userListRowItem = (isAllUserDataFetched, index, userData, isFriend) => {
+  const followUser = (userId) => () => {
+    const { followUser } = props;
+    followUser(userId);
+  };
+
+  const unFollowUser = (data) => () => {
+    const { unFollowUser } = props;
+    unFollowUser(data);
+  };
+
+  const userListRowItem = (
+    isAllUserDataFetched,
+    index,
+    userData,
+    isFriend,
+    userId
+  ) => {
+    if (!userId) return null;
     const classNameForGroupLogo = cx(styles.icon, {
       [styles.friend]: isFriend,
     });
-    console.log(classNameForGroupLogo);
-    const { username, profilePic } = userData;
+    const { username, profilePic } = userData || {};
     const jsx = isAllUserDataFetched ? (
-      <div className={styles.followDiv} key={`name-${index}`}>
+      <div className={styles.followDiv} key={`name-${userId}`}>
         <div className={styles.sideBarMainTopIcon}>
           <Avatar alt={username} src={profilePic} className={styles.icon} />
           <div className={styles.sideBarMainTopIconName}>{username}</div>
         </div>
         {isFriend ? (
-          <Group className={classNameForGroupLogo} />
+          <Group
+            className={classNameForGroupLogo}
+            onClick={unFollowUser({ userId, username })}
+          />
         ) : (
-          <GroupAdd className={classNameForGroupLogo} />
+          <GroupAdd
+            className={classNameForGroupLogo}
+            onClick={followUser({ userId, username })}
+          />
         )}
       </div>
     ) : (
       <Skeleton
         className={styles.sideBarMainTopIcon}
-        key={`name-${index}`}
+        key={`name-${userId}`}
         height={40}
       />
     );
@@ -89,37 +111,29 @@ function Sidebar(props) {
 
   const giveFriendList = () => {
     const {
-      userSuggestion: { data: userSuggestionList = [] },
       followedUser: { data: followedUserList = [] },
       appUsers = {},
       isAllUserDataFetched,
     } = props;
-    const userList = [];
-    userList.push([
-      ...followedUserList.map((item, index) => {
-        const userData = appUsers[item];
-        const jsx = userListRowItem(
-          isAllUserDataFetched,
-          index,
-          userData,
-          true
-        );
-        return jsx;
-      }),
-    ]);
-    userList.push([
-      ...userSuggestionList.map((item, index) => {
-        const userData = appUsers[item];
-        const jsx = userListRowItem(
-          isAllUserDataFetched,
-          index,
-          userData,
-          false
-        );
-        return jsx;
-      }),
-    ]);
-    return userList;
+    const followedUserMap = followedUserList.reduce((allData, data) => {
+      allData[data] = true;
+      return allData;
+    }, {});
+    return Object.keys(appUsers).map((userId, index) => {
+      const userData = appUsers[userId];
+      let followed = false;
+      if (followedUserMap[userId]) {
+        followed = true;
+      }
+      const jsx = userListRowItem(
+        isAllUserDataFetched,
+        index,
+        userData,
+        followed,
+        userId
+      );
+      return jsx;
+    });
   };
 
   return (

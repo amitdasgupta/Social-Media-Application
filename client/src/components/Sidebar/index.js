@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import Sidebar from './Sidebar';
-import { getAllUsersData } from '../../redux/actions/userActions';
+import {
+  getAllUsersData,
+  followUser,
+  unFollowUser,
+} from '../../redux/actions/userActions';
 
 const mapStateToProps = (state) => {
   const {
@@ -23,6 +27,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getAllUsersData,
+  followUser,
+  unFollowUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

@@ -3,6 +3,7 @@ import {
   getRequest,
   postRequest,
   patchRequest,
+  putRequest,
 } from '../helpers/axios';
 
 export async function loginUser(loginData) {
@@ -21,5 +22,15 @@ export async function getAuthUserData(loginData) {
 
 export async function getAllUserData() {
   const result = await getRequest('user/validusers/all');
+  return result;
+}
+
+export async function followUser(id) {
+  const result = await putRequest(`user/${id}/follow`);
+  return result;
+}
+
+export async function unFollowUser(id) {
+  const result = await putRequest(`user/${id}/unfollow`);
   return result;
 }

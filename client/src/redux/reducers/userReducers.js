@@ -8,10 +8,10 @@ export default function userReducer(
   { type, payload }
 ) {
   const { loggedInUser, appUsers = {}, followedUser, userSuggestion } = state;
-
+  let userSuggestionList;
   switch (type) {
     case types.LOGGEDIN_USERDATA_SUCCESS:
-      const { _id: userId, followers } = payload;
+      const { _id: userId, following } = payload;
       return {
         ...state,
         appUsers: { ...appUsers, [userId]: payload },
@@ -21,7 +21,7 @@ export default function userReducer(
         },
         followedUser: {
           ...followedUser,
-          data: followers,
+          data: following,
         },
       };
 
@@ -54,8 +54,7 @@ export default function userReducer(
       }
 
       const { data: followedUserList = [] } = followedUser;
-
-      const userSuggestionList = difference(
+      userSuggestionList = difference(
         Object.keys(updatedUsers),
         followedUserList
       );
@@ -71,6 +70,69 @@ export default function userReducer(
           data: userSuggestionList,
         },
       };
+    case types.FOLLOW_USER_SUCCESS: {
+      const { userId: userFollowedId } = payload;
+      const { data: followingUpdated = [] } = followedUser;
+      const userFollowed = { ...appUsers[userFollowedId] };
+      const { followersUpdated = [] } = userFollowed;
+      if (followingUpdated.indexOf(userFollowedId) === -1) {
+        followingUpdated.push(userFollowedId);
+        followersUpdated.push(loggedInUser.id);
+      }
+      userSuggestionList = difference(Object.keys(appUsers), followingUpdated);
+      return {
+        ...state,
+        followedUser: {
+          ...followedUser,
+          data: [...followingUpdated],
+        },
+        userSuggestion: {
+          ...userSuggestion,
+          data: userSuggestionList,
+        },
+        appUsers: {
+          ...appUsers,
+          [userFollowedId]: {
+            ...userFollowed,
+            followers: [...followersUpdated],
+          },
+        },
+      };
+    }
+
+    case types.UNFOLLOW_USER_SUCCESS: {
+      const { userId: userUnfollowedId } = payload;
+      const { data: followingUpdated = [] } = followedUser;
+      const userFollowed = { ...appUsers[userUnfollowedId] };
+      const { followersUpdated = [] } = userFollowed;
+      const indexOfUserFollow = followingUpdated.indexOf(userUnfollowedId);
+      if (indexOfUserFollow !== -1) {
+        followingUpdated.splice(indexOfUserFollow, 1);
+        const index = followersUpdated.indexOf(loggedInUser.id);
+        if (index !== -1) {
+          followersUpdated.splice(index, 1);
+        }
+      }
+      userSuggestionList = difference(Object.keys(appUsers), followingUpdated);
+      return {
+        ...state,
+        followedUser: {
+          ...followedUser,
+          data: [...followingUpdated],
+        },
+        userSuggestion: {
+          ...userSuggestion,
+          data: userSuggestionList,
+        },
+        appUsers: {
+          ...appUsers,
+          [userUnfollowedId]: {
+            ...userFollowed,
+            followers: [...followersUpdated],
+          },
+        },
+      };
+    }
 
     default:
       return state;

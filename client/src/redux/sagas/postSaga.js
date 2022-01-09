@@ -6,6 +6,7 @@ import {
   unlikePost,
 } from '../../apis/post';
 import { setSuccessMsg } from '../actions/successActions';
+import { setError } from '../actions/errorActions';
 import { getLoggedInUser } from '../selectors/users';
 import * as types from '../constants/post';
 
@@ -66,11 +67,13 @@ export function* likeAPost({ id }) {
       type: types.LIKE_POST_SUCCESS,
       payload: { id, userId },
     });
+    yield put(setSuccessMsg('You like the post'));
   } catch (error) {
     yield put({
       type: types.LIKE_POST_FAIL,
       payload: error.response.data,
     });
+    yield put(setError(error.response.data));
   }
 }
 
@@ -82,6 +85,7 @@ export function* unLikeAPost({ id }) {
       type: types.UNLIKE_POST_SUCCESS,
       payload: { id, userId },
     });
+    yield put(setSuccessMsg('You unlike the post'));
   } catch (error) {
     yield put({
       type: types.UNLIKE_POST_FAIL,

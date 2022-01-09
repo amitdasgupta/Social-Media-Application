@@ -35,20 +35,30 @@ export default function CustomizedSnackbars(props) {
       <Snackbar
         open={isSuccessOpen}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        onClose={hideSuccessMsg}
+        autoHideDuration={4000}
       >
         <Alert
           onClose={hideSuccessMsg}
           severity="success"
           sx={{ width: '100%' }}
+          autoHideDuration={4000}
         >
           {successMsg}
         </Alert>
       </Snackbar>
       <Snackbar
         open={isOpen}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={hideError}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        autoHideDuration={4000}
       >
-        <Alert onClose={hideError} severity="error" sx={{ width: '100%' }}>
+        <Alert
+          onClose={hideError}
+          severity="error"
+          sx={{ width: '100%' }}
+          autoHideDuration={4000}
+        >
           {errorMsg}
         </Alert>
       </Snackbar>
