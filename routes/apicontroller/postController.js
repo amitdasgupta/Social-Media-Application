@@ -145,7 +145,7 @@ router.get('/timelinePosts/all', async (req, res, next) => {
     const userId = req.user.id;
     const allPosts = await Post.find({
       userId: {
-        $in: [...req.user.followers, userId],
+        $in: [...req.user.following, userId],
       },
     })
       .sort({ updatedAt: -1 })
