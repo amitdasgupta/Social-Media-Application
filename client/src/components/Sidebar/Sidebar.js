@@ -114,12 +114,15 @@ function Sidebar(props) {
       followedUser: { data: followedUserList = [] },
       appUsers = {},
       isAllUserDataFetched,
+      loggedInUser: { id: loggedInUserId } = {},
     } = props;
     const followedUserMap = followedUserList.reduce((allData, data) => {
       allData[data] = true;
       return allData;
     }, {});
+
     return Object.keys(appUsers).map((userId, index) => {
+      if (userId === loggedInUserId) return null;
       const userData = appUsers[userId];
       let followed = false;
       if (followedUserMap[userId]) {

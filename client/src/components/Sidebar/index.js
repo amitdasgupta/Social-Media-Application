@@ -22,6 +22,7 @@ const mapStateToProps = (state) => {
     userSuggestion,
     followedUser,
     appUsers,
+    loggedInUser,
   };
 };
 
