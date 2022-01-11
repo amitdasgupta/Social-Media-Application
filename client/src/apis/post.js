@@ -17,7 +17,7 @@ export async function updatePost(postData) {
 }
 
 export async function fetchTimeLinePosts() {
-  const result = await getRequest('post/timelinePosts/all');
+  const result = await getRequest('post/timelinePosts/all?pageNo=1&size=2');
   return result;
 }
 

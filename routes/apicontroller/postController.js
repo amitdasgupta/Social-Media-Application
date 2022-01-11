@@ -141,8 +141,16 @@ router.get('/', async (req, res, next) => {
 
 router.get('/timelinePosts/all', async (req, res, next) => {
   try {
-    // console.log('hello');
+    console.log('hello');
     const userId = req.user.id;
+    const { pageNo = 1, size = 10 } = req.query;
+    if (Number.isNaN(Number(pageNo)) || Number.isNaN(Number(size))) {
+      throw new Error('Query param is not number');
+    }
+    const query = {
+      skip: size * (parseInt(pageNo, 10) - 1),
+      limit: parseInt(size, 10),
+    };
     const allPosts = await Post.find({
       userId: {
         $in: [...req.user.following, userId],
@@ -153,7 +161,9 @@ router.get('/timelinePosts/all', async (req, res, next) => {
       .populate({
         path: 'userId',
         select: 'username',
-      });
+      })
+      .skip(query.skip)
+      .limit(query.limit);
     return customResponse(res, 200, allPosts);
   } catch (err) {
     return next(err);
