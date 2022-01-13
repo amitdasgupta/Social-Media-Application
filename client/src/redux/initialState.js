@@ -30,7 +30,7 @@ const initialState = {
     allPostsData: {},
     metaData: {
       pageNo: 1,
-      size: 5,
+      size: 10,
     },
   },
   comments: {},

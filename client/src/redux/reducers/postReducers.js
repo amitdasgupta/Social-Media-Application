@@ -70,6 +70,10 @@ export default function userReducer(
         userPosts: { ...userPosts, isFetched: true, data: userPostsData },
         allPostsData: updatedPosts,
         createPost: { postBeingCreated: false, error: null },
+        timelinePosts: {
+          ...timelinePosts,
+          data: [_id, ...timelinePosts.data],
+        },
       };
     case types.CREATE_POST_FAIL:
       return {
