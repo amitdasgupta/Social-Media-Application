@@ -32,24 +32,14 @@ export function* createPostOfUser({ payload }) {
 export function* getAllTimeLinePosts() {
   try {
     const allPosts = yield call(fetchTimeLinePosts);
-    let { data: { response = {} } = {} } = allPosts;
+    let { data: { response = [] } = {} } = allPosts;
     const { id: userId } = yield select(getLoggedInUser);
-
+    response = response[0];
+    const { data = [] } = response;
     //take the followed user data from here
-    const followedUserData = [];
-    response = response.map((post) => {
-      const { userId = null, _id } = post;
-      if (userId) {
-        followedUserData.push(userId);
-        post.userId = userId._id;
-        post.userName = userId.username;
-      }
-      post.id = _id;
-      return post;
-    });
     yield put({
       type: types.FETCH_TIMELINE_POST_SUCCESS,
-      payload: { userId, result: response },
+      payload: { userId, result: data },
     });
   } catch (error) {
     yield put({

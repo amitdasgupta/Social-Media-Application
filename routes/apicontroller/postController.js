@@ -8,6 +8,7 @@ const {
   isPostVisible,
 } = require('../../helpers/Post');
 const { uploadImageAndGivePath } = require('../../helpers/fileHelpers');
+const mongoose = require('mongoose');
 
 const router = express.Router();
 // create a post
@@ -151,19 +152,45 @@ router.get('/timelinePosts/all', async (req, res, next) => {
       skip: size * (parseInt(pageNo, 10) - 1),
       limit: parseInt(size, 10),
     };
-    const allPosts = await Post.find({
-      userId: {
-        $in: [...req.user.following, userId],
+    const allPosts = await Post.aggregate([
+      {
+        $match: {
+          userId: {
+            $in: [
+              ...req.user.following.map(
+                (id) => new mongoose.Types.ObjectId(id)
+              ),
+              mongoose.Types.ObjectId(userId),
+            ],
+          },
+        },
       },
-    })
-      .sort({ updatedAt: -1 })
-      .lean()
-      .populate({
-        path: 'userId',
-        select: 'username',
-      })
-      .skip(query.skip)
-      .limit(query.limit);
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'userId',
+        },
+      },
+      { $unwind: '$userId' },
+      {
+        $set: {
+          userName: '$userId.username',
+          userId: '$userId._id',
+          id: '$_id',
+        },
+      },
+      {
+        $facet: {
+          metadata: [
+            { $count: 'total' },
+            { $addFields: { page: parseInt(pageNo, 10) } },
+          ],
+          data: [{ $skip: query.skip }, { $limit: query.limit }], // add projection here wish you re-shape the docs
+        },
+      },
+    ]);
     return customResponse(res, 200, allPosts);
   } catch (err) {
     return next(err);
