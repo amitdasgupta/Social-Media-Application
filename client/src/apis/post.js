@@ -16,8 +16,10 @@ export async function updatePost(postData) {
   return result;
 }
 
-export async function fetchTimeLinePosts() {
-  const result = await getRequest('post/timelinePosts/all?pageNo=1&size=2');
+export async function fetchTimeLinePosts(metaData) {
+  const result = await getRequest(
+    `post/timelinePosts/all?pageNo=${metaData.pageNo}&size=${metaData.size}`
+  );
   return result;
 }
 

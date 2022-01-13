@@ -12,18 +12,22 @@ import { pull } from 'lodash';
 //     isFetched: false,
 //     data: [],
 //   },
-//   followPosts: {
+//   timelinePosts: {
 //     isFetched: false,
 //     data: [],
 //   },
 //   allPostsData: {},
+//   metaData:{
+//   pageNo: 1
+// total: 5
+// }
 // },
 
 // Handles image related actions
 
 function cleanTimeLinePosts(payload) {
   const userPosts = [];
-  const followPosts = [];
+  const timelinePosts = [];
   const allPosts = {};
   const { userId = '', result = [] } = payload;
   for (let index = 0; index < result.length; index++) {
@@ -31,19 +35,19 @@ function cleanTimeLinePosts(payload) {
     const { _id: postId } = post;
     if (post.userId === userId) {
       userPosts.push(postId);
-    } else {
-      followPosts.push(postId);
     }
+    timelinePosts.push(postId);
     allPosts[postId] = post;
   }
-  return [userPosts, followPosts, allPosts];
+  return [userPosts, timelinePosts, allPosts];
 }
 
 export default function userReducer(
   state = initialState.posts,
   { type, payload = {} }
 ) {
-  const { userPosts, allPostsData, createPost, followPosts } = state;
+  const { userPosts, allPostsData, createPost, timelinePosts, metaData } =
+    state;
   let updatedPost = {};
   //postId  and user Id
   const { id, userId } = payload;
@@ -83,14 +87,14 @@ export default function userReducer(
           ...userPosts,
           isFetched: false,
         },
-        followPosts: {
-          ...followPosts,
+        timelinePosts: {
+          ...timelinePosts,
           isFetched: false,
         },
       };
 
     case types.FETCH_TIMELINE_POST_SUCCESS:
-      const [userPostsUpdated, followPostsUpdated, allPostsUpdated] =
+      const [userPostsUpdated, timeLinePostUpdated, allPostsUpdated] =
         cleanTimeLinePosts(payload);
       return {
         ...state,
@@ -98,12 +102,16 @@ export default function userReducer(
           data: [...userPostsUpdated],
           isFetched: true,
         },
-        followPosts: {
-          data: [...followPostsUpdated],
+        timelinePosts: {
+          data: [...timeLinePostUpdated],
           isFetched: true,
         },
         allPostsData: {
           ...allPostsUpdated,
+        },
+        metaData: {
+          ...metaData,
+          ...payload.metaData,
         },
       };
     case types.LIKE_POST_SUCCESS:

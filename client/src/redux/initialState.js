@@ -23,11 +23,15 @@ const initialState = {
       isFetched: true,
       data: [],
     },
-    followPosts: {
+    timelinePosts: {
       isFetched: true,
       data: [],
     },
     allPostsData: {},
+    metaData: {
+      pageNo: 1,
+      size: 5,
+    },
   },
   comments: {},
   error: {

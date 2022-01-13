@@ -8,6 +8,7 @@ import {
 import { setSuccessMsg } from '../actions/successActions';
 import { setError } from '../actions/errorActions';
 import { getLoggedInUser } from '../selectors/users';
+import { getPostMetaData } from '../selectors/posts';
 import * as types from '../constants/post';
 
 // Responsible for searching media library, making calls to the API
@@ -31,15 +32,22 @@ export function* createPostOfUser({ payload }) {
 
 export function* getAllTimeLinePosts() {
   try {
-    const allPosts = yield call(fetchTimeLinePosts);
-    let { data: { response = [] } = {} } = allPosts;
+    const metaData = yield select(getPostMetaData);
+    const allPosts = yield call(fetchTimeLinePosts, metaData);
+    let { data: { response: { data = [], pageNo, total } = {} } = {} } =
+      allPosts;
     const { id: userId } = yield select(getLoggedInUser);
-    response = response[0];
-    const { data = [] } = response;
     //take the followed user data from here
     yield put({
       type: types.FETCH_TIMELINE_POST_SUCCESS,
-      payload: { userId, result: data },
+      payload: {
+        userId,
+        result: data,
+        metaData: {
+          pageNo,
+          total,
+        },
+      },
     });
   } catch (error) {
     yield put({

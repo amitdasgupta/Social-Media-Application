@@ -1,5 +1,5 @@
 const express = require('express');
-
+const mongoose = require('mongoose');
 const customResponse = require('../../helpers/customResponse');
 const User = require('../../database/models/User');
 const Post = require('../../database/models/Post');
@@ -8,7 +8,6 @@ const {
   isPostVisible,
 } = require('../../helpers/Post');
 const { uploadImageAndGivePath } = require('../../helpers/fileHelpers');
-const mongoose = require('mongoose');
 
 const router = express.Router();
 // create a post
@@ -181,6 +180,7 @@ router.get('/timelinePosts/all', async (req, res, next) => {
           id: '$_id',
         },
       },
+      { $sort: { createdAt: -1 } },
       {
         $facet: {
           metadata: [
@@ -190,8 +190,15 @@ router.get('/timelinePosts/all', async (req, res, next) => {
           data: [{ $skip: query.skip }, { $limit: query.limit }], // add projection here wish you re-shape the docs
         },
       },
+      {
+        $project: {
+          total: { $arrayElemAt: ['$metadata.total', 0] },
+          pageNo: { $arrayElemAt: ['$metadata.page', 0] },
+          data: 1,
+        },
+      },
     ]);
-    return customResponse(res, 200, allPosts);
+    return customResponse(res, 200, allPosts[0]);
   } catch (err) {
     return next(err);
   }
