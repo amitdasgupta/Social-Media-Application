@@ -29,8 +29,9 @@ const initialState = {
     },
     allPostsData: {},
     metaData: {
-      pageNo: 1,
+      pageNo: 0,
       size: 10,
+      total: 10,
     },
   },
   comments: {},

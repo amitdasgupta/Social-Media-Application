@@ -34,8 +34,7 @@ export function* getAllTimeLinePosts() {
   try {
     const metaData = yield select(getPostMetaData);
     const allPosts = yield call(fetchTimeLinePosts, metaData);
-    let { data: { response: { data = [], pageNo, total } = {} } = {} } =
-      allPosts;
+    let { data: { response: { data = [], total } = {} } = {} } = allPosts;
     const { id: userId } = yield select(getLoggedInUser);
     //take the followed user data from here
     yield put({
@@ -44,8 +43,8 @@ export function* getAllTimeLinePosts() {
         userId,
         result: data,
         metaData: {
-          pageNo,
-          total,
+          ...metaData,
+          total: total,
         },
       },
     });

@@ -1,9 +1,10 @@
 import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar } from '@material-ui/core';
 import { ThumbUp, ThumbDown, MoreVert } from '@material-ui/icons';
+import { forwardRef } from 'react';
 import moment from 'moment';
 
-function FeedCard(props) {
+function FeedCard(props, ref) {
   const { postData = null, isPostLiked } = props;
   const {
     desc = '',
@@ -29,7 +30,7 @@ function FeedCard(props) {
   };
   return (
     postData && (
-      <div className={styles.feedCard}>
+      <div className={styles.feedCard} ref={ref}>
         <div className={styles.top}>
           <div className={styles.start}>
             <Avatar
@@ -73,4 +74,4 @@ function FeedCard(props) {
   );
 }
 
-export default FeedCard;
+export default forwardRef(FeedCard);

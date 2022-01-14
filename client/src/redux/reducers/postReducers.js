@@ -95,6 +95,10 @@ export default function userReducer(
           ...timelinePosts,
           isFetched: false,
         },
+        metaData: {
+          ...metaData,
+          pageNo: metaData.pageNo + 1,
+        },
       };
 
     case types.FETCH_TIMELINE_POST_SUCCESS:
@@ -103,14 +107,15 @@ export default function userReducer(
       return {
         ...state,
         userPosts: {
-          data: [...userPostsUpdated],
+          data: [...userPosts.data, ...userPostsUpdated],
           isFetched: true,
         },
         timelinePosts: {
-          data: [...timeLinePostUpdated],
+          data: [...timelinePosts.data, ...timeLinePostUpdated],
           isFetched: true,
         },
         allPostsData: {
+          ...allPostsData,
           ...allPostsUpdated,
         },
         metaData: {
