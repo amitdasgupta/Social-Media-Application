@@ -6,8 +6,10 @@ const multer = require('multer');
 const DB = require('./database/index');
 const rootController = require('./routes/index');
 const errorMiddleware = require('./middlewares/errorhandler');
+const socketIO = require('./helpers/socketIO');
 
 const app = express();
+// const server = http.createServer(app);
 
 const DbConnection = new DB(process.env.DATABASE_URL);
 DbConnection.init();
@@ -23,6 +25,7 @@ app.use(upload.single('image'));
 app.use('/', rootController);
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT || 5000, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
   console.log('backend server is running');
 });
+socketIO(server);

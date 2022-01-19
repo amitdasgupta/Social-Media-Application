@@ -3,6 +3,7 @@ import styles from './stylesheets/App.module.scss';
 import { Switch } from 'react-router-dom';
 import { isAuthenticated } from './helpers/auth';
 import cx from 'classnames';
+import xyz from './helpers/socket';
 
 function App() {
   const { PUBLIC = [], PRIVATE = [] } = ROUTES;
