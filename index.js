@@ -26,6 +26,6 @@ app.use('/', rootController);
 app.use(errorMiddleware);
 
 const server = app.listen(process.env.PORT || 5000, () => {
-  console.log('backend server is running');
+  console.log(`backend server is running at port:${process.env.PORT}`);
 });
 socketIO(server);
