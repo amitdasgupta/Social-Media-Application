@@ -3,13 +3,14 @@ import user from './userReducers';
 import posts from './postReducers';
 import success from './successReducer';
 import error from './errorReducer';
-
+import socket from './socketReducer';
 // Combines all reducers to a single reducer function
 const rootReducer = combineReducers({
   user,
   posts,
   success,
   error,
+  socket,
 });
 
 export default rootReducer;

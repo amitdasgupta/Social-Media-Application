@@ -43,6 +43,27 @@ const initialState = {
     successMsg: 'Hey Success ',
     isOpen: false,
   },
+  socket: {
+    isSocketConnected: false,
+    channels: {
+      follow: {
+        channelStatus: 'off',
+      },
+      like: {
+        channelStatus: 'off',
+      },
+      comment: {
+        channelStatus: 'off',
+      },
+    },
+    //follow notification/comment notification/like notification
+    notifications: {
+      follow: [],
+      like: [],
+      comment: [],
+      data: {},
+    },
+  },
 };
 
 export default initialState;

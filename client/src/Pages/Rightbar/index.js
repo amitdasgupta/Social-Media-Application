@@ -1,18 +1,18 @@
-import styles from '../../stylesheets/pages/Rightbar.module.scss';
-import Notifications from '../../components/Notifications.js';
-import Onlineuser from '../../components/OnlineUser';
+import { connect } from 'react-redux';
+import { connectSocket } from '../../redux/actions/socketActions';
+import Rightbar from './Rightbar';
 
-function Rightbar() {
-  return (
-    <div className={styles.rightBarMain}>
-      <div className={styles.content}>
-        <div className={styles.heading}>Notifications</div>
-        <Notifications />
-        <div className={styles.heading}>Online Users</div>
-        <Onlineuser />
-      </div>
-    </div>
-  );
-}
+const mapStateToProps = (state) => {
+  const {
+    socket: { isSocketConnected },
+  } = state;
+  return {
+    isSocketConnected,
+  };
+};
 
-export default Rightbar;
+const mapDispatchToProps = {
+  connectSocket,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rightbar);
