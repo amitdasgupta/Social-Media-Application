@@ -8,6 +8,7 @@ import {
 import { setError } from '../actions/errorActions';
 import { setSuccessMsg } from '../actions/successActions';
 import * as types from '../constants/user';
+import * as socketsConstants from '../constants/socket';
 
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
@@ -39,6 +40,12 @@ export function* followUserRequest({ payload: { userId, username } }) {
     const { data: { response = {} } = {} } = result;
     yield put({
       type: types.FOLLOW_USER_SUCCESS,
+      payload: {
+        userId: response,
+      },
+    });
+    yield put({
+      type: socketsConstants.SOCKET_FOLLOW_REQUESTS_UPDATE,
       payload: {
         userId: response,
       },

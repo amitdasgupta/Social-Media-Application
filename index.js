@@ -28,4 +28,4 @@ app.use(errorMiddleware);
 const server = app.listen(process.env.PORT || 5000, () => {
   console.log('backend server is running');
 });
-socketIO(server);
+socketIO.connect(server);

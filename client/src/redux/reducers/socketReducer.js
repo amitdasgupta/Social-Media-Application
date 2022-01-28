@@ -13,7 +13,7 @@ export default function socketReducer(
     case types.SOCKET_LIVE_USER_FETCHED:
       return {
         ...state,
-        liveUsers: { ...liveUsers, isFetched: true, data: [...payload] },
+        liveUsers: { ...liveUsers, isFetched: true, data: { ...payload } },
       };
     default:
       return state;

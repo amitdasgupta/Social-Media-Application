@@ -5,14 +5,17 @@ import {
   race,
   fork,
   delay,
-  cancelled,
+  all,
+  actionChannel,
+  select,
 } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import * as types from '../constants/socket';
-import { setError } from '../actions/errorActions';
+import { getAllSocketsIds } from '../selectors/sockets';
 
 //helpers methods
 const connect = function* (socket) {
+  yield put({ type: types.SOCKET_CONNECT_SUCCESS });
   yield new Promise((resolve) => {
     socket.on('connect', () => {
       resolve(socket);
@@ -36,14 +39,6 @@ const disconnect = (socket) => {
   });
 };
 
-const listenLiveUsers = (socket) => {
-  return new Promise((resolve) => {
-    socket.on('users', (data) => {
-      resolve(data);
-    });
-  });
-};
-
 const listenDisconnectSaga = function* (socketConnection) {
   while (true) {
     yield call(disconnect, socketConnection);
@@ -58,10 +53,10 @@ const listenConnectSaga = function* (socketConnection) {
   }
 };
 
-const getLiveUsers = function* (socketConnection) {
-  const payload = yield call(listenLiveUsers, socketConnection);
-  yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
-};
+// const getLiveUsers = function* (socketConnection) {
+//   const payload = yield call(listenLiveUsers, socketConnection);
+//   yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
+// };
 
 const createLiveUserChannel = (socket) =>
   eventChannel((emit) => {
@@ -75,9 +70,44 @@ const createLiveUserChannel = (socket) =>
     };
   });
 
+function* liveUserChannel(socketConnection) {
+  const liveUserChannel = yield call(createLiveUserChannel, socketConnection);
+  try {
+    while (true) {
+      const payload = yield take(liveUserChannel);
+      yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* followRequestActionChannel(socketConnection) {
+  const followRequestsChannel = yield actionChannel(
+    types.SOCKET_FOLLOW_REQUESTS_UPDATE
+  );
+
+  while (1) {
+    const { payload: { userId } = {} } = yield take(followRequestsChannel);
+    const allSocketIds = yield select(getAllSocketsIds);
+    const userFollowedSocketId = allSocketIds[userId];
+    if (userFollowedSocketId) {
+      socketConnection.emit('userFollowed', userFollowedSocketId);
+    } else {
+      //need to store it in backend db and show them this when he opens website
+    }
+  }
+}
+
+const listenDifferentChannels = function* (socketConnection) {
+  yield all([
+    fork(liveUserChannel, socketConnection),
+    fork(followRequestActionChannel, socketConnection),
+  ]);
+};
+
 export function* listenSocketServer(socketConnection) {
-  // connect to the server
-  yield fork(getLiveUsers, socketConnection);
+  yield fork(listenDifferentChannels, socketConnection);
   const { timeout } = yield race({
     socket: call(connect, socketConnection),
     timeout: delay(2000),
@@ -85,21 +115,8 @@ export function* listenSocketServer(socketConnection) {
   if (timeout) {
     yield put({ type: types.SOCKET_DISCONNECT_SUCCESS });
   }
-  yield put({ type: types.SOCKET_CONNECT_SUCCESS });
-  // then create a socket channel
-  //create channel
-  const liveUserChannel = yield call(createLiveUserChannel, socketConnection);
   yield fork(listenConnectSaga, socketConnection);
   yield fork(listenDisconnectSaga, socketConnection);
-  // yield fork(listenErrorSaga, socketConnection);
-  const payload = yield take(liveUserChannel);
-  yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
-  // then put the new data into the reducer
-  while (true) {
-    //use channel here
-    const payload = yield take(liveUserChannel);
-    yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
-  }
 }
 
 export default function* socketRoot() {

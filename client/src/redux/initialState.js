@@ -66,7 +66,7 @@ const initialState = {
     },
     liveUsers: {
       isFetched: false,
-      data: [],
+      data: {},
     },
   },
 };
