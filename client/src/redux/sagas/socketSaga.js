@@ -1,12 +1,20 @@
-import { put, call, take, delay, race, fork } from 'redux-saga/effects';
+import {
+  put,
+  call,
+  take,
+  race,
+  fork,
+  delay,
+  cancelled,
+} from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga';
 import * as types from '../constants/socket';
 import { setError } from '../actions/errorActions';
 
 //helpers methods
-const connect = (socket) => {
-  return new Promise((resolve) => {
+const connect = function* (socket) {
+  yield new Promise((resolve) => {
     socket.on('connect', () => {
-      console.log(socket.id);
       resolve(socket);
     });
   });
@@ -14,7 +22,7 @@ const connect = (socket) => {
 
 const reconnect = (socket) => {
   return new Promise((resolve) => {
-    socket.on('reconnect', () => {
+    socket.io.on('reconnect', () => {
       resolve(socket);
     });
   });
@@ -28,56 +36,77 @@ const disconnect = (socket) => {
   });
 };
 
+const listenLiveUsers = (socket) => {
+  return new Promise((resolve) => {
+    socket.on('users', (data) => {
+      resolve(data);
+    });
+  });
+};
+
 const listenDisconnectSaga = function* (socketConnection) {
   while (true) {
     yield call(disconnect, socketConnection);
-    yield put({ type: types.DISCONNECT_SOCKET_SUCCESS });
+    yield put({ type: types.SOCKET_DISCONNECT_SUCCESS });
   }
 };
 
 const listenConnectSaga = function* (socketConnection) {
   while (true) {
     yield call(reconnect, socketConnection);
-    yield put({ type: types.CONNECT_SOCKET_SUCCESS });
+    yield put({ type: types.SOCKET_CONNECT_SUCCESS });
   }
 };
 
+const getLiveUsers = function* (socketConnection) {
+  const payload = yield call(listenLiveUsers, socketConnection);
+  yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
+};
+
+const createLiveUserChannel = (socket) =>
+  eventChannel((emit) => {
+    const handler = (data) => {
+      emit(data);
+      console.log('user data', data);
+    };
+    socket.on('users', handler);
+    return () => {
+      socket.off('users', handler);
+    };
+  });
+
 export function* listenSocketServer(socketConnection) {
-  try {
-    // connect to the server
-    const { socket, timeout } = yield race({
-      socket: call(connect, socketConnection),
-      timeout: delay(2000),
-    });
-    if (timeout) {
-      yield put({ type: types.DISCONNECT_SOCKET_SUCCESS });
-    }
-    yield put({ type: types.CONNECT_SOCKET_SUCCESS });
-    // then create a socket channel
-    //create channel
-    // const socketChannel = yield call(createSocketChannel, socket);
-    yield fork(listenDisconnectSaga, socketConnection);
-    yield fork(listenConnectSaga, socketConnection);
-    // then put the new data into the reducer
-    // while (true) {
-    //   //use channel here
-    //   //  const payload = yield take(socketChannel);
-    //   //  yield put({type: ADD_TASK, payload});
-    // }
-  } catch (error) {
-    yield put({ type: types.DISCONNECT_SOCKET_SUCCESS });
-    yield put(setError(error.response.data));
+  // connect to the server
+  yield fork(getLiveUsers, socketConnection);
+  const { timeout } = yield race({
+    socket: call(connect, socketConnection),
+    timeout: delay(2000),
+  });
+  if (timeout) {
+    yield put({ type: types.SOCKET_DISCONNECT_SUCCESS });
+  }
+  yield put({ type: types.SOCKET_CONNECT_SUCCESS });
+  // then create a socket channel
+  //create channel
+  const liveUserChannel = yield call(createLiveUserChannel, socketConnection);
+  yield fork(listenConnectSaga, socketConnection);
+  yield fork(listenDisconnectSaga, socketConnection);
+  // yield fork(listenErrorSaga, socketConnection);
+  const payload = yield take(liveUserChannel);
+  yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
+  // then put the new data into the reducer
+  while (true) {
+    //use channel here
+    const payload = yield take(liveUserChannel);
+    yield put({ type: types.SOCKET_LIVE_USER_FETCHED, payload });
   }
 }
 
 export default function* socketRoot() {
   while (1) {
     const { socket: socketConnection } = yield take(
-      types.CONNECT_SOCKET_REQUEST
+      types.SOCKET_CONNECT_REQUEST
     );
-    yield race({
-      task: call(listenSocketServer, socketConnection),
-      cancel: take(types.DISCONNECT_SOCKET_SUCCESS),
-    });
+    yield call(listenSocketServer, socketConnection);
   }
 }

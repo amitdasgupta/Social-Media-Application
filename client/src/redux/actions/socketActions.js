@@ -1,6 +1,6 @@
 import * as types from '../constants/socket';
 
 export const connectSocket = (socket) => ({
-  type: types.CONNECT_SOCKET_REQUEST,
+  type: types.SOCKET_CONNECT_REQUEST,
   socket,
 });

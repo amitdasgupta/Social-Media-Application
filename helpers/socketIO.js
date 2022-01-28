@@ -7,17 +7,28 @@ module.exports = (server) => {
       methods: ['GET', 'POST'],
     },
   });
-//   io.use((socket, next) => {
-//     const username = socket.handshake.auth.username;
-//     if (!username) {
-//       return next(new Error("invalid username"));
-//     }
-//     socket.username = username;
-//     next();
-//   });
+  io.use((socket, next) => {
+    const {
+      handshake: { auth: { id } = {} },
+    } = socket;
+    if (!id) {
+      return next(new Error('invalid user'));
+    }
+    // eslint-disable-next-line no-param-reassign
+    socket.id = id;
+    next();
+  });
   //   io.adapter(redisAdapter({ host: config.redis.host, port: config.redis.port }));
   io.on('connection', (socket) => {
-    console.log(socket.id);
+    const users = [];
+    for (const [id, socket] of io.of('/').sockets) {
+      users.push({
+        userID: socket.id,
+        sockedId: id,
+      });
+    }
+    console.log(users);
+    socket.emit('users', users);
     socket.on('disconnect', () => {
       console.log('User disconneted', socket.id);
     });

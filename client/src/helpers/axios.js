@@ -40,7 +40,6 @@ axiosClient.interceptors.response.use(
     if (data === 'jwt expired') {
       return logout();
     }
-    console.log(result.response);
     return Promise.reject(result);
   }
 );

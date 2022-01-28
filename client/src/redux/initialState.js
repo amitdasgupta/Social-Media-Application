@@ -45,6 +45,7 @@ const initialState = {
   },
   socket: {
     isSocketConnected: false,
+    socketExist: false,
     channels: {
       follow: {
         channelStatus: 'off',
@@ -63,6 +64,7 @@ const initialState = {
       comment: [],
       data: {},
     },
+    liveUsers: [],
   },
 };
 

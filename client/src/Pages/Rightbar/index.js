@@ -4,10 +4,16 @@ import Rightbar from './Rightbar';
 
 const mapStateToProps = (state) => {
   const {
-    socket: { isSocketConnected },
+    socket: { isSocketConnected, socketExist },
+    user: {
+      loggedInUser: { id },
+      appUsers,
+    },
   } = state;
   return {
     isSocketConnected,
+    userData: appUsers[id],
+    socketExist,
   };
 };
 

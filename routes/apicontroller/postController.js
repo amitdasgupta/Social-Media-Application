@@ -42,7 +42,6 @@ router.post('/', async (req, res, next) => {
         select: 'username',
       })
       .execPopulate();
-    console.log(post);
     await post.save();
     return customResponse(res, 200, post);
   } catch (err) {
@@ -141,7 +140,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/timelinePosts/all', async (req, res, next) => {
   try {
-    console.log('hello');
     const userId = req.user.id;
     const { pageNo = 1, size = 10 } = req.query;
     if (Number.isNaN(Number(pageNo)) || Number.isNaN(Number(size))) {
