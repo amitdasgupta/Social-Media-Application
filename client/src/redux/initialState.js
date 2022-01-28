@@ -46,23 +46,30 @@ const initialState = {
   socket: {
     isSocketConnected: false,
     socketExist: false,
-    channels: {
-      follow: {
-        channelStatus: 'off',
-      },
-      like: {
-        channelStatus: 'off',
-      },
-      comment: {
-        channelStatus: 'off',
-      },
-    },
     //follow notification/comment notification/like notification
     notifications: {
-      follow: [],
+      follow: [1],
       like: [],
       comment: [],
-      data: {},
+      data: {
+        1: {
+          type: 'follow',
+          userName: 'XYZ',
+          userId: '61e96f936c2cc832998a8be3',
+        },
+        2: {
+          type: 'like',
+          userName: 'XYZ',
+          userId: '61e96f936c2cc832998a8be3',
+        },
+        3: {
+          type: 'comment',
+          userName: 'XYZ',
+          userId: '61e96f936c2cc832998a8be3',
+          comment: 'This is my comment',
+          postId: '61f05d2579824c097eb2007c',
+        },
+      },
     },
     liveUsers: {
       isFetched: false,

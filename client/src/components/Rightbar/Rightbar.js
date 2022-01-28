@@ -1,6 +1,6 @@
 import styles from '../../stylesheets/pages/Rightbar.module.scss';
-import Notifications from '../../components/Notifications.js';
-import Onlineuser from '../../components/OnlineUser';
+import Notifications from '../Notifications.js/index.js';
+import Onlineuser from '../OnlineUser';
 import { useSocket } from '../../contexts/socketProvider';
 import { useEffect } from 'react';
 

@@ -10,7 +10,7 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import Notification from '../Notification/index';
+import Notification from '../Alerts/index';
 
 const menuItems = [
   { name: 'Profile', func: () => <Redirect to="/app/myprofile" /> },
