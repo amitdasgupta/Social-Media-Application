@@ -11,7 +11,10 @@ export default function socketReducer(
     case types.SOCKET_DISCONNECT_SUCCESS:
       return { ...state, isSocketConnected: false, socketExist: true };
     case types.SOCKET_LIVE_USER_FETCHED:
-      return { ...state, liveUsers: [...payload] };
+      return {
+        ...state,
+        liveUsers: { ...liveUsers, isFetched: true, data: [...payload] },
+      };
     default:
       return state;
   }

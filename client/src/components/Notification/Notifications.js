@@ -42,7 +42,6 @@ export default function CustomizedSnackbars(props) {
           onClose={hideSuccessMsg}
           severity="success"
           sx={{ width: '100%' }}
-          autoHideDuration={4000}
         >
           {successMsg}
         </Alert>
@@ -53,12 +52,7 @@ export default function CustomizedSnackbars(props) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         autoHideDuration={4000}
       >
-        <Alert
-          onClose={hideError}
-          severity="error"
-          sx={{ width: '100%' }}
-          autoHideDuration={4000}
-        >
+        <Alert onClose={hideError} severity="error" sx={{ width: '100%' }}>
           {errorMsg}
         </Alert>
       </Snackbar>

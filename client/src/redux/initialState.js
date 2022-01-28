@@ -64,7 +64,10 @@ const initialState = {
       comment: [],
       data: {},
     },
-    liveUsers: [],
+    liveUsers: {
+      isFetched: false,
+      data: [],
+    },
   },
 };
 
