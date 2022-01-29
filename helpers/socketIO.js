@@ -47,7 +47,7 @@ const socketHelpers = {
   },
   followNotification: (socket) => {
     socket.on('userFollowed', (socketId) => {
-      socket.to(socketId).emit('youFollowed', {
+      socket.to(socketId).emit('followNotification', {
         data: {
           ...socket.auth,
         },

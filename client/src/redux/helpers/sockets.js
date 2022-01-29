@@ -49,7 +49,6 @@ const createLiveUserChannel = (socket) =>
   eventChannel((emit) => {
     const handler = (data) => {
       emit(data);
-      console.log('user data', data);
     };
     socket.on('users', handler);
     return () => {
@@ -83,5 +82,32 @@ export function* followRequestActionChannel(socketConnection) {
     } else {
       //need to store it in backend db and show them this when he opens website
     }
+  }
+}
+
+const createFollowNotificationChannel = (socket) =>
+  eventChannel((emit) => {
+    const handler = (data) => {
+      emit(data);
+      console.log('follow data', data);
+    };
+    socket.on('followNotification', handler);
+    return () => {
+      socket.off('followNotification', handler);
+    };
+  });
+
+export function* followNotificationChannel(socketConnection) {
+  const followChannel = yield call(
+    createFollowNotificationChannel,
+    socketConnection
+  );
+  try {
+    while (true) {
+      const payload = yield take(followChannel);
+      yield put({ type: types.SOCKET_FOLLOW_NOTIFICATION_UPDATE, payload });
+    }
+  } catch (error) {
+    console.log(error);
   }
 }

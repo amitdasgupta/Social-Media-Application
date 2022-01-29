@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Feed from '../Feed';
-import Rightbar from '../Rightbar';
+import Rightbar from '../../components/Rightbar';
 import Skeleton from 'react-loading-skeleton';
 import styles from '../../stylesheets/pages/Home.module.scss';
 import { SocketProvider } from '../../contexts/socketProvider';

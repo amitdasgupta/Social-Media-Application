@@ -48,27 +48,28 @@ const initialState = {
     socketExist: false,
     //follow notification/comment notification/like notification
     notifications: {
-      follow: [1],
-      like: [],
-      comment: [],
+      follow: [],
+      like: ['61e96f936c2cc832998a8be3_61f05d2579824c097eb2007c'],
+      comment: ['61e96f936c2cc832998a8be3_commentId'],
       data: {
-        1: {
-          type: 'follow',
-          userName: 'XYZ',
-          userId: '61e96f936c2cc832998a8be3',
-        },
-        2: {
-          type: 'like',
-          userName: 'XYZ',
-          userId: '61e96f936c2cc832998a8be3',
-        },
-        3: {
-          type: 'comment',
-          userName: 'XYZ',
-          userId: '61e96f936c2cc832998a8be3',
-          comment: 'This is my comment',
-          postId: '61f05d2579824c097eb2007c',
-        },
+        // '61e96f936c2cc832998a8be3': {
+        //   type: 'follow',
+        //   userName: 'XYZ',
+        //   userId: '61e96f936c2cc832998a8be3',
+        //   id: '61e96f936c2cc832998a8be3',
+        // },
+        // '61e96f936c2cc832998a8be3_61f05d2579824c097eb2007c': {
+        //   type: 'like',
+        //   userName: 'XYZ',
+        //   userId: '61e96f936c2cc832998a8be3',
+        //   postId: '61f05d2579824c097eb2007c',
+        // },
+        // '61e96f936c2cc832998a8be3_commentId': {
+        //   type: 'comment',
+        //   userName: 'XYZ',
+        //   userId: '61e96f936c2cc832998a8be3',
+        //   commentId: '61e96f936c2cc832998a8be3_commentId',
+        // },
       },
     },
     liveUsers: {

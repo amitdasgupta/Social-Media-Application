@@ -7,6 +7,7 @@ import {
   listenConnectSaga,
   liveUserChannel,
   followRequestActionChannel,
+  followNotificationChannel,
 } from '../helpers/sockets';
 
 //helpers methods
@@ -15,6 +16,7 @@ const listenDifferentChannels = function* (socketConnection) {
   yield all([
     fork(liveUserChannel, socketConnection),
     fork(followRequestActionChannel, socketConnection),
+    fork(followNotificationChannel, socketConnection),
   ]);
 };
 

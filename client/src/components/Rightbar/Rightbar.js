@@ -1,5 +1,5 @@
 import styles from '../../stylesheets/pages/Rightbar.module.scss';
-import Notifications from '../Notifications.js/index.js';
+import Notifications from '../Notifications/index.js';
 import Onlineuser from '../OnlineUser';
 import { useSocket } from '../../contexts/socketProvider';
 import { useEffect } from 'react';

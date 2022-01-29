@@ -4,7 +4,7 @@ export default function socketReducer(
   state = initialState.socket,
   { type, payload }
 ) {
-  const { channels, liveUsers } = state;
+  const { liveUsers, notifications } = state;
   switch (type) {
     case types.SOCKET_CONNECT_SUCCESS:
       return { ...state, isSocketConnected: true, socketExist: true };
@@ -15,6 +15,27 @@ export default function socketReducer(
         ...state,
         liveUsers: { ...liveUsers, isFetched: true, data: { ...payload } },
       };
+    case types.SOCKET_FOLLOW_NOTIFICATION_UPDATE: {
+      const {
+        data: { id, username },
+      } = payload;
+      const notificationData = {
+        userId: id,
+        userName: username,
+        id,
+        type: 'follow',
+      };
+      if (!notifications.data[id]) {
+        return {
+          ...state,
+          notifications: {
+            ...notifications,
+            follow: [...notifications.follow],
+            data: { ...notifications.data, id: notificationData },
+          },
+        };
+      }
+    }
     default:
       return state;
   }
