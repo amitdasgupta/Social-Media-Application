@@ -26,16 +26,15 @@ const socketHelpers = {
       global.socket = socket;
       socketHelpers.emitEvents(socket, io);
       socketHelpers.receiveEvents(socket);
-      socket.on('disconnect', () => {
-        console.log('User disconneted', socket.id);
-      });
     });
   },
   emitEvents: (socket, io) => {
     socketHelpers.emitOnlineUsers(socket, io);
+    socketHelpers.emitUserConnected(socket);
   },
   receiveEvents: (socket) => {
     socketHelpers.followNotification(socket);
+    socketHelpers.disconnectedEvent(socket);
   },
   emitOnlineUsers: (socket, io) => {
     const users = {};
@@ -48,10 +47,20 @@ const socketHelpers = {
   followNotification: (socket) => {
     socket.on('userFollowed', (socketId) => {
       socket.to(socketId).emit('followNotification', {
-        data: {
-          ...socket.auth,
-        },
+        data: socket.auth,
       });
+    });
+  },
+  disconnectedEvent: (socket) => {
+    socket.on('disconnect', () => {
+      socket.broadcast.emit('userDisconnected', {
+        data: socket.auth,
+      });
+    });
+  },
+  emitUserConnected: (socket) => {
+    socket.broadcast.emit('userJoined', {
+      data: { ...socket.auth, socketId: socket.id },
     });
   },
 };

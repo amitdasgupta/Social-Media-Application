@@ -16,25 +16,49 @@ export default function socketReducer(
         liveUsers: { ...liveUsers, isFetched: true, data: { ...payload } },
       };
     case types.SOCKET_FOLLOW_NOTIFICATION_UPDATE: {
-      const {
-        data: { id, username },
-      } = payload;
-      const notificationData = {
-        userId: id,
-        userName: username,
-        id,
-        type: 'follow',
-      };
-      if (!notifications.data[id]) {
-        return {
-          ...state,
-          notifications: {
-            ...notifications,
-            follow: [...notifications.follow],
-            data: { ...notifications.data, id: notificationData },
-          },
+      {
+        const {
+          data: { id, username },
+        } = payload;
+        const notificationData = {
+          userId: id,
+          userName: username,
+          id,
+          type: 'follow',
         };
+        if (!notifications.data[id]) {
+          return {
+            ...state,
+            notifications: {
+              ...notifications,
+              follow: [...notifications.follow],
+              data: { ...notifications.data, id: notificationData },
+            },
+          };
+        }
       }
+      return state;
+    }
+    case types.SOCKET_USER_DICONNECT_UPDATE: {
+      const {
+        data: { id },
+      } = payload;
+      return {
+        ...state,
+        liveUsers: { ...liveUsers, data: { ...liveUsers.data, [id]: null } },
+      };
+    }
+    case types.SOCKET_USER_JOIN_UPDATE: {
+      const {
+        data: { id, socketId },
+      } = payload;
+      return {
+        ...state,
+        liveUsers: {
+          ...liveUsers,
+          data: { ...liveUsers.data, [id]: socketId },
+        },
+      };
     }
     default:
       return state;

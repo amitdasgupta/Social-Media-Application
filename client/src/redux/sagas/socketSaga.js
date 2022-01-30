@@ -8,6 +8,8 @@ import {
   liveUserChannel,
   followRequestActionChannel,
   followNotificationChannel,
+  disconnectUserChannel,
+  joinedUserChannel,
 } from '../helpers/sockets';
 
 //helpers methods
@@ -17,6 +19,8 @@ const listenDifferentChannels = function* (socketConnection) {
     fork(liveUserChannel, socketConnection),
     fork(followRequestActionChannel, socketConnection),
     fork(followNotificationChannel, socketConnection),
+    fork(disconnectUserChannel, socketConnection),
+    fork(joinedUserChannel, socketConnection),
   ]);
 };
 

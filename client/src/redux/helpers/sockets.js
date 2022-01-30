@@ -80,6 +80,7 @@ export function* followRequestActionChannel(socketConnection) {
     if (userFollowedSocketId) {
       socketConnection.emit('userFollowed', userFollowedSocketId);
     } else {
+      console.log('user is not online');
       //need to store it in backend db and show them this when he opens website
     }
   }
@@ -89,7 +90,6 @@ const createFollowNotificationChannel = (socket) =>
   eventChannel((emit) => {
     const handler = (data) => {
       emit(data);
-      console.log('follow data', data);
     };
     socket.on('followNotification', handler);
     return () => {
@@ -106,6 +106,55 @@ export function* followNotificationChannel(socketConnection) {
     while (true) {
       const payload = yield take(followChannel);
       yield put({ type: types.SOCKET_FOLLOW_NOTIFICATION_UPDATE, payload });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const createDisconnectUserChannel = (socket) =>
+  eventChannel((emit) => {
+    const handler = (data) => {
+      emit(data);
+    };
+    socket.on('userDisconnected', handler);
+    return () => {
+      socket.off('userDisconnected', handler);
+    };
+  });
+
+export function* disconnectUserChannel(socketConnection) {
+  const disconnetChannel = yield call(
+    createDisconnectUserChannel,
+    socketConnection
+  );
+  try {
+    while (true) {
+      const payload = yield take(disconnetChannel);
+      yield put({ type: types.SOCKET_USER_DICONNECT_UPDATE, payload });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const createJoinedUserChannel = (socket) =>
+  eventChannel((emit) => {
+    const handler = (data) => {
+      emit(data);
+    };
+    socket.on('userJoined', handler);
+    return () => {
+      socket.off('userJoined', handler);
+    };
+  });
+
+export function* joinedUserChannel(socketConnection) {
+  const joinedChannel = yield call(createJoinedUserChannel, socketConnection);
+  try {
+    while (true) {
+      const payload = yield take(joinedChannel);
+      yield put({ type: types.SOCKET_USER_JOIN_UPDATE, payload });
     }
   } catch (error) {
     console.log(error);
