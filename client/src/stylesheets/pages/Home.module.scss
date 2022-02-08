@@ -1,13 +1,44 @@
+@import '../abstracts//variables.scss';
+
 .mainContent {
-  padding: 0px 15px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .contentSkeleton {
   width: 80%;
   margin: auto;
+}
+
+.topBarIcon {
+  position: relative;
+  .topBarIconImage {
+    font-size: $icons_size;
+    color: $icons_color;
+    color: $theme_color;
+  }
+  .topBarIconBadge {
+    position: absolute;
+    font-size: 15px;
+    left: 30px;
+    color: #f01414;
+    line-height: 14px;
+    width: 16px;
+    text-align: center;
+    border-radius: 15px;
+    height: 16px;
+    font-weight: bold;
+    top: -5px;
+  }
+}
+
+.tabParent {
+  width: 60%;
+  min-width: 300px;
+  margin: 20px 10px;
+  .tabContent {
+    margin: 20px 10px;
+  }
 }

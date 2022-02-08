@@ -1,5 +1,4 @@
 import { Redirect } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
 import TopBar from '../components/Topbar/TopBar';
 import styles from '../stylesheets/pages/Home.module.scss';
 import { Suspense } from 'react';
@@ -15,7 +14,6 @@ export default function ProtectRoute({ component: Component, ...rest }) {
             <>
               <TopBar />
               <div className={styles.mainContent}>
-                <Sidebar />
                 <Component {...rest} />
               </div>
             </>

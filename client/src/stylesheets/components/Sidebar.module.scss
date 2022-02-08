@@ -1,10 +1,8 @@
 @import '../abstracts/variables';
 .sideBarMain {
-  position: sticky;
-  top: 6vh;
-  height: 94vh;
   overflow-y: auto;
-  width: 325px;
+  width: 100%;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -44,7 +42,7 @@
   }
   .icon {
     font-size: $icons_size;
-    margin-right: 35px;
+    margin: 0 35px;
     color: black;
     cursor: pointer;
   }

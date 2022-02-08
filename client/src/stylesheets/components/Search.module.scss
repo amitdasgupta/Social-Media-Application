@@ -1,0 +1,12 @@
+.main {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  .search {
+    width: 100%;
+    min-width: 300px;
+  }
+}

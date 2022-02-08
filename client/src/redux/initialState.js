@@ -36,11 +36,11 @@ const initialState = {
   },
   comments: {},
   error: {
-    errorMsg: 'Hey Error',
+    errorMsg: '',
     isOpen: false,
   },
   success: {
-    successMsg: 'Hey Success ',
+    successMsg: '',
     isOpen: false,
   },
   socket: {
