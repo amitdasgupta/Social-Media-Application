@@ -130,4 +130,17 @@ router.get('/validusers/all', async (req, res, next) => {
   }
 });
 
+router.get('/validusers/:userId', async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+
+    const userData = await User.findById(userId).select(
+      'username profilepic followers following'
+    );
+    return customResponse(res, 200, userData);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

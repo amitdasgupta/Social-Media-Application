@@ -34,3 +34,8 @@ export async function unFollowUser(id) {
   const result = await putRequest(`user/${id}/unfollow`);
   return result;
 }
+
+export async function getUserData(userId) {
+  const result = await getRequest(`user/validusers/${userId}`);
+  return result;
+}

@@ -1,8 +1,10 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect } from 'react';
 import styles from '../../stylesheets/pages/Feed.module.scss';
 import CreateFeed from '../../components/CreateFeedCard';
 import FeedCard from '../../components/FeedCard';
 import Skeleton from 'react-loading-skeleton';
+import useInfiniteScrolling from '../../hooks/useInfiniteScrolling';
+
 function Feed(props) {
   const {
     isLoading,
@@ -12,31 +14,17 @@ function Feed(props) {
     nextLoading,
     isAllFeedFetched,
   } = props;
-  const [isNextFetched, setNextFetched] = useState(false);
-  const observer = useRef();
-  const lastPostElementRef = useCallback(
-    // (*)
-    (node) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setNextFetched(true);
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [isLoading]
-  );
   useEffect(() => {
     getTimeLinePosts();
   }, [isUserFetched, getTimeLinePosts]);
+  const [lastPostElementRef, isNextFetched, setNextFetched] =
+    useInfiniteScrolling(isLoading);
   useEffect(() => {
     if (isNextFetched) {
       getTimeLinePosts();
       setNextFetched(false);
     }
-  }, [isNextFetched, getTimeLinePosts]);
+  }, [isNextFetched, getTimeLinePosts, setNextFetched]);
   return (
     <div className={styles.mainFeed}>
       <div className={styles.mainFeedTop}>

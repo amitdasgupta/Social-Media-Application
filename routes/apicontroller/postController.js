@@ -141,7 +141,7 @@ router.get('/', async (req, res, next) => {
 router.get('/timelinePosts/all', async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { pageNo = 1, size = 10 } = req.query;
+    const { pageNo = 1, size = 10, search = '' } = req.query;
     if (Number.isNaN(Number(pageNo)) || Number.isNaN(Number(size))) {
       throw new Error('Query param is not number');
     }
@@ -159,6 +159,9 @@ router.get('/timelinePosts/all', async (req, res, next) => {
               ),
               mongoose.Types.ObjectId(userId),
             ],
+          },
+          desc: {
+            $regex: search,
           },
         },
       },
