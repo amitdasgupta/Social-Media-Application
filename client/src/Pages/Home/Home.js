@@ -8,7 +8,7 @@ import SearchComponent from '../../components/Search';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import Sidebar from '../../components/Sidebar';
+import UserList from '../../components/UserList';
 import { DynamicFeed, Chat, Notifications } from '@material-ui/icons';
 import GroupsIcon from '@mui/icons-material/Groups';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -98,7 +98,7 @@ export default function Home(props) {
           <Rightbar />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Sidebar />
+          <UserList />
         </TabPanel>
         <TabPanel value={value} index={3}>
           <div>Implement Chatting here</div>

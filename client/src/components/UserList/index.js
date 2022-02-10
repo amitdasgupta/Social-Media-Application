@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Sidebar from './Sidebar';
+import UserList from './UserList';
 import {
   getAllUsersData,
   followUser,
@@ -32,4 +32,4 @@ const mapDispatchToProps = {
   unFollowUser,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

@@ -1,4 +1,4 @@
-import styles from '../../stylesheets/components/Sidebar.module.scss';
+import styles from '../../stylesheets/components/UserList.module.scss';
 import { useEffect } from 'react';
 import { Group, GroupAdd } from '@material-ui/icons';
 import { Avatar } from '@material-ui/core';
