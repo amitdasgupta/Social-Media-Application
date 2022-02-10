@@ -122,7 +122,7 @@ router.get('/validusers/all', async (req, res, next) => {
       id: {
         $ne: userId,
       },
-    }).select('username profilepic followers following');
+    });
 
     return customResponse(res, 200, allUsers);
   } catch (error) {
