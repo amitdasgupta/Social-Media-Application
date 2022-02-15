@@ -10,6 +10,7 @@ import {
   EmojiEmotions,
 } from '@material-ui/icons';
 import Skeleton from 'react-loading-skeleton';
+import LocationForm from './LocationForm';
 
 const feedOperationsObject = {
   'Photo or Video': {
@@ -26,6 +27,7 @@ const feedOperationsObject = {
     icon: PersonPinCircle,
     color: 'green',
     id: 'postLocationId',
+    // onClick:
   },
   Feelings: {
     icon: EmojiEmotions,
@@ -39,7 +41,9 @@ export default function CreateFeed(props) {
     desc: '',
     image: null,
     validationError: null,
+    location: '',
   });
+  const [modalOpen, setModalOpen] = useState(false);
   const { image, desc } = postFormData;
   const handleFormChange = (event) => {
     const { name, files, value } = event.target;
@@ -48,25 +52,31 @@ export default function CreateFeed(props) {
     }
     return setPostFormData({ ...postFormData, [name]: value });
   };
+  const setPostMetaData = (type, value) => {
+    setPostFormData({ ...postFormData, [type]: value });
+  };
   const giveCreateFeedsOperation = () => {
     return Object.keys(feedOperationsObject).map((name) => {
       const Icon = feedOperationsObject[name].icon;
       const color = feedOperationsObject[name].color;
       const id = feedOperationsObject[name].id;
       const jsx = (
-        <label htmlFor={id} key={name} className={styles.labelMain}>
-          <div>
-            <Button
-              startIcon={<Icon style={{ color: color }} />}
-              component="span"
-              className={styles.button}
-            >
-              {name}
-            </Button>
-            {getFeedOperation(name, id)}
-          </div>
+        <div className={styles.labelMain} key={name}>
+          {' '}
+          <label htmlFor={id}>
+            <div>
+              <Button
+                startIcon={<Icon style={{ color: color }} />}
+                component="span"
+                className={styles.button}
+              >
+                {name}
+              </Button>
+              {getFeedOperation(name, id)}
+            </div>
+          </label>
           {getFeedOperationMessage(name)}
-        </label>
+        </div>
       );
       return jsx;
     });
@@ -87,6 +97,23 @@ export default function CreateFeed(props) {
             onChange={handleFormChange}
           />
         );
+      case 'Location':
+        return (
+          <div>
+            <input
+              id={id}
+              style={{ display: 'none' }}
+              name="location"
+              onChange={handleFormChange}
+              onClick={() => setModalOpen(true)}
+            />
+            <LocationForm
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              setPostMetaData={setPostMetaData}
+            />
+          </div>
+        );
 
       default:
         return null;
@@ -94,11 +121,15 @@ export default function CreateFeed(props) {
   };
 
   const cancelFeedOperations = (type) => {
-    return () => {
+    return (event) => {
+      event.stopPropagation();
       let key;
       switch (type) {
         case 'Photo or Video':
           key = 'image';
+          break;
+        case 'Location':
+          key = 'location';
           break;
         default:
           return null;
@@ -125,7 +156,22 @@ export default function CreateFeed(props) {
             </div>
           )
         );
-
+      case 'Location':
+        return (
+          postFormData.location && (
+            <div className={styles.feedButtonMessage}>
+              {postFormData.location.length > 20
+                ? postFormData.location.slice(0, 17) + '...'
+                : postFormData.location}
+              <span
+                className={styles.cancel}
+                onClick={cancelFeedOperations(type)}
+              >
+                X
+              </span>
+            </div>
+          )
+        );
       default:
         return null;
     }

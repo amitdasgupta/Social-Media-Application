@@ -1,95 +1,24 @@
-import styles from '../../stylesheets/components/UserList.module.scss';
 import { useEffect } from 'react';
-import { Group, GroupAdd } from '@material-ui/icons';
-import { Avatar } from '@material-ui/core';
-import Skeleton from 'react-loading-skeleton';
-import cx from 'classnames';
+import styles from '../../stylesheets/components/UserList.module.scss';
+import User from './User';
 
 function Sidebar(props) {
-  const { isLoggedInUserDataFetched = false, getAllUsersData } = props;
+  const {
+    isLoggedInUserDataFetched = false,
+    getAllUsersData,
+    isAllUserDataFetched,
+  } = props;
 
   useEffect(() => {
-    if (isLoggedInUserDataFetched) {
+    if (isLoggedInUserDataFetched && !isAllUserDataFetched) {
       getAllUsersData();
     }
-  }, [isLoggedInUserDataFetched, getAllUsersData]);
-
-  const followUser = (userId) => () => {
-    const { followUser } = props;
-    followUser(userId);
-  };
-
-  const unFollowUser = (data) => () => {
-    const { unFollowUser } = props;
-    unFollowUser(data);
-  };
-
-  const userListRowItem = (
-    isAllUserDataFetched,
-    index,
-    userData,
-    isFriend,
-    userId
-  ) => {
-    if (!userId) return null;
-    const classNameForGroupLogo = cx(styles.icon, {
-      [styles.friend]: isFriend,
-    });
-    const { username, profilePic } = userData || {};
-    const jsx = isAllUserDataFetched ? (
-      <div className={styles.followDiv} key={`name-${userId}`}>
-        <div className={styles.sideBarMainTopIcon}>
-          <Avatar alt={username} src={profilePic} className={styles.icon} />
-          <div className={styles.sideBarMainTopIconName}>{username}</div>
-        </div>
-        {isFriend ? (
-          <Group
-            className={classNameForGroupLogo}
-            onClick={unFollowUser({ userId, username })}
-          />
-        ) : (
-          <GroupAdd
-            className={classNameForGroupLogo}
-            onClick={followUser({ userId, username })}
-          />
-        )}
-      </div>
-    ) : (
-      <Skeleton
-        className={styles.sideBarMainTopIcon}
-        key={`name-${userId}`}
-        height={40}
-      />
-    );
-    return jsx;
-  };
+  }, [isLoggedInUserDataFetched, getAllUsersData, isAllUserDataFetched]);
 
   const giveFriendList = () => {
-    const {
-      followedUser: { data: followedUserList = [] },
-      appUsers = {},
-      isAllUserDataFetched,
-      loggedInUser: { id: loggedInUserId } = {},
-    } = props;
-    const followedUserMap = followedUserList.reduce((allData, data) => {
-      allData[data] = true;
-      return allData;
-    }, {});
-
-    return Object.keys(appUsers).map((userId, index) => {
-      if (userId === loggedInUserId) return null;
-      const userData = appUsers[userId];
-      let followed = false;
-      if (followedUserMap[userId]) {
-        followed = true;
-      }
-      const jsx = userListRowItem(
-        isAllUserDataFetched,
-        index,
-        userData,
-        followed,
-        userId
-      );
+    const { appUsers } = props;
+    return Object.keys(appUsers).map((userId) => {
+      const jsx = <User key={`name-${userId}`} userId={userId} />;
       return jsx;
     });
   };
