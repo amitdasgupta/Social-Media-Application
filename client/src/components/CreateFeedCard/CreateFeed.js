@@ -103,8 +103,6 @@ export default function CreateFeed(props) {
             <input
               id={id}
               style={{ display: 'none' }}
-              name="location"
-              onChange={handleFormChange}
               onClick={() => setModalOpen(true)}
             />
             <LocationForm

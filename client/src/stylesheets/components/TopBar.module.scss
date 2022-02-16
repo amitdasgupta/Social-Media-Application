@@ -11,6 +11,9 @@
   .topBarLeft {
     font-size: $heading_font_size;
     font-weight: bold;
+    .title {
+      cursor: pointer;
+    }
   }
   .topBarRight {
     display: flex;

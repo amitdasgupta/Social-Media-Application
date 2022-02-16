@@ -5,16 +5,19 @@ import { logout } from '../../helpers/auth';
 import { Avatar, Menu, MenuItem } from '@material-ui/core';
 import Notification from '../Alerts/index';
 import { Box } from '@material-ui/system';
-
-const menuItems = [
-  { name: 'Profile', func: () => <Redirect to="/app/myprofile" /> },
-  { name: 'Settings', func: () => <Redirect to="/app/settings" /> },
-  { name: 'Logout', func: logout },
-];
+import { useHistory } from 'react-router-dom';
 
 export default function TopBar() {
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const history = useHistory();
+  const menuItems = [
+    { name: 'Profile', func: () => <Redirect to="/app/myprofile" /> },
+    {
+      name: 'Settings',
+      func: () => history.push('/app/settings'),
+    },
+    { name: 'Logout', func: logout },
+  ];
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -27,7 +30,9 @@ export default function TopBar() {
       <Notification />
       <div className={styles.topBarContainer}>
         <div className={styles.topBarLeft}>
-          <div className="">Socialize</div>
+          <div className={styles.title} onClick={() => history.push('/app')}>
+            Socialize
+          </div>
         </div>
         <div
           style={{

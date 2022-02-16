@@ -4,6 +4,7 @@ import Home from '../Pages/Home';
 import PrivatePage from './PrivatePage';
 import PublicPage from './PublicPage';
 import Login from '../Pages/Auth';
+import Settings from '../Pages/Settings/Settings';
 
 const ROUTES = {
   PUBLIC: [
@@ -37,6 +38,12 @@ const ROUTES = {
       path: '/app/chat',
       key: 'Chat Page',
       component: () => <h1>Chat Page</h1>,
+      exact: true,
+    },
+    {
+      path: '/app/settings',
+      key: 'Settings Page',
+      component: () => <Settings />,
       exact: true,
     },
     {
