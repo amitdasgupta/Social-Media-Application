@@ -27,11 +27,12 @@ router.post('/', async (req, res, next) => {
       uploadedImageUrl = await uploadImageAndGivePath(file);
     }
     const userId = req.user.id;
-    const { desc } = req.body;
+    const { desc, location } = req.body;
     let post = new Post({
       desc,
       userId,
       image: uploadedImageUrl,
+      location,
     });
     await User.findByIdAndUpdate(userId, {
       $push: { posts: post.id },

@@ -20,6 +20,9 @@ const PostSchema = new mongoose.Schema(
       default: [],
       ref: 'User',
     },
+    location: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -85,4 +85,11 @@
       color: gray;
     }
   }
+  .feedLocation {
+    cursor: pointer;
+    font-size: 10px;
+    .feedLocationNear {
+      font-weight: 800;
+    }
+  }
 }

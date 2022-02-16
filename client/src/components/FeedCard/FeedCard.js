@@ -1,5 +1,5 @@
 import styles from '../../stylesheets/components/FeedCard.module.scss';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Tooltip } from '@material-ui/core';
 import { ThumbUp, ThumbDown, MoreVert } from '@material-ui/icons';
 import { forwardRef } from 'react';
 import moment from 'moment';
@@ -13,6 +13,7 @@ function FeedCard(props, ref) {
     userName = 'Social Connect',
     likes = [],
     id,
+    location = '',
   } = postData || {};
   const { likePost, unLikePost } = props;
   const handleReaction = () => {
@@ -53,21 +54,34 @@ function FeedCard(props, ref) {
             <img alt={desc} src={image} />
           </div>
         )}
-        <div className={styles.feedDetails}>
-          <div className={styles.start}>
-            {isPostLiked ? (
-              <ThumbDown className={styles.thumbUp} onClick={handleReaction} />
-            ) : (
-              <ThumbUp className={styles.thumbUp} onClick={handleReaction} />
-            )}
+        <div>
+          {location !== '' && (
+            <Tooltip title={location}>
+              <div className={styles.feedLocation}>
+                <span className={styles.feedLocationNear}>Near</span>
+                {` : ${location.slice(0, 17) + '...'}`}
+              </div>
+            </Tooltip>
+          )}
+          <div className={styles.feedDetails}>
+            <div className={styles.start}>
+              {isPostLiked ? (
+                <ThumbDown
+                  className={styles.thumbUp}
+                  onClick={handleReaction}
+                />
+              ) : (
+                <ThumbUp className={styles.thumbUp} onClick={handleReaction} />
+              )}
 
-            {/* <Favorite className={styles.heart} /> */}
-            <div className={styles.reactions}>{likes.length}</div>
-            <div className={styles.interactionMsg}>
-              {giveUserInteractionMsg()}
+              {/* <Favorite className={styles.heart} /> */}
+              <div className={styles.reactions}>{likes.length}</div>
+              <div className={styles.interactionMsg}>
+                {giveUserInteractionMsg()}
+              </div>
             </div>
+            <div className={styles.end}>5 comments</div>
           </div>
-          <div className={styles.end}>5 comments</div>
         </div>
       </div>
     )
