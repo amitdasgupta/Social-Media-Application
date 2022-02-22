@@ -1,21 +1,29 @@
 import { Avatar, Button, TextField, Select, MenuItem } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../../stylesheets/pages/Settings.module.scss';
+import Skeleton from 'react-loading-skeleton';
 
 export default function Settings(props) {
-  const [userProfile, setUserProfile] = useState({
-    coverPicture:
-      'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg',
-    profilepic:
-      'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg',
-    username: '',
-    gender: 'Male',
-    email: '',
-    city: '',
-    country: '',
-  });
-  const { coverPicture, profilepic, username, gender, email, city, country } =
-    userProfile;
+  const { isAllUserDataFetched, getLoggedInUserData, userData } = props;
+
+  const [userProfile, setUserProfile] = useState({});
+  useEffect(() => {
+    if (!isAllUserDataFetched) {
+      getLoggedInUserData();
+    }
+    if (isAllUserDataFetched) {
+      setUserProfile({ ...userData });
+    }
+  }, [isAllUserDataFetched, getLoggedInUserData, setUserProfile]);
+  const {
+    coverPicture = 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg',
+    profilepic = 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg',
+    username,
+    gender = 'male',
+    email,
+    city,
+    country,
+  } = userProfile;
   const handleFormChange = (event) => {
     const { name, files, value, type } = event.target;
     if (type === 'file') {
@@ -30,7 +38,8 @@ export default function Settings(props) {
     } else setUserProfile({ ...userProfile, [name]: value });
   };
   console.log(userProfile);
-  return (
+
+  return isAllUserDataFetched ? (
     <>
       <label
         className={styles.coverPicture}
@@ -82,17 +91,18 @@ export default function Settings(props) {
               value={username}
               onChange={handleFormChange}
             />
-            <TextField
-              id="standard-multiline-flexible"
-              label="Gender"
-              multiline
-              maxRows={4}
-              className={styles.input}
-              variant="standard"
-              name="gender"
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
               value={gender}
               onChange={handleFormChange}
-            />
+              label="Gender"
+              className={styles.selectBox}
+              name="gender"
+            >
+              <MenuItem value="male">Male</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+            </Select>
             <TextField
               id="standard-multiline-flexible"
               label="Email"
@@ -104,18 +114,7 @@ export default function Settings(props) {
               value={email}
               onChange={handleFormChange}
             />
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={gender}
-              onChange={handleFormChange}
-              label="Gender"
-              className={styles.selectBox}
-              name="gender"
-            >
-              <MenuItem value="Male">Male</MenuItem>
-              <MenuItem value="Female">Female</MenuItem>
-            </Select>
+
             <TextField
               id="standard-multiline-flexible"
               label="City"
@@ -143,5 +142,7 @@ export default function Settings(props) {
         <Button className={styles.button}>Update</Button>
       </div>
     </>
+  ) : (
+    <Skeleton height={'98vh'} width={'98vw'} />
   );
 }

@@ -4,7 +4,7 @@ import Home from '../Pages/Home';
 import PrivatePage from './PrivatePage';
 import PublicPage from './PublicPage';
 import Login from '../Pages/Auth';
-import Settings from '../Pages/Settings/Settings';
+import Settings from '../Pages/Settings';
 
 const ROUTES = {
   PUBLIC: [
