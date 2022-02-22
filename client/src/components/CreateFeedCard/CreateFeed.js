@@ -27,7 +27,6 @@ const feedOperationsObject = {
     icon: PersonPinCircle,
     color: 'green',
     id: 'postLocationId',
-    // onClick:
   },
   Feelings: {
     icon: EmojiEmotions,
