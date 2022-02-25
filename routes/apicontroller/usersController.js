@@ -4,6 +4,8 @@ const User = require('../../database/models/User');
 const { generateNewPassword } = require('../../helpers/authentication');
 const { isUserAllowedOperation } = require('../../helpers/users');
 const { doesObjectIdExistInList } = require('../../helpers/queryHelpers');
+const { upload } = require('../../helpers/multer');
+const { uploadImageAndGivePath } = require('../../helpers/fileHelpers');
 
 const router = express.Router();
 // create a user
@@ -12,27 +14,43 @@ const router = express.Router();
 // follow a user
 // unfollow a user
 
-router.put('/:id', async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    if (isUserAllowedOperation(req, userId)) {
-      const { password, email, username, isAdmin } = req.body;
-      if ((email || username || isAdmin) && !req.user.isAdmin)
-        return customResponse(res, 403);
-      if (password) {
-        const newPassword = await generateNewPassword(password);
-        req.body.password = newPassword;
+router.put(
+  '/:id',
+  upload.fields([
+    { name: 'coverPicture', maxCount: 1 },
+    { name: 'profilepic', maxCount: 1 },
+  ]),
+  async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      if (isUserAllowedOperation(req, userId)) {
+        const { files } = req;
+        const filesKeys = Object.keys(files);
+        const mappingOfFileswithUrls = {};
+        if (filesKeys.length) {
+          for (let index = 0; index < filesKeys.length; index += 1) {
+            const fileKey = filesKeys[index];
+            // eslint-disable-next-line no-await-in-loop
+            const uploadedImageUrl = await uploadImageAndGivePath(
+              files[fileKey][0]
+            );
+            mappingOfFileswithUrls[fileKey] = uploadedImageUrl;
+          }
+        }
+
+        console.log(req.body);
+
+        await User.findByIdAndUpdate(userId, {
+          $set: { ...req.body, ...mappingOfFileswithUrls },
+        });
+        return customResponse(res, 200);
       }
-      await User.findByIdAndUpdate(userId, {
-        $set: req.body,
-      });
-      return customResponse(res, 200);
+      return customResponse(res, 403);
+    } catch (error) {
+      next(error);
     }
-    return customResponse(res, 403);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 router.delete('/:id', async (req, res, next) => {
   try {

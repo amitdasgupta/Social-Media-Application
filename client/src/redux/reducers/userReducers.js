@@ -133,7 +133,9 @@ export default function userReducer(
         },
       };
     }
-
+    case types.UPDATE_USER_SUCCESS: {
+      return state;
+    }
     default:
       return state;
   }

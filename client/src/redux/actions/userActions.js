@@ -17,3 +17,8 @@ export const unFollowUser = (userData) => ({
   type: types.UNFOLLOW_USER_REQUEST,
   payload: userData,
 });
+
+export const updateUser = (userData) => ({
+  type: types.UPDATE_USER_REQUEST,
+  payload: userData,
+});

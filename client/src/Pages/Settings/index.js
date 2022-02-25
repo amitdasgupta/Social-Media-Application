@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
-import { getLoggedInUserData } from '../../redux/actions/userActions';
+import {
+  getLoggedInUserData,
+  updateUser,
+} from '../../redux/actions/userActions';
 import Settings from './Settings';
 
 const mapStateToProps = (state) => {
@@ -17,6 +20,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getLoggedInUserData,
+  updateUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

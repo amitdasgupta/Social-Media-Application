@@ -4,6 +4,7 @@ import {
   getAllUserData,
   followUser,
   unFollowUser,
+  updateUser,
 } from '../../apis/user';
 import { setError } from '../actions/errorActions';
 import { setSuccessMsg } from '../actions/successActions';
@@ -72,11 +73,28 @@ export function* unFollowUserRequest({ payload: { userId, username } }) {
   }
 }
 
+export function* updateUserRequest({ payload }) {
+  try {
+    const result = yield call(updateUser, payload);
+    const { data: { response = {} } = {} } = result;
+    yield put({
+      type: types.UNFOLLOW_USER_SUCCESS,
+      payload: {
+        userId: response,
+      },
+    });
+    yield put(setSuccessMsg(`Your profile updated`));
+  } catch (error) {
+    yield put(setError(error.response.data));
+  }
+}
+
 export default function* userRoot() {
   yield all([
     takeLatest(types.LOGGEDIN_USERDATA_REQUEST, getLoggedInUserData),
     takeLatest(types.ALL_USERSDATA_REQUEST, getAllValidUsersData),
     takeLatest(types.FOLLOW_USER_REQUEST, followUserRequest),
     takeLatest(types.UNFOLLOW_USER_REQUEST, unFollowUserRequest),
+    takeLatest(types.UPDATE_USER_REQUEST, updateUserRequest),
   ]);
 }

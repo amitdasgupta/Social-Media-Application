@@ -5,40 +5,68 @@ import Skeleton from 'react-loading-skeleton';
 
 export default function Settings(props) {
   const { isAllUserDataFetched, getLoggedInUserData, userData } = props;
-
   const [userProfile, setUserProfile] = useState({});
   useEffect(() => {
     if (!isAllUserDataFetched) {
       getLoggedInUserData();
     }
     if (isAllUserDataFetched) {
-      setUserProfile({ ...userData });
+      setUserProfile({
+        coverPicture: userData.coverPicture,
+        username: userData.username,
+        gender: userData.gender,
+        email: userData.email,
+        profilepic: userData.profilepic,
+        country: userData.country || 'India',
+        city: userData.city || 'Delhi',
+        imageFiles: {},
+      });
     }
   }, [isAllUserDataFetched, getLoggedInUserData, setUserProfile]);
+  const handleFormChange = (event) => {
+    const { name, files, value, type } = event.target;
+    if (type === 'file') {
+      const file = files[0];
+      const fileReader = new FileReader();
+      const { imageFiles } = userProfile;
+      if (file) {
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          setUserProfile({
+            ...userProfile,
+            [name]: fileReader.result,
+            imageFiles: { ...imageFiles, [name]: file },
+          });
+        };
+      }
+    } else setUserProfile({ ...userProfile, [name]: value });
+  };
+
+  const handleFormSubmit = () => {
+    const {
+      updateUser,
+      userData: { _id },
+    } = props;
+
+    const { imageFiles, ...restData } = userProfile;
+    const fileData = [];
+    for (const fileName in imageFiles) {
+      fileData.push(imageFiles[fileName]);
+      if (restData[fileName]) restData[fileName] = imageFiles[fileName];
+    }
+    updateUser({ ...restData, id: _id });
+  };
+
   const {
-    coverPicture = 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg',
-    profilepic = 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg',
+    coverPicture,
+    profilepic,
     username,
     gender = 'male',
     email,
     city,
     country,
   } = userProfile;
-  const handleFormChange = (event) => {
-    const { name, files, value, type } = event.target;
-    if (type === 'file') {
-      const file = files[0];
-      const fileReader = new FileReader();
-      if (file) {
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          setUserProfile({ ...userProfile, [name]: fileReader.result });
-        };
-      }
-    } else setUserProfile({ ...userProfile, [name]: value });
-  };
   console.log(userProfile);
-
   return isAllUserDataFetched ? (
     <>
       <label
@@ -139,7 +167,9 @@ export default function Settings(props) {
             />
           </div>
         </div>
-        <Button className={styles.button}>Update</Button>
+        <Button className={styles.button} onClick={handleFormSubmit}>
+          Update
+        </Button>
       </div>
     </>
   ) : (

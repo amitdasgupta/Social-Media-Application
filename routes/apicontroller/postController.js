@@ -8,6 +8,7 @@ const {
   isPostVisible,
 } = require('../../helpers/Post');
 const { uploadImageAndGivePath } = require('../../helpers/fileHelpers');
+const { upload } = require('../../helpers/multer');
 
 const router = express.Router();
 // create a post
@@ -19,7 +20,7 @@ const router = express.Router();
 // get all post
 // get timeline post
 
-router.post('/', async (req, res, next) => {
+router.post('/', upload.single('image'), async (req, res, next) => {
   try {
     const { file } = req;
     let uploadedImageUrl = null;

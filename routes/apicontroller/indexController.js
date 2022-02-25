@@ -1,9 +1,10 @@
 const express = require('express');
 const authMiddleWare = require('../../middlewares/auth');
+const { upload } = require('../../helpers/multer');
 
 const router = express.Router();
 
-router.use('/auth', require('./authController'));
+router.use('/auth', upload.none(), require('./authController'));
 
 router.use(authMiddleWare);
 

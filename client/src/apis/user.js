@@ -39,3 +39,9 @@ export async function getUserData(userId) {
   const result = await getRequest(`user/validusers/${userId}`);
   return result;
 }
+
+export async function updateUser(userData) {
+  const { id, ...restData } = userData;
+  const result = await putRequest(`user/${id}`, restData);
+  return result;
+}

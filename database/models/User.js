@@ -24,11 +24,11 @@ const UserSchema = new mongoose.Schema(
     },
     profilepic: {
       type: String,
-      default: '',
+      default: null,
     },
     coverPicture: {
       type: String,
-      default: '',
+      default: null,
     },
     followers: {
       type: [ObjectId],
