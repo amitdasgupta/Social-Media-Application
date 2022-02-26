@@ -6,8 +6,10 @@ import { Avatar, Menu, MenuItem } from '@material-ui/core';
 import Notification from '../Alerts/index';
 import { Box } from '@material-ui/system';
 import { useHistory } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
 
-export default function TopBar() {
+export default function TopBar(props) {
+  const { isLoggedInUserDataFetched, userData: { profilepic } = {} } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
   const menuItems = [
@@ -62,12 +64,16 @@ export default function TopBar() {
                 ))}
               </Menu>
             </Box>
-            <Avatar
-              onClick={handleClick}
-              alt="Cindy Baker"
-              className={styles.profilePic}
-              src="https://avatars.githubusercontent.com/u/25057271?s=400&u=f475d749d61767325c66668e7adf165d5460c135&v=4"
-            />
+            {isLoggedInUserDataFetched ? (
+              <Avatar
+                onClick={handleClick}
+                alt="Cindy Baker"
+                className={styles.profilePic}
+                src={profilepic}
+              />
+            ) : (
+              <Skeleton className={styles.profilePic} />
+            )}
           </div>
         </div>
       </div>

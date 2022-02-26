@@ -3,6 +3,7 @@ const initialState = {
     loggedInUser: {
       isFetched: false,
       id: null,
+      isUpdating: false,
     },
     followedUser: {
       isFetched: false,

@@ -4,7 +4,12 @@ import styles from '../../stylesheets/pages/Settings.module.scss';
 import Skeleton from 'react-loading-skeleton';
 
 export default function Settings(props) {
-  const { isAllUserDataFetched, getLoggedInUserData, userData } = props;
+  const {
+    isAllUserDataFetched,
+    getLoggedInUserData,
+    userData,
+    isUserUpdating,
+  } = props;
   const [userProfile, setUserProfile] = useState({});
   useEffect(() => {
     if (!isAllUserDataFetched) {
@@ -67,7 +72,7 @@ export default function Settings(props) {
     country,
   } = userProfile;
   console.log(userProfile);
-  return isAllUserDataFetched ? (
+  return isAllUserDataFetched && !isUserUpdating ? (
     <>
       <label
         className={styles.coverPicture}

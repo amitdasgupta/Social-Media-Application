@@ -78,9 +78,9 @@ export function* updateUserRequest({ payload }) {
     const result = yield call(updateUser, payload);
     const { data: { response = {} } = {} } = result;
     yield put({
-      type: types.UNFOLLOW_USER_SUCCESS,
+      type: types.UPDATE_USER_SUCCESS,
       payload: {
-        userId: response,
+        userData: response,
       },
     });
     yield put(setSuccessMsg(`Your profile updated`));

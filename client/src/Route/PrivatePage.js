@@ -1,5 +1,5 @@
 import { Redirect } from 'react-router-dom';
-import TopBar from '../components/Topbar/TopBar';
+import TopBar from '../components/Topbar';
 import styles from '../stylesheets/pages/Home.module.scss';
 import { Suspense } from 'react';
 import { Route } from 'react-router-dom';

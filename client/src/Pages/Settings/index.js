@@ -11,10 +11,12 @@ const mapStateToProps = (state) => {
   } = state;
 
   const isAllUserDataFetched = loggedInUser?.isFetched;
+  const isUserUpdating = loggedInUser?.isUpdating;
   const userData = isAllUserDataFetched ? appUsers[loggedInUser.id] : {};
   return {
     userData,
     isAllUserDataFetched,
+    isUserUpdating,
   };
 };
 

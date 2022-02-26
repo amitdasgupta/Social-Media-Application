@@ -133,8 +133,28 @@ export default function userReducer(
         },
       };
     }
+    case types.UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        loggedInUser: {
+          ...state.loggedInUser,
+          isUpdating: true,
+        },
+      };
+    }
     case types.UPDATE_USER_SUCCESS: {
-      return state;
+      const { userData } = payload;
+      const {
+        loggedInUser: { id },
+      } = state;
+      return {
+        ...state,
+        appUsers: { ...state.appUsers, [id]: userData },
+        loggedInUser: {
+          ...state.loggedInUser,
+          isUpdating: false,
+        },
+      };
     }
     default:
       return state;
