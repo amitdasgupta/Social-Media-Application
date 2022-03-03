@@ -82,6 +82,11 @@ export default function Settings(props) {
         }}
         htmlFor="coverPicture"
       >
+        {!coverPicture && (
+          <p className={styles.notCoverPicturemsg}>
+            Add your cover picture here
+          </p>
+        )}
         <input
           accept="image/*"
           id="coverPicture"

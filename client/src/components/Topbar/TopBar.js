@@ -13,7 +13,6 @@ export default function TopBar(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
   const menuItems = [
-    { name: 'Profile', func: () => <Redirect to="/app/myprofile" /> },
     {
       name: 'Settings',
       func: () => history.push('/app/settings'),

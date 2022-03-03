@@ -36,6 +36,9 @@ const feedOperationsObject = {
 };
 const inputFieldCache = {};
 export default function CreateFeed(props) {
+  const {
+    userData: { profilepic },
+  } = props;
   const [postFormData, setPostFormData] = useState({
     desc: '',
     image: null,
@@ -200,11 +203,7 @@ export default function CreateFeed(props) {
   ) : (
     <div className={styles.createFeed}>
       <div className={styles.top}>
-        <Avatar
-          alt="Jon Doe"
-          src="https://avatars.githubusercontent.com/u/25057271?s=400&u=f475d749d61767325c66668e7adf165d5460c135&v=4"
-          className={styles.icon}
-        />
+        <Avatar alt="Jon Doe" src={profilepic} className={styles.icon} />
         <div className={styles.placeholder}>What's in your mind?</div>
         {error && <div className={styles.error}>{error}</div>}
         {error && <div className={styles.error}>{error}</div>}

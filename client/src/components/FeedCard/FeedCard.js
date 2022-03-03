@@ -5,7 +5,7 @@ import { forwardRef } from 'react';
 import moment from 'moment';
 
 function FeedCard(props, ref) {
-  const { postData = null, isPostLiked } = props;
+  const { postData = null, isPostLiked, userData } = props;
   const {
     desc = '',
     image,
@@ -15,6 +15,7 @@ function FeedCard(props, ref) {
     id,
     location = '',
   } = postData || {};
+  const { profilepic } = userData;
   const { likePost, unLikePost } = props;
   const handleReaction = () => {
     if (isPostLiked) unLikePost(id);
@@ -34,11 +35,7 @@ function FeedCard(props, ref) {
       <div className={styles.feedCard} ref={ref}>
         <div className={styles.top}>
           <div className={styles.start}>
-            <Avatar
-              alt="Jon Doe"
-              src="https://avatars.githubusercontent.com/u/25057271?s=400&u=f475d749d61767325c66668e7adf165d5460c135&v=4"
-              className={styles.icon}
-            />
+            <Avatar alt="Jon Doe" src={profilepic} className={styles.icon} />
             <div className={styles.postUser}>{userName}</div>
             <div className={styles.postDate}>
               {moment(`${createdAt}`).calendar()}

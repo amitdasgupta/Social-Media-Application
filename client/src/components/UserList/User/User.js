@@ -29,11 +29,11 @@ const User = (props) => {
     const { unFollowUser } = props;
     unFollowUser(data);
   };
-  const { username, profilePic } = userData || {};
+  const { username, profilepic, coverPicture } = userData || {};
   const jsx = isAllUserDataFetched ? (
     <div className={styles.followDiv}>
       <div className={styles.sideBarMainTopIcon}>
-        <Avatar alt={username} src={profilePic} className={styles.icon} />
+        <Avatar alt={username} src={profilepic} className={styles.icon} />
         <div className={styles.sideBarMainTopIconName}>{username}</div>
       </div>
       {isFriend ? (

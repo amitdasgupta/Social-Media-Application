@@ -3,10 +3,18 @@ import { createPost } from '../../redux/actions/postActions';
 import CreateFeed from './CreateFeed';
 
 const mapStateToProps = (state) => {
-  const { posts: { createPost: { postBeingCreated, error } } = {} } = state;
+  const {
+    posts: { createPost: { postBeingCreated, error } } = {},
+    user: {
+      loggedInUser: { id },
+      appUsers,
+    },
+  } = state;
+  const userData = appUsers[id] || {};
   return {
     postBeingCreated,
     error,
+    userData,
   };
 };
 
