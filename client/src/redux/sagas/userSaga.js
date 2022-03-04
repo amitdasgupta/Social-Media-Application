@@ -1,4 +1,4 @@
-import { put, call, takeLatest, all, takeEvery } from 'redux-saga/effects';
+import { put, call, takeLatest, all, select } from 'redux-saga/effects';
 import {
   getAuthUserData,
   getAllUserData,
@@ -8,6 +8,7 @@ import {
 } from '../../apis/user';
 import { setError } from '../actions/errorActions';
 import { setSuccessMsg } from '../actions/successActions';
+import { getUserMetaData } from '../selectors/users';
 import * as types from '../constants/user';
 import * as socketsConstants from '../constants/socket';
 
@@ -26,9 +27,19 @@ export function* getLoggedInUserData() {
 
 export function* getAllValidUsersData() {
   try {
-    const userData = yield call(getAllUserData);
-    const { data: { response = {} } = {} } = userData;
-    yield put({ type: types.ALL_USERSDATA_SUCCESS, payload: response });
+    const metaData = yield select(getUserMetaData);
+    const userData = yield call(getAllUserData, metaData);
+    const { data: { response: { data = [], total } = {} } = {} } = userData;
+    yield put({
+      type: types.ALL_USERSDATA_SUCCESS,
+      payload: {
+        result: data,
+        metaData: {
+          ...metaData,
+          total: total,
+        },
+      },
+    });
   } catch (error) {
     console.log('error', error);
     yield put({ type: types.LOGGEDIN_USERDATA_FAIL, error });

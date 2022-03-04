@@ -14,6 +14,11 @@ const initialState = {
       data: [],
     },
     appUsers: {},
+    metaData: {
+      pageNo: 0,
+      size: 5,
+      total: 10,
+    },
   },
   posts: {
     createPost: {

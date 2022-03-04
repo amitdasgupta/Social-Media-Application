@@ -8,14 +8,14 @@ const mapStateToProps = (state, ownProps) => {
     user: { loggedInUser, followedUser, appUsers },
   } = state;
 
-  const isFetched =
-    loggedInUser?.isFetched && followedUser?.isFetched && appUsers[userId];
   const userData = appUsers[userId];
   const { data: followedUserList = [] } = followedUser;
   const followedUserMap = followedUserList.reduce((allData, data) => {
     allData[data] = true;
     return allData;
   }, {});
+
+  const isFetched = appUsers[userId];
   const isFriend = followedUserMap[userId];
   return {
     isAllUserDataFetched: isFetched,

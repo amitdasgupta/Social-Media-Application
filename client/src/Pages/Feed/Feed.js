@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import styles from '../../stylesheets/pages/Feed.module.scss';
 import CreateFeed from '../../components/CreateFeedCard';
@@ -13,9 +14,12 @@ function Feed(props) {
     allPosts = [],
     nextLoading,
     isAllFeedFetched,
+    pageNo,
   } = props;
   useEffect(() => {
-    getTimeLinePosts();
+    if (pageNo === 0 && isUserFetched && !isAllFeedFetched) {
+      getTimeLinePosts();
+    }
   }, [isUserFetched, getTimeLinePosts]);
   const [lastPostElementRef, isNextFetched, setNextFetched] =
     useInfiniteScrolling(isLoading);

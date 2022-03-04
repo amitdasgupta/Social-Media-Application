@@ -1,19 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import styles from '../../stylesheets/components/UserList.module.scss';
 import User from './User';
+import Skeleton from 'react-loading-skeleton';
+import useInfiniteScrolling from '../../hooks/useInfiniteScrolling';
 
 function Sidebar(props) {
   const {
     isLoggedInUserDataFetched = false,
     getAllUsersData,
-    isAllUserDataFetched,
+    isLoading,
+    isNextLoading,
+    pageNo,
+    isAllUserFetched,
   } = props;
 
   useEffect(() => {
-    if (isLoggedInUserDataFetched && !isAllUserDataFetched) {
+    if (isLoggedInUserDataFetched && pageNo === 0 && !isAllUserFetched) {
       getAllUsersData();
     }
-  }, [isLoggedInUserDataFetched, getAllUsersData, isAllUserDataFetched]);
+  }, [isLoggedInUserDataFetched, getAllUsersData, isLoading]);
+
+  const [lastPostElementRef, isNextFetched, setNextFetched] =
+    useInfiniteScrolling(isLoading);
+
+  useEffect(() => {
+    if (isNextFetched) {
+      getAllUsersData();
+      setNextFetched(false);
+    }
+  }, [isNextFetched, getAllUsersData, setNextFetched]);
 
   const giveFriendList = () => {
     const { appUsers } = props;
@@ -25,7 +41,26 @@ function Sidebar(props) {
 
   return (
     <div className={styles.sideBarMain}>
-      <div className={styles.sideBarMainBottom}>{giveFriendList()}</div>
+      {isLoading ? (
+        <div styles={styles.skeleton}>
+          <Skeleton height={400} count={5} />
+        </div>
+      ) : (
+        <>
+          {' '}
+          <div className={styles.sideBarMainBottom}>{giveFriendList()}</div>
+          {!isAllUserFetched && (
+            <div key="last-ref-item" ref={lastPostElementRef}></div>
+          )}
+          <div className={styles.sideBarMainBottom}>
+            {isNextLoading && (
+              <div styles={styles.skeleton}>
+                <Skeleton height={400} count={5} />
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const customResponse = require('../../helpers/customResponse');
 const User = require('../../database/models/User');
-// const { generateNewPassword } = require('../../helpers/authentication');
 const { isUserAllowedOperation } = require('../../helpers/users');
 const { doesObjectIdExistInList } = require('../../helpers/queryHelpers');
 const { upload } = require('../../helpers/multer');
@@ -137,14 +137,47 @@ router.put('/:id/unfollow', async (req, res, next) => {
 router.get('/validusers/all', async (req, res, next) => {
   try {
     const userId = req.user.id;
+    const { pageNo = 1, size = 10, search = '' } = req.query;
+    if (Number.isNaN(Number(pageNo)) || Number.isNaN(Number(size))) {
+      throw new Error('Query param is not number');
+    }
 
-    const allUsers = await User.find({
-      id: {
-        $ne: userId,
+    const query = {
+      skip: size * (parseInt(pageNo, 10) - 1),
+      limit: parseInt(size, 10),
+    };
+
+    const allUsers = await User.aggregate([
+      {
+        $match: {
+          _id: {
+            $ne: mongoose.Types.ObjectId(userId),
+          },
+          username: {
+            $regex: search,
+          },
+        },
       },
-    });
+      { $sort: { createdAt: -1 } },
+      {
+        $facet: {
+          metadata: [
+            { $count: 'total' },
+            { $addFields: { page: parseInt(pageNo, 10) } },
+          ],
+          data: [{ $skip: query.skip }, { $limit: query.limit }], // add projection here wish you re-shape the docs
+        },
+      },
+      {
+        $project: {
+          total: { $arrayElemAt: ['$metadata.total', 0] },
+          pageNo: { $arrayElemAt: ['$metadata.page', 0] },
+          data: 1,
+        },
+      },
+    ]);
 
-    return customResponse(res, 200, allUsers);
+    return customResponse(res, 200, allUsers[0]);
   } catch (error) {
     next(error);
   }

@@ -31,7 +31,10 @@ const User = (props) => {
   };
   const { username, profilepic, coverPicture } = userData || {};
   const jsx = isAllUserDataFetched ? (
-    <div className={styles.followDiv}>
+    <div
+      className={styles.followDiv}
+      style={{ height: '200px', backgroundColor: 'aliceblue' }}
+    >
       <div className={styles.sideBarMainTopIcon}>
         <Avatar alt={username} src={profilepic} className={styles.icon} />
         <div className={styles.sideBarMainTopIconName}>{username}</div>

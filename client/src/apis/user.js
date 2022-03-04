@@ -1,10 +1,4 @@
-import {
-  deleteRequest,
-  getRequest,
-  postRequest,
-  patchRequest,
-  putRequest,
-} from '../helpers/axios';
+import { getRequest, postRequest, putRequest } from '../helpers/axios';
 
 export async function loginUser(loginData) {
   const { email, password } = loginData;
@@ -20,8 +14,10 @@ export async function getAuthUserData(loginData) {
   return result;
 }
 
-export async function getAllUserData() {
-  const result = await getRequest('user/validusers/all');
+export async function getAllUserData(metaData) {
+  const result = await getRequest(
+    `user/validusers/all?pageNo=${metaData.pageNo}&size=${metaData.size}`
+  );
   return result;
 }
 

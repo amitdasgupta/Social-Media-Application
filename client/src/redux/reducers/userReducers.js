@@ -45,11 +45,16 @@ export default function userReducer(
           ...userSuggestion,
           isFetched: false,
         },
+        metaData: {
+          ...state.metaData,
+          pageNo: state.metaData.pageNo + 1,
+        },
       };
 
-    case types.ALL_USERSDATA_SUCCESS:
+    case types.ALL_USERSDATA_SUCCESS: {
       const updatedUsers = appUsers;
-      for (let user of payload) {
+      const { result: allUserData, metaData } = payload;
+      for (let user of allUserData) {
         updatedUsers[user._id] = user;
       }
 
@@ -69,7 +74,12 @@ export default function userReducer(
           isFetched: true,
           data: userSuggestionList,
         },
+        metaData: {
+          ...state.metaData,
+          ...metaData,
+        },
       };
+    }
     case types.FOLLOW_USER_SUCCESS: {
       const { userId: userFollowedId } = payload;
       const { data: followingUpdated = [] } = followedUser;
