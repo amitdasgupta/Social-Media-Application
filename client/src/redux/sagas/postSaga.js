@@ -11,9 +11,6 @@ import { getLoggedInUser } from '../selectors/users';
 import { getPostMetaData } from '../selectors/posts';
 import * as types from '../constants/post';
 
-// Responsible for searching media library, making calls to the API
-// and instructing the redux-saga middle ware on the next line of action,
-// for success or failure operation.
 export function* createPostOfUser({ payload }) {
   try {
     const userData = yield call(createPost, payload);

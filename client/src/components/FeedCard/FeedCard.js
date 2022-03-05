@@ -2,10 +2,11 @@ import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar, Tooltip } from '@material-ui/core';
 import { ThumbUp, ThumbDown, MoreVert } from '@material-ui/icons';
 import { forwardRef } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
 
 function FeedCard(props, ref) {
-  const { postData = null, isPostLiked, userData } = props;
+  const { postData = null, isPostLiked } = props;
   const {
     desc = '',
     image,
@@ -14,8 +15,9 @@ function FeedCard(props, ref) {
     likes = [],
     id,
     location = '',
+    profilepic,
   } = postData || {};
-  const { profilepic } = userData;
+
   const { likePost, unLikePost } = props;
   const handleReaction = () => {
     if (isPostLiked) unLikePost(id);
@@ -35,7 +37,9 @@ function FeedCard(props, ref) {
       <div className={styles.feedCard} ref={ref}>
         <div className={styles.top}>
           <div className={styles.start}>
-            <Avatar alt="Jon Doe" src={profilepic} className={styles.icon} />
+            {(profilepic && (
+              <Avatar alt="Jon Doe" src={profilepic} className={styles.icon} />
+            )) || <Skeleton className={styles.icon} />}
             <div className={styles.postUser}>{userName}</div>
             <div className={styles.postDate}>
               {moment(`${createdAt}`).calendar()}

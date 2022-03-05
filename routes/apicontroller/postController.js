@@ -170,8 +170,13 @@ router.get('/timelinePosts/all', async (req, res, next) => {
       {
         $lookup: {
           from: 'users',
-          localField: 'userId',
-          foreignField: '_id',
+          let: {
+            postUserId: '$userId',
+          },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$postUserId'] } } },
+            { $project: { profilepic: 1, username: 1 } },
+          ],
           as: 'userId',
         },
       },
@@ -180,7 +185,7 @@ router.get('/timelinePosts/all', async (req, res, next) => {
         $set: {
           userName: '$userId.username',
           userId: '$userId._id',
-          id: '$_id',
+          profilepic: '$userId.profilepic',
         },
       },
       { $sort: { createdAt: -1 } },

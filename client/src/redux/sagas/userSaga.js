@@ -1,10 +1,18 @@
-import { put, call, takeLatest, all, select } from 'redux-saga/effects';
+import {
+  put,
+  call,
+  takeLatest,
+  all,
+  select,
+  takeEvery,
+} from 'redux-saga/effects';
 import {
   getAuthUserData,
   getAllUserData,
   followUser,
   unFollowUser,
   updateUser,
+  getSingleUserData,
 } from '../../apis/user';
 import { setError } from '../actions/errorActions';
 import { setSuccessMsg } from '../actions/successActions';
@@ -100,12 +108,28 @@ export function* updateUserRequest({ payload }) {
   }
 }
 
+export function* getSingleUsersData({ payload }) {
+  try {
+    const { userId } = payload;
+    const result = yield call(getSingleUserData, userId);
+    const { data: { response = {} } = {} } = result;
+    yield put({
+      type: types.SINGLE_USER_DATA_SUCCESS,
+      payload: {
+        userData: response,
+      },
+    });
+  } catch (error) {
+    yield put(setError(error.response.data));
+  }
+}
+
 export default function* userRoot() {
   yield all([
     takeLatest(types.LOGGEDIN_USERDATA_REQUEST, getLoggedInUserData),
     takeLatest(types.ALL_USERSDATA_REQUEST, getAllValidUsersData),
     takeLatest(types.FOLLOW_USER_REQUEST, followUserRequest),
     takeLatest(types.UNFOLLOW_USER_REQUEST, unFollowUserRequest),
-    takeLatest(types.UPDATE_USER_REQUEST, updateUserRequest),
+    takeLatest(types.SINGLE_USER_DATA_REQUEST, getSingleUsersData),
   ]);
 }

@@ -22,3 +22,8 @@ export const updateUser = (userData) => ({
   type: types.UPDATE_USER_REQUEST,
   payload: userData,
 });
+
+export const getSingleUser = (userId) => ({
+  type: types.SINGLE_USER_DATA_REQUEST,
+  payload: { userId },
+});

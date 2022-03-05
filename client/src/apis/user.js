@@ -41,3 +41,8 @@ export async function updateUser(userData) {
   const result = await putRequest(`user/${id}`, restData);
   return result;
 }
+
+export async function getSingleUserData(userId) {
+  const result = await getRequest(`user/validusers/${userId}`);
+  return result;
+}

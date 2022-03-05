@@ -166,6 +166,31 @@ export default function userReducer(
         },
       };
     }
+
+    case types.SINGLE_USER_DATA_REQUEST: {
+      const { appUsers } = state;
+      const { userId } = payload;
+      return {
+        ...state,
+        appUsers: {
+          ...appUsers,
+          [userId]: 'fetching',
+        },
+      };
+    }
+
+    case types.SINGLE_USER_DATA_SUCCESS: {
+      const { userData } = payload;
+      const { _id } = userData;
+      const { appUsers } = state;
+      return {
+        ...state,
+        appUsers: {
+          ...appUsers,
+          [_id]: userData,
+        },
+      };
+    }
     default:
       return state;
   }
