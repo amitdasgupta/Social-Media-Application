@@ -23,6 +23,12 @@ const ROUTES = {
   ],
   PRIVATE: [
     {
+      path: '/app/settings',
+      key: 'Settings Page',
+      component: () => <Settings />,
+      exact: true,
+    },
+    {
       path: '/app',
       key: 'APP',
       component: Home,
@@ -33,18 +39,14 @@ const ROUTES = {
       component: () => <h1>Profile Page</h1>,
       exact: true,
     },
+
     {
       path: '/app/chat',
       key: 'Chat Page',
       component: () => <h1>Chat Page</h1>,
       exact: true,
     },
-    {
-      path: '/app/settings',
-      key: 'Settings Page',
-      component: () => <Settings />,
-      exact: true,
-    },
+
     {
       path: '/',
       key: 'pageNotFound',
