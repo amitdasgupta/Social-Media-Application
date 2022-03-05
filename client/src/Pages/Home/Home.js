@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link, Switch, Route, useRouteMatch } from 'react-router-dom';
 import Feed from '../Feed';
 import Rightbar from '../../components/Rightbar';
 import Skeleton from 'react-loading-skeleton';
@@ -27,8 +28,49 @@ function TabPanel(props) {
   );
 }
 
+function giveSelectedTab() {
+  const value = window.location.pathname;
+  switch (value) {
+    case '/app':
+      return 0;
+    case '/app/notifications':
+      return 1;
+    case '/app/people':
+      return 2;
+    case '/app/messages':
+      return 3;
+    default:
+      return 0;
+  }
+}
+
+function returnTabComponent(value, index) {
+  let component = null;
+  switch (index) {
+    case 0:
+      component = <Feed />;
+      break;
+    case 1:
+      component = <Rightbar />;
+      break;
+    case 2:
+      component = <UserList />;
+      break;
+    case 3:
+      component = <div>Implement Chatting here</div>;
+      break;
+    default:
+      component = <Feed />;
+  }
+  return () => (
+    <TabPanel value={value} index={index}>
+      {component}
+    </TabPanel>
+  );
+}
+
 export default function Home(props) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(giveSelectedTab());
   const [deviceWidth] = useWindowSize();
   const {
     loggedInUser: { isFetched },
@@ -40,6 +82,7 @@ export default function Home(props) {
   useEffect(() => {
     if (!isFetched) getLoggedInUserData();
   }, [getLoggedInUserData, isFetched]);
+  let { path, url } = useRouteMatch();
   return isFetched ? (
     <SocketProvider>
       <SearchComponent />
@@ -70,6 +113,8 @@ export default function Home(props) {
                 </div>
               }
               label="Feed"
+              component={Link}
+              to={`${url}`}
             />
             <Tab
               icon={
@@ -79,6 +124,8 @@ export default function Home(props) {
                 </div>
               }
               label="Notifications"
+              component={Link}
+              to={`${url}/notifications`}
             />
             <Tab
               icon={
@@ -87,6 +134,8 @@ export default function Home(props) {
                 </div>
               }
               label="People"
+              component={Link}
+              to={`${url}/people`}
             />
             <Tab
               icon={
@@ -96,22 +145,30 @@ export default function Home(props) {
                 </div>
               }
               label="Messages"
+              component={Link}
+              to={`${url}/messages`}
             />
           </Tabs>
         </div>
 
-        <TabPanel value={value} index={0}>
-          <Feed />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Rightbar />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <UserList />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <div>Implement Chatting here</div>
-        </TabPanel>
+        <Switch>
+          <Route exact path={`${path}`} render={returnTabComponent(value, 0)} />
+          <Route
+            exact
+            path={`${path}/notifications`}
+            render={returnTabComponent(value, 1)}
+          />
+          <Route
+            exact
+            path={`${path}/people`}
+            render={returnTabComponent(value, 2)}
+          />
+          <Route
+            exact
+            path={`${path}/messages`}
+            render={returnTabComponent(value, 3)}
+          />
+        </Switch>
       </div>
     </SocketProvider>
   ) : (

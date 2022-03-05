@@ -26,7 +26,6 @@ const ROUTES = {
       path: '/app',
       key: 'APP',
       component: Home,
-      exact: true,
     },
     {
       path: '/app/profile',
