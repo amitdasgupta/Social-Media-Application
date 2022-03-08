@@ -48,7 +48,7 @@ function Sidebar(props) {
       ) : (
         <>
           {' '}
-          <div className={styles.sideBarMainBottom}>{giveFriendList()}</div>
+          {giveFriendList()}
           {!isAllUserFetched && (
             <div key="last-ref-item" ref={lastPostElementRef}></div>
           )}

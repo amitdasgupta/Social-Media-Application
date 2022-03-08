@@ -65,6 +65,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: ['male', 'female'],
     },
+    country: {
+      type: String,
+      max: 50,
+    },
   },
   {
     timestamps: true,

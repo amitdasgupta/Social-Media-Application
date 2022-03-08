@@ -1,25 +1,10 @@
 import styles from '../../../stylesheets/components/UserList.module.scss';
-import { Group, GroupAdd } from '@material-ui/icons';
-import { Avatar } from '@material-ui/core';
 import Skeleton from 'react-loading-skeleton';
-import cx from 'classnames';
-// {
-//     userData: {
-//       isAllUserDataFetched,
-//       userData,
-//       isFriend,
-//       userId,
-//       followUser,
-//       unFollowUser,
-//     },
-//   }
 const User = (props) => {
   const { isAllUserDataFetched, userData, isFriend, userId, loggedInUserId } =
     props;
   if (!userId || loggedInUserId === userId) return null;
-  const classNameForGroupLogo = cx(styles.icon, {
-    [styles.friend]: isFriend,
-  });
+
   const followUser = (userId) => () => {
     const { followUser } = props;
     followUser(userId);
@@ -29,27 +14,61 @@ const User = (props) => {
     const { unFollowUser } = props;
     unFollowUser(data);
   };
-  const { username, profilepic, coverPicture } = userData || {};
+  const {
+    username,
+    profilepic,
+    coverPicture,
+    gender,
+    city = 'Delhi',
+    country = 'India',
+    followers = [],
+    following = [],
+    posts = [],
+  } = userData || {};
   const jsx = isAllUserDataFetched ? (
     <div
-      className={styles.followDiv}
-      style={{ height: '200px', backgroundColor: 'aliceblue' }}
+      className={styles.profileMain}
+      style={{
+        backgroundImage: `url(${coverPicture})`,
+      }}
     >
-      <div className={styles.sideBarMainTopIcon}>
-        <Avatar alt={username} src={profilepic} className={styles.icon} />
-        <div className={styles.sideBarMainTopIconName}>{username}</div>
+      <div className={styles.profileMainContent}>
+        {profilepic && (
+          <div className={styles.profilePic}>
+            <img src={profilepic} alt={username} />
+          </div>
+        )}
+        <div className={styles.profileMainContentData}>
+          <div className={styles.userDetail}>
+            <div>{username}</div>
+            <div>{`${gender}, ${city}, ${country}`}</div>
+          </div>
+          <div className={styles.userMetaData}>
+            <div className={styles.userMetaDataItem}>
+              <div>{`${posts.length}`}</div>
+              <div>POSTS</div>
+            </div>
+            <div className={styles.userMetaDataItem}>
+              <div>{`${followers.length}`}</div>
+              <div>FOLLOWERS</div>
+            </div>
+            <div className={styles.userMetaDataItem}>
+              <div>{`${following.length}`}</div>
+              <div>FOLLOWING</div>
+            </div>
+          </div>
+          <div
+            onClick={
+              isFriend
+                ? unFollowUser({ userId, username })
+                : followUser({ userId, username })
+            }
+            className={styles.userFollow}
+          >
+            {isFriend ? 'UNFOLLOW' : 'FOLLOW'}
+          </div>
+        </div>
       </div>
-      {isFriend ? (
-        <Group
-          className={classNameForGroupLogo}
-          onClick={unFollowUser({ userId, username })}
-        />
-      ) : (
-        <GroupAdd
-          className={classNameForGroupLogo}
-          onClick={followUser({ userId, username })}
-        />
-      )}
     </div>
   ) : (
     <Skeleton className={styles.sideBarMainTopIcon} height={40} />

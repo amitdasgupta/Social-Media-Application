@@ -84,7 +84,7 @@ export default function userReducer(
       const { userId: userFollowedId } = payload;
       const { data: followingUpdated = [] } = followedUser;
       const userFollowed = { ...appUsers[userFollowedId] };
-      const { followersUpdated = [] } = userFollowed;
+      const { followers: followersUpdated = [] } = userFollowed;
       if (followingUpdated.indexOf(userFollowedId) === -1) {
         followingUpdated.push(userFollowedId);
         followersUpdated.push(loggedInUser.id);
@@ -114,7 +114,7 @@ export default function userReducer(
       const { userId: userUnfollowedId } = payload;
       const { data: followingUpdated = [] } = followedUser;
       const userFollowed = { ...appUsers[userUnfollowedId] };
-      const { followersUpdated = [] } = userFollowed;
+      const { followers: followersUpdated = [] } = userFollowed;
       const indexOfUserFollow = followingUpdated.indexOf(userUnfollowedId);
       if (indexOfUserFollow !== -1) {
         followingUpdated.splice(indexOfUserFollow, 1);
