@@ -48,13 +48,21 @@ function returnTabComponent(value, index) {
   let component = null;
   switch (index) {
     case 0:
-      component = <Feed />;
+      component = (
+        <>
+          <SearchComponent /> <Feed />
+        </>
+      );
       break;
     case 1:
       component = <Rightbar />;
       break;
     case 2:
-      component = <UserList />;
+      component = (
+        <>
+          <SearchComponent /> <UserList />
+        </>
+      );
       break;
     case 3:
       component = <div>Implement Chatting here</div>;
@@ -85,7 +93,6 @@ export default function Home(props) {
   let { path, url } = useRouteMatch();
   return isFetched ? (
     <SocketProvider>
-      <SearchComponent />
       <div className={styles.tabParent}>
         <div className={styles.tabContent}>
           <Tabs
