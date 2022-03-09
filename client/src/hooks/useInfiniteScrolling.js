@@ -1,6 +1,6 @@
 import { useCallback, useState, useRef } from 'react';
 
-export default function useInfiniteScrolling(isLoading) {
+export default function useInfiniteScrolling(isLoading, options = null) {
   const [isNextFetched, setNextFetched] = useState(false);
   const observer = useRef();
   const lastElementRef = useCallback(
@@ -11,10 +11,10 @@ export default function useInfiniteScrolling(isLoading) {
         if (entries[0].isIntersecting) {
           setNextFetched(true);
         }
-      });
+      }, options);
       if (node) observer.current.observe(node);
     },
-    [isLoading]
+    [isLoading, options]
   );
   return [lastElementRef, isNextFetched, setNextFetched];
 }

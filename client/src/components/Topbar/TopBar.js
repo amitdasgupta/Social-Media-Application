@@ -31,7 +31,13 @@ export default function TopBar(props) {
       <Notification />
       <div className={styles.topBarContainer}>
         <div className={styles.topBarLeft}>
-          <div className={styles.title} onClick={() => history.push('/app')}>
+          <div
+            className={styles.title}
+            onClick={() => {
+              history.push('/app');
+              window.location.reload();
+            }}
+          >
             Socialize
           </div>
         </div>

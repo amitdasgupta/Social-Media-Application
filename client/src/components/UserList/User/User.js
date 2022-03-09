@@ -71,7 +71,7 @@ const User = (props) => {
       </div>
     </div>
   ) : (
-    <Skeleton className={styles.sideBarMainTopIcon} height={40} />
+    <Skeleton className={styles.profileMain} height={100} />
   );
   return jsx;
 };
