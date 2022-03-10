@@ -1,7 +1,7 @@
 import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar, Tooltip } from '@material-ui/core';
 import { ThumbUp, MoreVert } from '@material-ui/icons';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
 import Comment from '../Comments';
@@ -19,6 +19,8 @@ function FeedCard(props, ref) {
     profilepic,
   } = postData || {};
 
+  const [showComment, setShowComment] = useState(false);
+  const toggleShowComment = () => setShowComment(!showComment);
   const { likePost, unLikePost } = props;
   const handleReaction = () => {
     if (isPostLiked) unLikePost(_id);
@@ -76,9 +78,11 @@ function FeedCard(props, ref) {
                 {giveUserInteractionMsg()}
               </div>
             </div>
-            <div className={styles.end}>5 comments</div>
+            <div className={styles.end} onClick={toggleShowComment}>
+              5 comments
+            </div>
           </div>
-          <Comment postId={_id} />
+          {showComment && <Comment postId={_id} />}
         </div>
       </div>
     )

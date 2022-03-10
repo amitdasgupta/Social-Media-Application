@@ -1,3 +1,4 @@
+@import '../abstracts/variables';
 .mainCommentBox {
   //   border: 1px solid black;
   .commentsList {
@@ -15,11 +16,12 @@
     -webkit-box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     margin-bottom: 25px;
+    padding: 50px 0;
     .commentsItem {
       background-color: white;
       padding: 10px 5px;
       box-sizing: border-box;
-
+      position: relative;
       border-radius: 5px;
       width: 95%;
       margin: 5px auto;
@@ -27,6 +29,7 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 50px;
       .commentsItemDetail {
         display: flex;
         flex-direction: row;
@@ -38,6 +41,31 @@
         }
       }
       .commentsItemEdit {
+      }
+      .likeDislike {
+        position: absolute;
+        display: flex;
+        bottom: 10px;
+        font-size: 12px;
+        align-items: center;
+        justify-content: space-between;
+        width: 30px;
+        .thumbUp {
+          background-color: $theme_color;
+          color: white;
+          padding: 4px;
+          border-radius: 18px;
+          font-size: 10px;
+          cursor: pointer;
+        }
+        .thumbDown {
+          background-color: grey;
+          color: white;
+          padding: 4px;
+          border-radius: 18px;
+          font-size: 12px;
+          cursor: pointer;
+        }
       }
     }
   }

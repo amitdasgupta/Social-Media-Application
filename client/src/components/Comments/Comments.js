@@ -1,8 +1,10 @@
 import styles from '../../stylesheets/components/Comments.module.scss';
-import { MoreVert } from '@material-ui/icons';
+import { MoreVert, ThumbUp } from '@material-ui/icons';
 import { Avatar } from '@material-ui/core';
 
 export default function Comments() {
+  const likes = [1, 2, 3];
+  const isPostLiked = true;
   return (
     <div className={styles.mainCommentBox}>
       <div className={styles.commentsList}>
@@ -22,6 +24,13 @@ export default function Comments() {
           </div>
           <div className={styles.commentsItemEdit}>
             <MoreVert />
+          </div>
+          <div className={styles.likeDislike}>
+            <ThumbUp
+              className={isPostLiked ? styles.thumbUp : styles.thumbDown}
+              // onClick={handleReaction}
+            />
+            <div className={styles.reactions}>{likes.length}</div>
           </div>
         </div>
         <div className={styles.commentsItem}>
