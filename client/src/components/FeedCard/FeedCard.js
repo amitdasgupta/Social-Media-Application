@@ -1,9 +1,10 @@
 import styles from '../../stylesheets/components/FeedCard.module.scss';
 import { Avatar, Tooltip } from '@material-ui/core';
-import { ThumbUp, ThumbDown, MoreVert } from '@material-ui/icons';
+import { ThumbUp, MoreVert } from '@material-ui/icons';
 import { forwardRef } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
+import Comment from '../Comments';
 
 function FeedCard(props, ref) {
   const { postData = null, isPostLiked } = props;
@@ -13,15 +14,15 @@ function FeedCard(props, ref) {
     createdAt = '',
     userName = 'Social Connect',
     likes = [],
-    id,
+    _id,
     location = '',
     profilepic,
   } = postData || {};
 
   const { likePost, unLikePost } = props;
   const handleReaction = () => {
-    if (isPostLiked) unLikePost(id);
-    else likePost(id);
+    if (isPostLiked) unLikePost(_id);
+    else likePost(_id);
   };
   const giveUserInteractionMsg = () => {
     const size = likes.length;
@@ -66,16 +67,10 @@ function FeedCard(props, ref) {
           )}
           <div className={styles.feedDetails}>
             <div className={styles.start}>
-              {isPostLiked ? (
-                <ThumbDown
-                  className={styles.thumbUp}
-                  onClick={handleReaction}
-                />
-              ) : (
-                <ThumbUp className={styles.thumbUp} onClick={handleReaction} />
-              )}
-
-              {/* <Favorite className={styles.heart} /> */}
+              <ThumbUp
+                className={isPostLiked ? styles.thumbUp : styles.thumbDown}
+                onClick={handleReaction}
+              />
               <div className={styles.reactions}>{likes.length}</div>
               <div className={styles.interactionMsg}>
                 {giveUserInteractionMsg()}
@@ -83,6 +78,7 @@ function FeedCard(props, ref) {
             </div>
             <div className={styles.end}>5 comments</div>
           </div>
+          <Comment postId={_id} />
         </div>
       </div>
     )
