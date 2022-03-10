@@ -17,6 +17,7 @@
     box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     margin-bottom: 25px;
     padding: 50px 0;
+    box-sizing: border-box;
     .commentsItem {
       background-color: white;
       padding: 10px 5px;
@@ -30,6 +31,7 @@
       justify-content: space-between;
       align-items: center;
       padding-bottom: 50px;
+      box-sizing: border-box;
       .commentsItemDetail {
         display: flex;
         flex-direction: row;
@@ -73,7 +75,21 @@
     -webkit-box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     border-radius: 5px;
-    width: 95%;
+    width: 100%;
     margin: 5px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    .commentsInputIcon {
+      margin-left: 5px;
+    }
+    .input {
+      width: 90%;
+      margin: 15px auto;
+      border-color: #c1d5e6;
+      border: 'none';
+      background: white;
+    }
   }
 }
