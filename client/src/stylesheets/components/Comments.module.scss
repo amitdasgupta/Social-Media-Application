@@ -3,10 +3,9 @@
   //   border: 1px solid black;
   .commentsList {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     align-items: flex-start;
-    max-height: 200px;
+    max-height: 500px;
     overflow-y: scroll;
     margin-right: 10px;
     padding: 10px 0;
