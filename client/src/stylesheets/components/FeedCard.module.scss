@@ -12,6 +12,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
     .start {
       display: flex;
       flex-direction: row;
@@ -34,6 +35,8 @@
     }
     .end {
       align-self: flex-start;
+      position: absolute;
+      right: -10px;
     }
   }
   .details {

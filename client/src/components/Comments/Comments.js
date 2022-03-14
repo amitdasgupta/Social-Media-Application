@@ -5,6 +5,12 @@ import { Avatar, TextField, InputAdornment } from '@material-ui/core';
 export default function Comments() {
   const likes = [1, 2, 3];
   const isPostLiked = true;
+  const keyPress = (e) => {
+    if (e.keyCode == 13) {
+      console.log('value entered', e.target.value);
+      // put the login here
+    }
+  };
   return (
     <div className={styles.mainCommentBox}>
       <div className={styles.commentsList}>
@@ -218,11 +224,11 @@ export default function Comments() {
         <TextField
           id="standard-multiline-flexible"
           label="Comment here"
-          multiline
           maxRows={4}
           className={styles.input}
           variant="standard"
           name="desc"
+          onKeyDown={keyPress}
           // value={desc}
           // onChange={handleFormChange}
         />
