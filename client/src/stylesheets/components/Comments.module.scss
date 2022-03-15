@@ -85,10 +85,17 @@
     }
     .input {
       width: 90%;
-      margin: 15px auto;
+      margin: 15px 5px;
       border-color: #c1d5e6;
       border: 'none';
       background: white;
+    }
+    .buttonEnd {
+      text-transform: none;
+      color: white;
+      background: green;
+      padding: 5px 25px;
+      margin-right: 5px;
     }
   }
 }

@@ -1,15 +1,12 @@
 import styles from '../../stylesheets/components/Comments.module.scss';
 import { MoreVert, ThumbUp } from '@material-ui/icons';
-import { Avatar, TextField, InputAdornment } from '@material-ui/core';
+import { Avatar, TextField, Button } from '@material-ui/core';
 
 export default function Comments() {
   const likes = [1, 2, 3];
   const isPostLiked = true;
-  const keyPress = (e) => {
-    if (e.keyCode == 13) {
-      console.log('value entered', e.target.value);
-      // put the login here
-    }
+  const commentSubmit = (e) => {
+    console.log('comment done');
   };
   return (
     <div className={styles.mainCommentBox}>
@@ -228,10 +225,15 @@ export default function Comments() {
           className={styles.input}
           variant="standard"
           name="desc"
-          onKeyDown={keyPress}
-          // value={desc}
-          // onChange={handleFormChange}
+          multiline
         />
+        <Button
+          variant="contained"
+          className={styles.buttonEnd}
+          onClick={commentSubmit}
+        >
+          Comment
+        </Button>
       </div>
     </div>
   );
