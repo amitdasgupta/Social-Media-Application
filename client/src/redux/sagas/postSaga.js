@@ -19,6 +19,7 @@ export function* createPostOfUser({ payload }) {
     if (userId) {
       response.userId = userId._id;
       response.userName = userId.username;
+      response.profilepic = userId.profilepic;
     }
     yield put({ type: types.CREATE_POST_SUCCESS, payload: response });
     yield put(setSuccessMsg('Post created successfully'));

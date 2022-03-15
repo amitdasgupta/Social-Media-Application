@@ -39,10 +39,7 @@ router.post('/', upload.single('image'), async (req, res, next) => {
       $push: { posts: post.id },
     });
     post = await post
-      .populate({
-        path: 'userId',
-        select: 'username',
-      })
+      .populate([{ path: 'userId', select: 'username profilepic' }])
       .execPopulate();
     await post.save();
     return customResponse(res, 200, post);
