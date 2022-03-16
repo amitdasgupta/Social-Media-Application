@@ -2,11 +2,11 @@ import CommentsList from './CommentsList';
 import CreateComment from './CreateComment';
 import styles from '../../stylesheets/components/Comments.module.scss';
 
-export default function Comments() {
+export default function Comments(props) {
   return (
     <div className={styles.mainCommentBox}>
-      <CommentsList />
-      <CreateComment />
+      <CreateComment {...props} />
+      <CommentsList {...props} />
     </div>
   );
 }

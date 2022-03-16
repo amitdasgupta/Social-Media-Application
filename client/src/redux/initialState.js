@@ -40,7 +40,6 @@ const initialState = {
       total: 10,
     },
   },
-  comments: {},
   error: {
     errorMsg: '',
     isOpen: false,
@@ -83,6 +82,34 @@ const initialState = {
       data: {},
     },
   },
+  comments: {
+    postCommentDataMapping: {},
+    data: {},
+    createComment: {
+      commentBeingCreated: false,
+    },
+  },
+
+  // comments:{
+  //    postCommentDataMapping:{
+  //   postId:{
+  //     metaData: {
+  //       pageNo: 0,
+  //       size: 5,
+  //       total: 10,
+  //     },
+  //     comments:[]
+  //   }
+  // },
+  //   data:{
+  //     commentId:{
+  //       "commentData"
+  //     }
+  //   },
+  //   reateComment: {
+  //     commentBeingCreated: false,
+  //   },
+  // }
 };
 
 export default initialState;

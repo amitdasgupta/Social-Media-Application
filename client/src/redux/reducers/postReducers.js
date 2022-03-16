@@ -42,7 +42,7 @@ function cleanTimeLinePosts(payload) {
   return [userPosts, timelinePosts, allPosts];
 }
 
-export default function userReducer(
+export default function postReducer(
   state = initialState.posts,
   { type, payload = {} }
 ) {

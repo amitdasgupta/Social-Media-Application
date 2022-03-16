@@ -1,25 +1,20 @@
 import { connect } from 'react-redux';
-import { createPost } from '../../../redux/actions/postActions';
+import { createComment } from '../../../redux/actions/commentActions';
+import { setError } from '../../../redux/actions/errorActions';
 import CreateComment from './CreateComment';
 
-const mapStateToProps = (state) => {
-  const {
-    posts: { createPost: { postBeingCreated, error } } = {},
-    user: {
-      loggedInUser: { id },
-      appUsers,
-    },
-  } = state;
-  const userData = appUsers[id] || {};
+const mapStateToProps = (state, ownProps) => {
+  const { comments: { createComment: { commentBeingCreated } } = {} } = state;
+  const { postId } = ownProps;
   return {
-    postBeingCreated,
-    error,
-    userData,
+    commentBeingCreated,
+    postId,
   };
 };
 
 const mapDispatchToProps = {
-  createPost,
+  createComment,
+  setError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateComment);

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { createPost } from '../../redux/actions/postActions';
+import { setError } from '../../redux/actions/errorActions';
 import CreateFeed from './CreateFeed';
 
 const mapStateToProps = (state) => {
@@ -20,6 +21,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   createPost,
+  setError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateFeed);
