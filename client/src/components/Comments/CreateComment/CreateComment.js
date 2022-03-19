@@ -12,6 +12,7 @@ export default function Comments(props) {
     if (comment === '') {
       return setError('Empty comment is not allowed');
     }
+    setComment('');
     createComment({ desc: comment, postId });
   };
   const inputChange = (e) => {
