@@ -19,7 +19,7 @@ export async function updateComment(postData) {
 
 export async function fetchPostComments(metaData) {
   const result = await getRequest(
-    `post/timelinePosts/all?pageNo=${metaData.pageNo}&size=${metaData.size}`
+    `comment/${metaData.postId}/getAllComments?pageNo=${metaData.pageNo}&size=${metaData.size}`
   );
   return result;
 }

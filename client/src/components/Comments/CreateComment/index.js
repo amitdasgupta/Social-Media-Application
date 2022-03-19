@@ -4,11 +4,19 @@ import { setError } from '../../../redux/actions/errorActions';
 import CreateComment from './CreateComment';
 
 const mapStateToProps = (state, ownProps) => {
-  const { comments: { createComment: { commentBeingCreated } } = {} } = state;
+  const {
+    comments: { createComment: { commentBeingCreated } } = {},
+    user: {
+      loggedInUser: { id: userId },
+      appUsers,
+    },
+  } = state;
   const { postId } = ownProps;
+  const userData = appUsers[userId];
   return {
     commentBeingCreated,
     postId,
+    userData,
   };
 };
 

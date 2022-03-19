@@ -135,7 +135,7 @@ router.get('/:postId/getAllComments', async (req, res, next) => {
       skip: size * (parseInt(pageNo, 10) - 1),
       limit: parseInt(size, 10),
     };
-    const allComments = await Post.aggregate([
+    const allComments = await Comment.aggregate([
       {
         $match: {
           postId: {

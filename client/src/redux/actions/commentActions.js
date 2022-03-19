@@ -5,8 +5,11 @@ export const createComment = (payload) => ({
   payload,
 });
 
-export const getPostComments = () => ({
+export const getPostComments = (postId) => ({
   type: types.FETCH_POST_COMMENTS_REQUEST,
+  payload: {
+    postId,
+  },
 });
 
 export const likeComment = (id) => ({

@@ -4,8 +4,9 @@ import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 export default function Comments(props) {
-  const { createComment, commentBeingCreated, setError } = props;
+  const { createComment, commentBeingCreated, setError, userData } = props;
   const [comment, setComment] = useState('');
+  const { profilepic } = userData;
   const commentSubmit = (e) => {
     const { postId } = props;
     if (comment === '') {
@@ -24,7 +25,7 @@ export default function Comments(props) {
       <Avatar
         className={styles.commentsInputIcon}
         alt="Cindy Baker"
-        src="https://storage.googleapis.com/download/storage/v1/b/social-connect-4d3e3.appspot.com/o/207d1f945c058d33c3ffeefdd82c547c.jpeg?generation=1646121249543202&alt=media"
+        src={profilepic}
       />
       <TextField
         id="standard-multiline-flexible"

@@ -1,14 +1,13 @@
 import { put, call, takeLatest, all, select } from 'redux-saga/effects';
 import {
   createComment,
-  fetchTimeLinePosts,
+  fetchPostComments,
   likePost,
   unlikePost,
 } from '../../apis/comment';
 import { setSuccessMsg } from '../actions/successActions';
 import { setError } from '../actions/errorActions';
-import { getLoggedInUser } from '../selectors/users';
-import { getPostMetaData } from '../selectors/posts';
+import { getCommentMetaData } from '../selectors/comments';
 import * as types from '../constants/comment';
 
 export function* createCommentOfUser({ payload }) {
@@ -31,31 +30,27 @@ export function* createCommentOfUser({ payload }) {
   }
 }
 
-// export function* getAllTimeLinePosts() {
-//   try {
-//     const metaData = yield select(getPostMetaData);
-//     const allPosts = yield call(fetchTimeLinePosts, metaData);
-//     let { data: { response: { data = [], total } = {} } = {} } = allPosts;
-//     const { id: userId } = yield select(getLoggedInUser);
-//     //take the followed user data from here
-//     yield put({
-//       type: types.FETCH_TIMELINE_POST_SUCCESS,
-//       payload: {
-//         userId,
-//         result: data,
-//         metaData: {
-//           ...metaData,
-//           total: total,
-//         },
-//       },
-//     });
-//   } catch (error) {
-//     yield put({
-//       type: types.FETCH_TIMELINE_POST_FAIL,
-//       payload: error.response.data,
-//     });
-//   }
-// }
+export function* getPostAllComments({ payload: { postId } }) {
+  try {
+    const metaData = yield select(getCommentMetaData, postId);
+    const allComments = yield call(fetchPostComments, { ...metaData, postId });
+    let { data: { response: { data = [], total } = {} } = {} } = allComments;
+    //take the followed user data from here
+    yield put({
+      type: types.FETCH_POST_COMMENTS_SUCCESS,
+      payload: {
+        result: data,
+        metaData: {
+          ...metaData,
+          total: total,
+        },
+        postId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // export function* likeAPost({ id }) {
 //   try {
@@ -95,7 +90,7 @@ export function* createCommentOfUser({ payload }) {
 export default function* commentRoot() {
   yield all([
     takeLatest(types.CREATE_COMMENT_REQUEST, createCommentOfUser),
-    // takeLatest(types.FETCH_TIMELINE_POST_REQUEST, getAllTimeLinePosts),
+    takeLatest(types.FETCH_POST_COMMENTS_REQUEST, getPostAllComments),
     // takeLatest(types.LIKE_POST_REQUEST, likeAPost),
     // takeLatest(types.UNLIKE_POST_REQUEST, unLikeAPost),
   ]);

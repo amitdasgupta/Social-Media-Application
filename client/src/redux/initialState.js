@@ -93,21 +93,21 @@ const initialState = {
   // comments:{
   //    postCommentDataMapping:{
   //   postId:{
-  //     metaData: {
-  //       pageNo: 0,
-  //       size: 5,
-  //       total: 10,
-  //     },
-  //     comments:[],
-  //     isFetched: true,
-  //   }
+  //   metaData: {
+  //     pageNo: 0,
+  //     size: 10,
+  //     total: 10,
+  //   },
+  //   comments:[],
+  //   isFetched: true,
+  // }
   // },
   //   data:{
   //     commentId:{
   //       "commentData"
   //     }
   //   },
-  //   reateComment: {
+  //   createComment: {
   //     commentBeingCreated: false,
   //   },
   // }
