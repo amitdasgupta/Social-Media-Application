@@ -35,7 +35,9 @@ export default function Comments(props) {
   return (
     <div className={styles.commentsList}>
       {isLoading ? (
-        <Skeleton styles={styles.commentsItem} height={400} count={5} />
+        <div className={styles.loadingComment}>
+          <Skeleton height={200} count={10} />
+        </div>
       ) : (
         (commentsList.length &&
           commentsList.map((item) => (
@@ -48,8 +50,8 @@ export default function Comments(props) {
         <div key="last-ref-item" ref={lastPostElementRef}></div>
       )}
       {isNextLoading && (
-        <div styles={styles.skeleton}>
-          <Skeleton styles={styles.skeleton} height={400} count={5} />
+        <div className={styles.loadingComment}>
+          <Skeleton height={200} count={10} />
         </div>
       )}
     </div>
