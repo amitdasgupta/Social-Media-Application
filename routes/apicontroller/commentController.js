@@ -20,16 +20,21 @@ router.post('/:postId', upload.single('image'), async (req, res, next) => {
     const userId = req.user.id;
     const { desc } = req.body;
     const { postId } = req.params;
-    let comment = new Comment({
+    const comment = new Comment({
       desc,
       userId,
       postId,
     });
-    comment = await comment
-      .populate([{ path: 'userId', select: 'username profilepic' }])
-      .execPopulate();
+    const [commentDataForResponse] = await Promise.all([
+      comment
+        .populate([{ path: 'userId', select: 'username profilepic' }])
+        .execPopulate(),
+      Post.findByIdAndUpdate(postId, {
+        $push: { comments: comment.id },
+      }),
+    ]);
     await comment.save();
-    return customResponse(res, 200, comment);
+    return customResponse(res, 200, commentDataForResponse);
   } catch (err) {
     return next(err);
   }
@@ -126,8 +131,8 @@ router.put('/:commentId/unlike', async (req, res, next) => {
 
 router.get('/:postId/getAllComments', async (req, res, next) => {
   try {
-    const userId = req.user.id;
-    const { pageNo = 1, size = 10, search = '' } = req.query;
+    const { postId } = req.params;
+    const { pageNo = 1, size = 10 } = req.query;
     if (Number.isNaN(Number(pageNo)) || Number.isNaN(Number(size))) {
       throw new Error('Query param is not number');
     }
@@ -135,19 +140,11 @@ router.get('/:postId/getAllComments', async (req, res, next) => {
       skip: size * (parseInt(pageNo, 10) - 1),
       limit: parseInt(size, 10),
     };
-    const allPosts = await Post.aggregate([
+    const allComments = await Post.aggregate([
       {
         $match: {
-          userId: {
-            $in: [
-              ...req.user.following.map(
-                (id) => new mongoose.Types.ObjectId(id)
-              ),
-              mongoose.Types.ObjectId(userId),
-            ],
-          },
-          desc: {
-            $regex: search,
+          postId: {
+            $eq: mongoose.Types.ObjectId(postId),
           },
         },
       },
@@ -155,10 +152,10 @@ router.get('/:postId/getAllComments', async (req, res, next) => {
         $lookup: {
           from: 'users',
           let: {
-            postUserId: '$userId',
+            commentUserId: '$userId',
           },
           pipeline: [
-            { $match: { $expr: { $eq: ['$_id', '$$postUserId'] } } },
+            { $match: { $expr: { $eq: ['$_id', '$$commentUserId'] } } },
             { $project: { profilepic: 1, username: 1 } },
           ],
           as: 'userId',
@@ -190,7 +187,7 @@ router.get('/:postId/getAllComments', async (req, res, next) => {
         },
       },
     ]);
-    return customResponse(res, 200, allPosts[0]);
+    return customResponse(res, 200, allComments[0]);
   } catch (err) {
     return next(err);
   }

@@ -1,13 +1,16 @@
 import CommentCard from '../CommentCard';
 import styles from '../../../stylesheets/components/Comments.module.scss';
 
-export default function Comments() {
-  const comments = new Array(1000).fill(null);
+export default function Comments(props) {
+  const { commentsList } = props;
   return (
     <div className={styles.commentsList}>
-      {comments.map((item) => (
-        <CommentCard />
-      ))}
+      {(commentsList.length &&
+        commentsList.map((item) => (
+          <CommentCard commentId={item} key={item} />
+        ))) || (
+        <div className={styles.commentsItem}>No comments on this post</div>
+      )}
     </div>
   );
 }

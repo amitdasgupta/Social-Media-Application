@@ -84,7 +84,7 @@ const initialState = {
   },
   comments: {
     postCommentDataMapping: {},
-    data: {},
+    commentsData: {},
     createComment: {
       commentBeingCreated: false,
     },
@@ -98,7 +98,8 @@ const initialState = {
   //       size: 5,
   //       total: 10,
   //     },
-  //     comments:[]
+  //     comments:[],
+  //     isFetched: true,
   //   }
   // },
   //   data:{

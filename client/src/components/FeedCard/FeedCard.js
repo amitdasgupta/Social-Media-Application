@@ -17,6 +17,7 @@ function FeedCard(props, ref) {
     _id,
     location = '',
     profilepic,
+    comments = 0,
   } = postData || {};
 
   const [showComment, setShowComment] = useState(false);
@@ -79,7 +80,7 @@ function FeedCard(props, ref) {
               </div>
             </div>
             <div className={styles.end} onClick={toggleShowComment}>
-              5 comments
+              {`${comments} comments`}
             </div>
           </div>
           {showComment && <Comment postId={_id} />}

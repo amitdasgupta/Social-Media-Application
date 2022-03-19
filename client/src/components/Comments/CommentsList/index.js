@@ -2,19 +2,14 @@ import { connect } from 'react-redux';
 import { createPost } from '../../../redux/actions/postActions';
 import CommentsList from './CommentsList';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const {
-    posts: { createPost: { postBeingCreated, error } } = {},
-    user: {
-      loggedInUser: { id },
-      appUsers,
-    },
+    comments: { postCommentDataMapping },
   } = state;
-  const userData = appUsers[id] || {};
+  const { postId } = ownProps;
+  const { comments: commentsList = [] } = postCommentDataMapping[postId] || {};
   return {
-    postBeingCreated,
-    error,
-    userData,
+    commentsList,
   };
 };
 

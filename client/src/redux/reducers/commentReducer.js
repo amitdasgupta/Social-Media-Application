@@ -1,26 +1,27 @@
 import initialState from '../initialState';
 import * as types from '../constants/comment';
+
 // comments:{
-//      postCommentDataMapping:{
-//       postId:{
-//         metaData: {
-//           pageNo: 0,
-//           size: 5,
-//           total: 10,
-//         },
-//         comments:[]
-//       }
+//    postCommentDataMapping:{
+//   postId:{
+//     metaData: {
+//       pageNo: 0,
+//       size: 5,
+//       total: 10,
 //     },
-//     data:{
-//       commentId:{
-//         "commentData"
-//       }
-//     },
-//     reateComment: {
-//       commentBeingCreated: false,
-//     },
+//     comments:[],
+//     isFetched: true,
 //   }
-// };
+// },
+//   data:{
+//     commentId:{
+//       "commentData"
+//     }
+//   },
+//   reateComment: {
+//     commentBeingCreated: false,
+//   },
+// }
 
 // Handles image related actions
 
@@ -37,7 +38,7 @@ export default function commentReducer(
     case types.CREATE_COMMENT_SUCCESS:
       const { _id, postId } = payload;
       payload.id = _id;
-      let { postCommentDataMapping, data } = state;
+      let { postCommentDataMapping, commentsData } = state;
       if (postCommentDataMapping[postId]) {
         postCommentDataMapping = {
           ...postCommentDataMapping,
@@ -64,8 +65,8 @@ export default function commentReducer(
         ...state,
         createComment: { commentBeingCreated: false },
         postCommentDataMapping,
-        data: {
-          ...data,
+        commentsData: {
+          ...commentsData,
           [_id]: { ...payload },
         },
       };

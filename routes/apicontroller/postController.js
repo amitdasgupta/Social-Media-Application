@@ -183,6 +183,13 @@ router.get('/timelinePosts/all', async (req, res, next) => {
           userName: '$userId.username',
           userId: '$userId._id',
           profilepic: '$userId.profilepic',
+          comments: {
+            $cond: {
+              if: { $isArray: '$comments' },
+              then: { $size: '$comments' },
+              else: 0,
+            },
+          },
         },
       },
       { $sort: { createdAt: -1 } },
