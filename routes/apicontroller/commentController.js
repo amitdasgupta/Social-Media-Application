@@ -25,14 +25,9 @@ router.post('/:postId', upload.single('image'), async (req, res, next) => {
       userId,
       postId,
     });
-    const [commentDataForResponse] = await Promise.all([
-      comment
-        .populate([{ path: 'userId', select: 'username profilepic' }])
-        .execPopulate(),
-      Post.findByIdAndUpdate(postId, {
-        $push: { comments: comment.id },
-      }),
-    ]);
+    const commentDataForResponse = await comment
+      .populate([{ path: 'userId', select: 'username profilepic' }])
+      .execPopulate();
     await comment.save();
     return customResponse(res, 200, commentDataForResponse);
   } catch (err) {

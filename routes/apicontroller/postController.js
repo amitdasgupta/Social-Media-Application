@@ -179,17 +179,24 @@ router.get('/timelinePosts/all', async (req, res, next) => {
       },
       { $unwind: '$userId' },
       {
+        $lookup: {
+          from: 'comments',
+          let: {
+            commentPostId: '$_id',
+          },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$postId', '$$commentPostId'] } } },
+            { $project: { _id: 1 } },
+          ],
+          as: 'comments',
+        },
+      },
+      {
         $set: {
           userName: '$userId.username',
           userId: '$userId._id',
           profilepic: '$userId.profilepic',
-          comments: {
-            $cond: {
-              if: { $isArray: '$comments' },
-              then: { $size: '$comments' },
-              else: 0,
-            },
-          },
+          comments: { $size: '$comments' },
         },
       },
       { $sort: { createdAt: -1 } },
