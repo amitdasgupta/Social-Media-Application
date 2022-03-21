@@ -36,7 +36,7 @@ export default function Comments(props) {
     <div className={styles.commentsList}>
       {isLoading ? (
         <div className={styles.loadingComment}>
-          <Skeleton height={200} count={10} />
+          <Skeleton height={150} count={10} />
         </div>
       ) : (
         (commentsList.length &&

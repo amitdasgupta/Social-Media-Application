@@ -1,5 +1,6 @@
 import initialState from '../initialState';
 import * as types from '../constants/post';
+import * as commentTypes from '../constants/comment';
 import { pull } from 'lodash';
 
 //initial state
@@ -143,6 +144,22 @@ export default function postReducer(
           ...allPostsData,
         },
       };
+
+    case commentTypes.CREATE_COMMENT_SUCCESS: {
+      const { postId } = payload;
+      const { allPostsData } = state;
+      const postData = allPostsData[postId];
+      return {
+        ...state,
+        allPostsData: {
+          ...allPostsData,
+          [postId]: {
+            ...postData,
+            comments: postData.comments + 1,
+          },
+        },
+      };
+    }
 
     default:
       return state;

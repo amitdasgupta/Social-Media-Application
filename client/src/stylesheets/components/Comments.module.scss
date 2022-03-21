@@ -11,17 +11,19 @@
     padding: 10px 0;
     width: 100%;
     border-radius: 15px;
-    background-color: #ececec;
+    background-color: white;
     -webkit-box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     box-shadow: -1px 3px 10px 4px rgba(83, 82, 82, 0.17);
     margin-bottom: 25px;
     padding: 50px 0;
     box-sizing: border-box;
     .loadingComment {
-      width: 100%;
+      width: 95%;
+      margin: 0 auto;
     }
     .commentsItem {
-      background-color: white;
+      background-color: #ececec;
+
       padding: 10px 5px;
       position: relative;
       border-radius: 5px;

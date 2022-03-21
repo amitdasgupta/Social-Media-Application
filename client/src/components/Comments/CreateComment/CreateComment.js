@@ -20,7 +20,7 @@ export default function Comments(props) {
     setComment(value);
   };
   return commentBeingCreated ? (
-    <Skeleton height={50} className={styles.commentsInput} />
+    <Skeleton height={100} className={styles.commentsInput} />
   ) : (
     <div className={styles.commentsInput}>
       <Avatar
