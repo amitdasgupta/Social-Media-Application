@@ -14,6 +14,7 @@ export default function Comments(props) {
     getPostComments,
     pageNo,
     postId,
+    commentsListRef,
   } = props;
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Comments(props) {
   }, [isNextFetched, getPostComments, setNextFetched]);
 
   return (
-    <div className={styles.commentsList}>
+    <div className={styles.commentsList} ref={commentsListRef}>
       {isLoading ? (
         <div className={styles.loadingComment}>
           <Skeleton height={150} count={10} />

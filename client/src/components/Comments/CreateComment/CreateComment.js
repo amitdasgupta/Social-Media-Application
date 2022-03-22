@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 export default function Comments(props) {
+  const { scrollCommentToTop } = props;
   const { createComment, commentBeingCreated, setError, userData } = props;
   const [comment, setComment] = useState('');
   const { profilepic } = userData;
@@ -13,6 +14,7 @@ export default function Comments(props) {
       return setError('Empty comment is not allowed');
     }
     setComment('');
+    scrollCommentToTop();
     createComment({ desc: comment, postId });
   };
   const inputChange = (e) => {
