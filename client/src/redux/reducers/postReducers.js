@@ -64,6 +64,9 @@ export default function postReducer(
     case types.CREATE_POST_SUCCESS:
       const { _id } = payload;
       payload.id = _id;
+      if (!payload.comments) {
+        payload.comments = 0;
+      }
       const updatedPosts = { ...allPostsData, [_id]: payload };
       const userPostsData = [...userPosts.data, _id];
       return {
