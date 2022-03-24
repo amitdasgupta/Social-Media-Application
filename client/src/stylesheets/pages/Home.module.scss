@@ -42,3 +42,9 @@
     margin: 20px 10px;
   }
 }
+
+@media (max-width: 750px) {
+  .tabParent {
+    width: 95%;
+  }
+}

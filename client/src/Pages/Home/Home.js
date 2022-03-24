@@ -99,19 +99,10 @@ export default function Home(props) {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
-            variant={deviceWidth < 750 ? 'scrollable' : 'fullWidth'}
-            centered={deviceWidth >= 750}
+            variant={deviceWidth < 550 ? 'scrollable' : 'fullWidth'}
+            centered
             scrollButtons="auto"
             allowScrollButtonsMobile
-            sx={
-              deviceWidth > 550
-                ? {}
-                : {
-                    position: 'relative',
-                    width: '120%',
-                    transform: 'translateX(-5%)',
-                  }
-            }
           >
             <Tab
               icon={
