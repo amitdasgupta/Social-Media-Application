@@ -160,3 +160,49 @@ export function* joinedUserChannel(socketConnection) {
     console.log(error);
   }
 }
+
+export function* likePostActionChannel(socketConnection) {
+  const postLikedRequestChannel = yield actionChannel(
+    types.SOCKET_POST_LIKE_REQUEST_UPDATE
+  );
+
+  while (1) {
+    const { payload: { postOwnerId, id: postId } = {} } = yield take(
+      postLikedRequestChannel
+    );
+    const allSocketIds = yield select(getAllSocketsIds);
+    const userSocketId = allSocketIds[postOwnerId];
+    if (userSocketId) {
+      socketConnection.emit('postLiked', { userSocketId, postId });
+    } else {
+      console.log('user is not online');
+    }
+  }
+}
+
+const createPostLikedNotificationChannel = (socket) =>
+  eventChannel((emit) => {
+    const handler = (data) => {
+      emit(data);
+    };
+    socket.on('postLikedNotification', handler);
+    return () => {
+      socket.off('postLikedNotification', handler);
+    };
+  });
+
+export function* postLikeNotificationChannel(socketConnection) {
+  const postLikedChannel = yield call(
+    createPostLikedNotificationChannel,
+    socketConnection
+  );
+  try {
+    while (true) {
+      const payload = yield take(postLikedChannel);
+      console.log('notification', payload);
+      yield put({ type: types.SOCKET_POST_LIKE_NOTIFICATION_UPDATE, payload });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

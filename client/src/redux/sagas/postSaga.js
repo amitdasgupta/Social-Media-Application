@@ -8,8 +8,9 @@ import {
 import { setSuccessMsg } from '../actions/successActions';
 import { setError } from '../actions/errorActions';
 import { getLoggedInUser } from '../selectors/users';
-import { getPostMetaData } from '../selectors/posts';
+import { getPostMetaData, getPostOwnerId } from '../selectors/posts';
 import * as types from '../constants/post';
+import * as socketTypes from '../constants/socket';
 
 export function* createPostOfUser({ payload }) {
   try {
@@ -61,6 +62,11 @@ export function* likeAPost({ id }) {
     yield put({
       type: types.LIKE_POST_SUCCESS,
       payload: { id, userId },
+    });
+    const postOwnerId = yield select(getPostOwnerId, id);
+    yield put({
+      type: socketTypes.SOCKET_POST_LIKE_REQUEST_UPDATE,
+      payload: { id, postOwnerId },
     });
     yield put(setSuccessMsg('You like the post'));
   } catch (error) {

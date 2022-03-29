@@ -35,6 +35,7 @@ const socketHelpers = {
   receiveEvents: (socket) => {
     socketHelpers.followNotification(socket);
     socketHelpers.disconnectedEvent(socket);
+    socketHelpers.postLikeEvent(socket);
   },
   emitOnlineUsers: (socket, io) => {
     const users = {};
@@ -61,6 +62,16 @@ const socketHelpers = {
   emitUserConnected: (socket) => {
     socket.broadcast.emit('userJoined', {
       data: { ...socket.auth, socketId: socket.id },
+    });
+  },
+  postLikeEvent: (socket) => {
+    socket.on('postLiked', ({ userSocketId, postId }) => {
+      socket.to(userSocketId).emit('postLikedNotification', {
+        data: {
+          auth: socket.auth,
+          postId,
+        },
+      });
     });
   },
 };
