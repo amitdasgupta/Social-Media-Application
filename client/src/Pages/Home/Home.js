@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, Switch, Route, useRouteMatch } from 'react-router-dom';
 import Feed from '../Feed';
-import Rightbar from '../../components/Rightbar';
+import NotificationsComponent from '../../components/Notifications';
 import Skeleton from 'react-loading-skeleton';
 import styles from '../../stylesheets/pages/Home.module.scss';
 import { SocketProvider } from '../../contexts/socketProvider';
@@ -13,6 +13,7 @@ import UserList from '../../components/UserList';
 import { DynamicFeed, Chat, Notifications } from '@material-ui/icons';
 import GroupsIcon from '@mui/icons-material/Groups';
 import useWindowSize from '../../hooks/useWindowSize';
+import SocketConnection from '../../components/SocketConnection';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,7 +56,11 @@ function returnTabComponent(value, index) {
       );
       break;
     case 1:
-      component = <Rightbar />;
+      component = (
+        <>
+          <NotificationsComponent />
+        </>
+      );
       break;
     case 2:
       component = (
@@ -65,10 +70,18 @@ function returnTabComponent(value, index) {
       );
       break;
     case 3:
-      component = <div>Implement Chatting here</div>;
+      component = (
+        <>
+          <div>Implement Chatting here</div>;
+        </>
+      );
       break;
     default:
-      component = <Feed />;
+      component = (
+        <>
+          <SearchComponent /> <Feed />
+        </>
+      );
   }
   return () => (
     <TabPanel value={value} index={index}>
@@ -93,6 +106,7 @@ export default function Home(props) {
   let { path, url } = useRouteMatch();
   return isFetched ? (
     <SocketProvider>
+      <SocketConnection />
       <div className={styles.tabParent}>
         <div className={styles.tabContent}>
           <Tabs
@@ -100,7 +114,7 @@ export default function Home(props) {
             onChange={handleChange}
             aria-label="basic tabs example"
             variant={deviceWidth < 550 ? 'scrollable' : 'fullWidth'}
-            centered
+            centered={deviceWidth >= 550}
             scrollButtons="auto"
             allowScrollButtonsMobile
           >

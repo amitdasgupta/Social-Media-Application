@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { connectSocket } from '../../redux/actions/socketActions';
-import Search from './Search';
+import SocketConnection from './SocketConnection';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const {
     socket: { isSocketConnected, socketExist },
     user: {
@@ -14,7 +14,6 @@ const mapStateToProps = (state, ownProps) => {
     isSocketConnected,
     userData: appUsers[id],
     socketExist,
-    ...ownProps,
   };
 };
 
@@ -22,4 +21,4 @@ const mapDispatchToProps = {
   connectSocket,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(SocketConnection);
