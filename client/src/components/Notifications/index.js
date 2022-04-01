@@ -5,23 +5,11 @@ import NotificationsList from './NotificationsList';
 const mapStateToProps = (state) => {
   const {
     socket: {
-      notifications: { data },
-      follow,
-      like,
-      comment,
+      notifications: { data = {} },
     },
-    user: { userSuggestion, followedUser, appUsers },
   } = state;
-
-  const isAllUserDataFetched =
-    userSuggestion?.isFetched && followedUser?.isFetched;
   return {
-    follow,
-    like,
-    comment,
     notificationData: data,
-    appUsers,
-    isAllUserDataFetched,
   };
 };
 

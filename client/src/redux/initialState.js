@@ -53,29 +53,46 @@ const initialState = {
     socketExist: false,
     //follow notification/comment notification/like notification
     notifications: {
+      // follow: [userId1,userId2,userId3,userId4],
+      // likePost: ['userId_postId'],
+      // likeComment: ['userId_commentId_postId'],
+      // comment: ['postId_commentId'],
+      // data: {
+      //   userId: {
+      //     type: 'follow',
+      //     userName: 'XYZ',
+      //     userId: 'userId',
+      //     id: 'userId',
+      //   },
+      //   userId_postId: {
+      //     type: 'likePost',
+      //     userName: 'XYZ',
+      //     userId: 'userId',
+      //     postId: 'postId',
+      //     id: 'userId_postId',
+      //   },
+      //   userId_commentId: {
+      //     type: 'likeComment',
+      //     userName: 'XYZ',
+      //     userId: 'userId',
+      //     commentId: 'commentId',
+      //     postId: 'postId',
+      //     id: 'userId_commentId_postId',
+      //   },
+      //   postId_commentId: {
+      //     type: 'comment',
+      //     userName: 'XYZ',
+      //     userId: 'userId',
+      //     commentId: 'commentId',
+      //     postId: 'postId',
+      //     id: 'userId_commentId_postId',
+      //   },
+      // },
+      data: {},
       follow: [],
-      like: ['61e96f936c2cc832998a8be3_61f05d2579824c097eb2007c'],
-      comment: ['61e96f936c2cc832998a8be3_commentId'],
-      data: {
-        // '61e96f936c2cc832998a8be3': {
-        //   type: 'follow',
-        //   userName: 'XYZ',
-        //   userId: '61e96f936c2cc832998a8be3',
-        //   id: '61e96f936c2cc832998a8be3',
-        // },
-        // '61e96f936c2cc832998a8be3_61f05d2579824c097eb2007c': {
-        //   type: 'like',
-        //   userName: 'XYZ',
-        //   userId: '61e96f936c2cc832998a8be3',
-        //   postId: '61f05d2579824c097eb2007c',
-        // },
-        // '61e96f936c2cc832998a8be3_commentId': {
-        //   type: 'comment',
-        //   userName: 'XYZ',
-        //   userId: '61e96f936c2cc832998a8be3',
-        //   commentId: '61e96f936c2cc832998a8be3_commentId',
-        // },
-      },
+      likePost: [],
+      likeComment: [],
+      comment: [],
     },
     liveUsers: {
       isFetched: false,

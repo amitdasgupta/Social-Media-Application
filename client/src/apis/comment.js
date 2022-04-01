@@ -29,13 +29,8 @@ export async function deleteComment(id) {
   return result;
 }
 
-export async function likeComment(id) {
-  const result = await putRequest(`post/${id}/like`);
-  return result;
-}
-
-export async function unlikeComment(id) {
-  const result = await putRequest(`post/${id}/unlike`);
+export async function toggleLikeComment(id) {
+  const result = await putRequest(`post/${id}/toggleLike`);
   return result;
 }
 

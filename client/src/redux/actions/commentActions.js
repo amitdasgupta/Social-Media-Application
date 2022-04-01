@@ -12,12 +12,7 @@ export const getPostComments = (postId) => ({
   },
 });
 
-export const likeComment = (id) => ({
-  type: types.LIKE_COMMENT_REQUEST,
-  id: id,
-});
-
-export const unLikeComment = (id) => ({
-  type: types.UNLIKE_COMMENT_REQUEST,
+export const toggleLikeComment = (id) => ({
+  type: types.TOGGLE_LIKE_COMMENT_REQUEST,
   id: id,
 });

@@ -1,16 +1,27 @@
 import { connect } from 'react-redux';
 import NotificationsCard from './NotificationCard';
+import { getSingleUser } from '../../../redux/actions/userActions';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const {
-    user: { userSuggestion, followedUser },
+    user: { appUsers },
   } = state;
 
-  const isAllUserDataFetched =
-    userSuggestion?.isFetched && followedUser?.isFetched;
+  const {
+    notiData: { userId },
+  } = ownProps;
+  const userData = appUsers[userId];
+  const { profilepic = null } = userData || {};
+  const userFetched = !!userData;
   return {
-    isAllUserDataFetched,
+    ...ownProps,
+    profilepic,
+    userFetched,
   };
 };
 
-export default connect(mapStateToProps)(NotificationsCard);
+const mapDispatchToProps = {
+  getSingleUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsCard);

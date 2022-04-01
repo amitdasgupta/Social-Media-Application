@@ -81,7 +81,6 @@ export function* followRequestActionChannel(socketConnection) {
       socketConnection.emit('userFollowed', userFollowedSocketId);
     } else {
       console.log('user is not online');
-      //need to store it in backend db and show them this when he opens website
     }
   }
 }
@@ -175,6 +174,7 @@ export function* likePostActionChannel(socketConnection) {
     if (userSocketId) {
       socketConnection.emit('postLiked', { userSocketId, postId });
     } else {
+      // yield fork for notificationData save in DB
       console.log('user is not online');
     }
   }
