@@ -18,7 +18,7 @@ const NotificationSchema = new mongoose.Schema(
       enum: ['likePost', 'likeComment', 'comment', 'follow'],
       default: 'likePost',
     },
-    on: {
+    modelId: {
       type: ObjectId,
       required: true,
       refPath: 'onModel',

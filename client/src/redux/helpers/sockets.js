@@ -1,7 +1,10 @@
 import { put, call, take, actionChannel, select } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
+import { fork } from 'redux-saga/effects';
+
 import { getAllSocketsIds } from '../selectors/sockets';
 import * as types from '../constants/socket';
+import { saveNotification } from '../../apis/notification';
 
 //basic
 export const connect = function* (socket) {
@@ -80,6 +83,11 @@ export function* followRequestActionChannel(socketConnection) {
     if (userFollowedSocketId) {
       socketConnection.emit('userFollowed', userFollowedSocketId);
     } else {
+      // yield fork for notificationData save in DB
+      yield fork(saveNotification, {
+        notifiedUser: userId,
+        type: 'follow',
+      });
       console.log('user is not online');
     }
   }

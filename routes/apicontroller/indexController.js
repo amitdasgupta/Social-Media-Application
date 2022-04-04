@@ -11,5 +11,6 @@ router.use(authMiddleWare);
 router.use('/user', require('./usersController'));
 router.use('/post', require('./postController'));
 router.use('/comment', require('./commentController'));
+router.use('/notification', upload.none(), require('./notificationController'));
 
 module.exports = router;

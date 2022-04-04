@@ -105,8 +105,6 @@ router.put('/:id/follow', async (req, res, next) => {
         $push: { followers: currentUserId },
       }),
     ]);
-    const { io } = global;
-    console.log(io);
     return customResponse(res, 200, userIdFollowed);
   } catch (error) {
     next(error);
