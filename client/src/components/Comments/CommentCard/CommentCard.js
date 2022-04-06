@@ -5,9 +5,13 @@ import { Avatar } from '@material-ui/core';
 
 export default function CommentCard(props) {
   const {
-    commentData: { desc, likes = [], profilepic, createdAt, userName },
+    commentData: { desc, likes = [], profilepic, createdAt, userName, _id },
+    toggleLikeComment,
+    isCommentLiked = false,
   } = props;
-  const isPostLiked = true;
+  const toggleLike = () => {
+    toggleLikeComment(_id, isCommentLiked);
+  };
   return (
     <div className={styles.commentsItem}>
       <div className={styles.commentsMain}>
@@ -31,8 +35,8 @@ export default function CommentCard(props) {
       <div className={styles.commentDescription}>{desc}</div>
       <div className={styles.likeDislike}>
         <ThumbUp
-          className={isPostLiked ? styles.thumbUp : styles.thumbDown}
-          // onClick={handleReaction}
+          className={isCommentLiked ? styles.thumbUp : styles.thumbDown}
+          onClick={toggleLike}
         />
         <div className={styles.reactions}>{likes.length}</div>
       </div>

@@ -88,7 +88,6 @@ export function* followRequestActionChannel(socketConnection) {
         notifiedUser: userId,
         type: 'follow',
       });
-      console.log('user is not online');
     }
   }
 }

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const customResponse = require('../../helpers/customResponse');
 const Post = require('../../database/models/Post');
 const Notification = require('../../database/models/Notification');
+const { doesSameNotificationExsit } = require('../../helpers/notifications');
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ router.post('/', async (req, res, next) => {
         dataForNotification.type = 'follow';
         dataForNotification.onModel = 'User';
         dataForNotification.modelId = notifiedUser;
+    }
+
+    if (doesSameNotificationExsit(dataForNotification)) {
+      return customResponse(res, 200);
     }
     await Notification.create(dataForNotification);
     return customResponse(res, 200);

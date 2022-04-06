@@ -30,7 +30,7 @@ export async function deleteComment(id) {
 }
 
 export async function toggleLikeComment(id) {
-  const result = await putRequest(`post/${id}/toggleLike`);
+  const result = await putRequest(`comment/${id}/toggleLike`);
   return result;
 }
 

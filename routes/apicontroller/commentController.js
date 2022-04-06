@@ -76,7 +76,7 @@ router.put('/:commentId/toggleLike', async (req, res, next) => {
   try {
     const { commentId } = req.params;
     const userId = req.user.id;
-    const comment = await Post.findById(commentId);
+    const comment = await Comment.findById(commentId);
     if (comment.likes.includes(userId))
       comment.likes = comment.likes.filter((id) => id !== userId);
     else {

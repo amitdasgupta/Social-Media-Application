@@ -12,7 +12,8 @@ export const getPostComments = (postId) => ({
   },
 });
 
-export const toggleLikeComment = (id) => ({
+export const toggleLikeComment = (id, isCommentLiked) => ({
   type: types.TOGGLE_LIKE_COMMENT_REQUEST,
-  id: id,
+  id,
+  isCommentLiked,
 });

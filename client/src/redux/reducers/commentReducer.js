@@ -13,7 +13,7 @@ import * as types from '../constants/comment';
 //     isFetched: true,
 //   }
 // },
-//   data:{
+//   commentsData:{
 //     commentId:{
 //       "commentData"
 //     }
@@ -136,27 +136,20 @@ export default function commentReducer(
         },
       };
     }
-    // case types.LIKE_POST_SUCCESS:
-    //   if (!updatedPost.likes.includes(userId)) updatedPost.likes.push(userId);
-    //   allPostsData[id] = updatedPost;
-    //   return {
-    //     ...state,
-    //     allPostsData: {
-    //       ...allPostsData,
-    //     },
-    //   };
-    // case types.UNLIKE_POST_SUCCESS:
-    //   if (updatedPost.likes.includes(userId)) {
-    //     updatedPost.likes = pull(updatedPost.likes, userId);
-    //   }
-    //   allPostsData[id] = updatedPost;
-    //   return {
-    //     ...state,
-    //     allPostsData: {
-    //       ...allPostsData,
-    //     },
-    //   };
-
+    case types.TOGGLE_LIKE_COMMENT_SUCCESS: {
+      const { id, userId } = payload;
+      const { commentsData = {} } = state;
+      const comment = commentsData[id];
+      if (!comment.likes.includes(userId)) comment.likes.push(userId);
+      else comment.likes = comment.likes.filter((id) => id !== userId);
+      commentsData[id] = comment;
+      return {
+        ...state,
+        allPostsData: {
+          ...commentsData,
+        },
+      };
+    }
     default:
       return state;
   }

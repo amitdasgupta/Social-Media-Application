@@ -2,9 +2,9 @@ import { put, call, takeLatest, all, select } from 'redux-saga/effects';
 import {
   createComment,
   fetchPostComments,
-  likePost,
-  unlikePost,
+  toggleLikeComment,
 } from '../../apis/comment';
+import { getLoggedInUser } from '../selectors/users';
 import { setSuccessMsg } from '../actions/successActions';
 import { setError } from '../actions/errorActions';
 import { getCommentMetaData } from '../selectors/comments';
@@ -52,46 +52,25 @@ export function* getPostAllComments({ payload: { postId } }) {
   }
 }
 
-// export function* likeAPost({ id }) {
-//   try {
-//     yield call(likePost, id);
-//     const { id: userId } = yield select(getLoggedInUser);
-//     yield put({
-//       type: types.LIKE_POST_SUCCESS,
-//       payload: { id, userId },
-//     });
-//     yield put(setSuccessMsg('You like the post'));
-//   } catch (error) {
-//     yield put({
-//       type: types.LIKE_POST_FAIL,
-//       payload: error.response.data,
-//     });
-//     yield put(setError(error.response.data));
-//   }
-// }
-
-// export function* unLikeAPost({ id }) {
-//   try {
-//     yield call(unlikePost, id);
-//     const { id: userId } = yield select(getLoggedInUser);
-//     yield put({
-//       type: types.UNLIKE_POST_SUCCESS,
-//       payload: { id, userId },
-//     });
-//     yield put(setSuccessMsg('You unlike the post'));
-//   } catch (error) {
-//     yield put({
-//       type: types.UNLIKE_POST_FAIL,
-//       payload: error.response.data,
-//     });
-//   }
-// }
+export function* toggleLikeAComment({ id, isCommentLiked }) {
+  try {
+    yield call(toggleLikeComment, id);
+    const { id: userId } = yield select(getLoggedInUser);
+    yield put({
+      type: types.TOGGLE_LIKE_COMMENT_SUCCESS,
+      payload: { id, userId },
+    });
+    if (isCommentLiked) yield put(setSuccessMsg('You unliked the comment'));
+    else yield put(setSuccessMsg('You liked the comment'));
+  } catch (error) {
+    yield put(setError('Like comment failed'));
+  }
+}
 
 export default function* commentRoot() {
   yield all([
     takeLatest(types.CREATE_COMMENT_REQUEST, createCommentOfUser),
     takeLatest(types.FETCH_POST_COMMENTS_REQUEST, getPostAllComments),
-    // takeLatest(types.LIKE_POST_REQUEST, likeAPost),
-    // takeLatest(types.UNLIKE_POST_REQUEST, unLikeAPost),
+    takeLatest(types.TOGGLE_LIKE_COMMENT_REQUEST, toggleLikeAComment),
   ]);
 }
