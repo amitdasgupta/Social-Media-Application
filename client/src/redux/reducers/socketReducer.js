@@ -32,7 +32,7 @@ export default function socketReducer(
             notifications: {
               ...notifications,
               follow: [...notifications.follow],
-              data: { ...notifications.data, id: notificationData },
+              data: { ...notifications.data, [id]: notificationData },
             },
           };
         }
@@ -59,6 +59,39 @@ export default function socketReducer(
           data: { ...liveUsers.data, [id]: socketId },
         },
       };
+    }
+    case types.SOCKET_POST_LIKE_NOTIFICATION_UPDATE: {
+      const {
+        data: {
+          auth: { id: userId, username },
+          postId,
+        },
+      } = payload;
+      const id = `${userId}_${postId}`;
+      const notificationData = {
+        userId,
+        userName: username,
+        id,
+        type: 'likePost',
+      };
+      const {
+        notifications: { likePost = [] },
+        data = {},
+      } = state;
+      if (!notifications.data[id]) {
+        return {
+          ...state,
+          notifications: {
+            ...notifications,
+            likePost: [...likePost, id],
+            data: {
+              ...data,
+              [id]: notificationData,
+            },
+          },
+        };
+      }
+      return state;
     }
     default:
       return state;

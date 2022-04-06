@@ -20,8 +20,8 @@ export default function NotificationsCard(props) {
         return (
           <>
             {' '}
-            liked post
-            <span className={styles.postLike}>{` PostName`}</span>
+            liked your
+            <span className={styles.postLike}>{` post`}</span>
           </>
         );
       case 'likeComment':
