@@ -42,7 +42,7 @@ function Sidebar(props) {
   return (
     <div className={styles.sideBarMain}>
       {isLoading ? (
-        <Skeleton styles={styles.skeleton} height={400} count={5} />
+        <Skeleton className={styles.skeleton} height={400} count={5} />
       ) : (
         <>
           {' '}
@@ -50,13 +50,11 @@ function Sidebar(props) {
           {!isAllUserFetched && (
             <div key="last-ref-item" ref={lastPostElementRef}></div>
           )}
-          <div className={styles.sideBarMain}>
-            {isNextLoading && (
-              <div styles={styles.skeleton}>
-                <Skeleton styles={styles.skeleton} height={400} count={5} />
-              </div>
-            )}
-          </div>
+          {isNextLoading && (
+            <div className={styles.skeleton}>
+              <Skeleton height={400} count={1} />
+            </div>
+          )}
         </>
       )}
     </div>

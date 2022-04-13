@@ -5,9 +5,14 @@ import Home from './Home';
 const mapStateToProps = (state) => {
   const {
     user: { loggedInUser },
+    socket: {
+      notifications: { data = {} },
+    },
   } = state;
+  const notificationCount = Object.keys(data).length;
   return {
     loggedInUser,
+    notificationCount,
   };
 };
 

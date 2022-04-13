@@ -6,7 +6,7 @@ import FeedCard from './FeedCard';
 const mapStateToProps = (state, ownProps) => {
   const {
     posts: { allPostsData = {} } = {},
-    user: { loggedInUser: { id: userId } = {}, appUsers } = {},
+    user: { loggedInUser: { id: userId } = {} } = {},
   } = state;
   let isPostLiked = false;
   const { postId } = ownProps;

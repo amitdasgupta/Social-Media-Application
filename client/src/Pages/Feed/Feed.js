@@ -22,7 +22,7 @@ function Feed(props) {
     }
   }, [isUserFetched, getTimeLinePosts]);
   const [lastPostElementRef, isNextFetched, setNextFetched] =
-    useInfiniteScrolling(isLoading);
+    useInfiniteScrolling(isLoading || nextLoading);
   useEffect(() => {
     if (isNextFetched) {
       getTimeLinePosts();
@@ -40,9 +40,7 @@ function Feed(props) {
             <Skeleton height={400} count={5} />
           </div>
         ) : (
-          allPosts.map((postId, index) => (
-            <FeedCard key={postId} postId={postId} />
-          ))
+          allPosts.map((postId) => <FeedCard key={postId} postId={postId} />)
         )}
         {!isAllFeedFetched && (
           <div key="last-ref-item" ref={lastPostElementRef}></div>
@@ -51,7 +49,7 @@ function Feed(props) {
       <div className={styles.mainFeedBottom}>
         {nextLoading && (
           <div styles={styles.skeleton}>
-            <Skeleton height={400} count={5} />
+            <Skeleton height={400} count={1} />
           </div>
         )}
       </div>

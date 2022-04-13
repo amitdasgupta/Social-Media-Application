@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
   } = state;
   const isLoading = !timelinePosts.isFetched && pageNo === 1;
   const allPost = [...timelinePosts.data];
-  const nextLoading = !timelinePosts.isFetched && pageNo > 1;
+  const nextLoading = !timelinePosts.isFetched && pageNo >= 1;
   const isAllFeedFetched = pageNo * size >= total;
   const isUserFetched = loggedInUser?.isFetched;
   return {

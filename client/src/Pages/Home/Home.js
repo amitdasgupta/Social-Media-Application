@@ -96,6 +96,7 @@ export default function Home(props) {
   const {
     loggedInUser: { isFetched },
     getLoggedInUserData,
+    notificationCount,
   } = props;
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -132,7 +133,9 @@ export default function Home(props) {
               icon={
                 <div className={styles.topBarIcon}>
                   <Notifications className={styles.topBarIconImage} />
-                  <span className={styles.topBarIconBadge}>1</span>
+                  <span className={styles.topBarIconBadge}>
+                    {notificationCount}
+                  </span>
                 </div>
               }
               label="Notifications"

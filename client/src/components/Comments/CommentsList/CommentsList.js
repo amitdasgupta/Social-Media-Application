@@ -52,7 +52,7 @@ export default function Comments(props) {
       )}
       {isNextLoading && (
         <div className={styles.loadingComment}>
-          <Skeleton height={200} count={10} />
+          <Skeleton height={200} count={2} />
         </div>
       )}
     </div>

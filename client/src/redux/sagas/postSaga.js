@@ -1,4 +1,11 @@
-import { put, call, takeLatest, all, select } from 'redux-saga/effects';
+import {
+  put,
+  call,
+  takeLatest,
+  all,
+  select,
+  takeEvery,
+} from 'redux-saga/effects';
 import {
   createPost,
   fetchTimeLinePosts,
@@ -98,8 +105,8 @@ export function* unLikeAPost({ id }) {
 export default function* postRoot() {
   yield all([
     takeLatest(types.CREATE_POST_REQUEST, createPostOfUser),
-    takeLatest(types.FETCH_TIMELINE_POST_REQUEST, getAllTimeLinePosts),
-    takeLatest(types.LIKE_POST_REQUEST, likeAPost),
-    takeLatest(types.UNLIKE_POST_REQUEST, unLikeAPost),
+    takeEvery(types.FETCH_TIMELINE_POST_REQUEST, getAllTimeLinePosts),
+    takeEvery(types.LIKE_POST_REQUEST, likeAPost),
+    takeEvery(types.UNLIKE_POST_REQUEST, unLikeAPost),
   ]);
 }

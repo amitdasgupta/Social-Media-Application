@@ -75,8 +75,7 @@ export default function socketReducer(
         type: 'likePost',
       };
       const {
-        notifications: { likePost = [] },
-        data = {},
+        notifications: { likePost = [], data = {} },
       } = state;
       if (!notifications.data[id]) {
         return {
