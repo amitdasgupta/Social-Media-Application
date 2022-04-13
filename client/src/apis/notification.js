@@ -1,7 +1,6 @@
 import { deleteRequest, postRequest, getRequest } from '../helpers/axios';
 
 export async function saveNotification(notificationData) {
-  console.log(notificationData);
   const result = await postRequest('notification', notificationData);
   return result;
 }

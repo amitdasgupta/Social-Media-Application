@@ -42,7 +42,9 @@ function Sidebar(props) {
   return (
     <div className={styles.sideBarMain}>
       {isLoading ? (
-        <Skeleton className={styles.skeleton} height={400} count={5} />
+        <div className={styles.skeleton}>
+          <Skeleton height={400} count={5} />
+        </div>
       ) : (
         <>
           {' '}

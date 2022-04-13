@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
         dataForNotification.modelId = notifiedUser;
     }
 
-    if (doesSameNotificationExsit(dataForNotification)) {
+    if (await doesSameNotificationExsit(dataForNotification)) {
       return customResponse(res, 200);
     }
     await Notification.create(dataForNotification);
