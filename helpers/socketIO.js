@@ -65,11 +65,13 @@ const socketHelpers = {
     });
   },
   postLikeEvent: (socket) => {
-    socket.on('postLiked', ({ userSocketId, postId }) => {
+    socket.on('postLiked', ({ userSocketId, postId, image, desc }) => {
       socket.to(userSocketId).emit('postLikedNotification', {
         data: {
           auth: socket.auth,
           postId,
+          image,
+          desc,
         },
       });
     });

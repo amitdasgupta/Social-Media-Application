@@ -10,26 +10,128 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { notifiedUser, type } = req.body;
-    const dataForNotification = { initiatedUser: userId, notifiedUser };
+    const { notifiedUser, type, postId, desc, image } = req.body;
+    let dataForNotification = { initiatedUser: userId, notifiedUser };
+    let remainingData = {};
     switch (type) {
       case 'follow': {
-        dataForNotification.type = 'follow';
-        dataForNotification.onModel = 'User';
-        dataForNotification.modelId = notifiedUser;
+        remainingData = {
+          type: 'follow',
+          onModel: 'User',
+          modelId: notifiedUser,
+        };
+
+        break;
+      }
+      case 'likePost': {
+        remainingData = {
+          type: 'likePost',
+          onModel: 'Post',
+          modelId: postId,
+          desc,
+          image,
+        };
         break;
       }
       default:
-        dataForNotification.type = 'follow';
-        dataForNotification.onModel = 'User';
-        dataForNotification.modelId = notifiedUser;
+        remainingData = null;
     }
-
-    if (await doesSameNotificationExsit(dataForNotification)) {
+    dataForNotification = { ...dataForNotification, ...remainingData };
+    if (
+      (await doesSameNotificationExsit(dataForNotification)) ||
+      !remainingData
+    ) {
       return customResponse(res, 200);
     }
     await Notification.create(dataForNotification);
     return customResponse(res, 200);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.get('/all', async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    // will need to implement fetch notification here
+    // const { pageNo = 1, size = 10, search = '' } = req.query;
+    // if (Number.isNaN(Number(pageNo)) || Number.isNaN(Number(size))) {
+    //   throw new Error('Query param is not number');
+    // }
+    // const query = {
+    //   skip: size * (parseInt(pageNo, 10) - 1),
+    //   limit: parseInt(size, 10),
+    // };
+    // const allPosts = await Post.aggregate([
+    //   {
+    //     $match: {
+    //       userId: {
+    //         $in: [
+    //           ...req.user.following.map(
+    //             (id) => new mongoose.Types.ObjectId(id)
+    //           ),
+    //           mongoose.Types.ObjectId(userId),
+    //         ],
+    //       },
+    //       desc: {
+    //         $regex: search,
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $lookup: {
+    //       from: 'users',
+    //       let: {
+    //         postUserId: '$userId',
+    //       },
+    //       pipeline: [
+    //         { $match: { $expr: { $eq: ['$_id', '$$postUserId'] } } },
+    //         { $project: { profilepic: 1, username: 1 } },
+    //       ],
+    //       as: 'userId',
+    //     },
+    //   },
+    //   { $unwind: '$userId' },
+    //   {
+    //     $lookup: {
+    //       from: 'comments',
+    //       let: {
+    //         commentPostId: '$_id',
+    //       },
+    //       pipeline: [
+    //         { $match: { $expr: { $eq: ['$postId', '$$commentPostId'] } } },
+    //         { $project: { _id: 1 } },
+    //       ],
+    //       as: 'comments',
+    //     },
+    //   },
+    //   {
+    //     $set: {
+    //       userName: '$userId.username',
+    //       userId: '$userId._id',
+    //       profilepic: '$userId.profilepic',
+    //       comments: { $size: '$comments' },
+    //     },
+    //   },
+    //   { $sort: { createdAt: -1 } },
+    //   {
+    //     $facet: {
+    //       metadata: [
+    //         { $count: 'total' },
+    //         { $addFields: { page: parseInt(pageNo, 10) } },
+    //       ],
+    //       data: [{ $skip: query.skip }, { $limit: query.limit }], // add projection here wish you re-shape the docs
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       total: { $arrayElemAt: ['$metadata.total', 0] },
+    //       pageNo: { $arrayElemAt: ['$metadata.page', 0] },
+    //       data: 1,
+    //     },
+    //   },
+    // ]);
+    return customResponse(res, 200, allPosts[0]);
   } catch (err) {
     return next(err);
   }

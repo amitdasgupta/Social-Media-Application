@@ -4,7 +4,8 @@ import { useEffect } from 'react';
 
 export default function NotificationsCard(props) {
   const { notiData = {}, userFetched, getSingleUser, profilepic } = props;
-  const { userId, userName } = notiData;
+  const { userId, desc = '', image } = notiData;
+
   useEffect(() => {
     if (!userFetched) {
       getSingleUser(userId);
@@ -12,16 +13,22 @@ export default function NotificationsCard(props) {
   }, [userFetched, getSingleUser, userId]);
 
   const giveNotificationCard = (notiData) => {
-    const { type } = notiData;
+    const { type, userName } = notiData;
     switch (type) {
       case 'follow':
         return <>followed you</>;
       case 'likePost':
         return (
           <>
-            {' '}
-            liked your
-            <span className={styles.postLike}>{` post`}</span>
+            <span className={styles.userName}>
+              {`${userName} `}
+              <span>liked your post.</span>
+            </span>
+            <span className={styles.postLike}>
+              {` ${desc.slice(0, 10)}`}
+              {desc.length > 15 && '...'}
+              {image && <img alt="Jon Doe" src={image} />}
+            </span>
           </>
         );
       case 'likeComment':
@@ -52,10 +59,7 @@ export default function NotificationsCard(props) {
           ) : (
             <AccountCircle className={styles.icon} />
           )}
-          <div className={styles.detail}>
-            <span className={styles.userName}>{`${userName} `}</span>
-            {giveNotificationCard(notiData)}
-          </div>
+          <div className={styles.detail}>{giveNotificationCard(notiData)}</div>
         </div>
         <CancelOutlined className={styles.cancel} />
       </div>

@@ -3,8 +3,12 @@ export const getPostMetaData = (state) => {
   return metaData;
 };
 
-export const getPostOwnerId = (state, postId) => {
+export const getPostData = (state, postId) => {
   const { posts: { allPostsData = {} } = {} } = state;
-  const { userId: postOwnerId = null } = allPostsData[postId] || {};
-  return postOwnerId;
+  const {
+    userId: postOwnerId = null,
+    desc,
+    image,
+  } = allPostsData[postId] || {};
+  return { postOwnerId, desc, image };
 };

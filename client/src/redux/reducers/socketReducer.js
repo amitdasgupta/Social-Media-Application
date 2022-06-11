@@ -65,6 +65,8 @@ export default function socketReducer(
         data: {
           auth: { id: userId, username },
           postId,
+          desc,
+          image,
         },
       } = payload;
       const id = `${userId}_${postId}`;
@@ -73,6 +75,8 @@ export default function socketReducer(
         userName: username,
         id,
         type: 'likePost',
+        desc,
+        image,
       };
       const {
         notifications: { likePost = [], data = {} },

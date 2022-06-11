@@ -173,16 +173,21 @@ export function* likePostActionChannel(socketConnection) {
   );
 
   while (1) {
-    const { payload: { postOwnerId, id: postId } = {} } = yield take(
-      postLikedRequestChannel
-    );
+    const { payload: { postOwnerId, id: postId, desc, image } = {} } =
+      yield take(postLikedRequestChannel);
     const allSocketIds = yield select(getAllSocketsIds);
     const userSocketId = allSocketIds[postOwnerId];
     if (userSocketId) {
-      socketConnection.emit('postLiked', { userSocketId, postId });
+      socketConnection.emit('postLiked', { userSocketId, postId, desc, image });
     } else {
       // yield fork for notificationData save in DB
-      console.log('user is not online');
+      yield fork(saveNotification, {
+        notifiedUser: postOwnerId,
+        postId,
+        desc,
+        image,
+        type: 'likePost',
+      });
     }
   }
 }
@@ -206,7 +211,6 @@ export function* postLikeNotificationChannel(socketConnection) {
   try {
     while (true) {
       const payload = yield take(postLikedChannel);
-      console.log('notification', payload);
       yield put({ type: types.SOCKET_POST_LIKE_NOTIFICATION_UPDATE, payload });
     }
   } catch (error) {

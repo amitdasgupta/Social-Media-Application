@@ -71,7 +71,6 @@ export default function Settings(props) {
     city,
     country,
   } = userProfile;
-  console.log(userProfile);
   return isAllUserDataFetched && !isUserUpdating ? (
     <>
       <label
