@@ -70,6 +70,8 @@ const initialState = {
       //     userId: 'userId',
       //     postId: 'postId',
       //     id: 'userId_postId',
+      //     desc:"description",
+      //     image:"imageOfPost"
       //   },
       //   userId_commentId: {
       //     type: 'likeComment',
@@ -78,14 +80,18 @@ const initialState = {
       //     commentId: 'commentId',
       //     postId: 'postId',
       //     id: 'userId_commentId_postId',
+      //     desc:"description",
       //   },
-      //   postId_commentId: {
+      //   commentId: {
       //     type: 'comment',
       //     userName: 'XYZ',
       //     userId: 'userId',
       //     commentId: 'commentId',
       //     postId: 'postId',
-      //     id: 'userId_commentId_postId',
+      //     desc:"description",
+      //     id: 'commentId_postId',
+      //     image:"commentId"
+      //     commentDesc:"commentDesc"
       //   },
       // },
       data: {},

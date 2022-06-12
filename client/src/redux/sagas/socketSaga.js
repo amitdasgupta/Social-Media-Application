@@ -12,6 +12,8 @@ import {
   joinedUserChannel,
   likePostActionChannel,
   postLikeNotificationChannel,
+  commentPostActionChannel,
+  postCommentedNotificationChannel,
 } from '../helpers/sockets';
 
 //helpers methods
@@ -25,6 +27,8 @@ const listenDifferentChannels = function* (socketConnection) {
     fork(joinedUserChannel, socketConnection),
     fork(likePostActionChannel, socketConnection),
     fork(postLikeNotificationChannel, socketConnection),
+    fork(commentPostActionChannel, socketConnection),
+    fork(postCommentedNotificationChannel, socketConnection),
   ]);
 };
 

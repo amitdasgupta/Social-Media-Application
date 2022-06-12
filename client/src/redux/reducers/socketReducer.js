@@ -96,6 +96,46 @@ export default function socketReducer(
       }
       return state;
     }
+    case types.SOCKET_POST_COMMENT_NOTIFICATION_UPDATE: {
+      const {
+        data: {
+          auth: { id: userId, username },
+          postId,
+          desc,
+          image,
+          commentDesc,
+          commentId,
+        },
+      } = payload;
+      const id = commentId;
+      const notificationData = {
+        userId,
+        userName: username,
+        id,
+        type: 'comment',
+        desc,
+        image,
+        postId,
+        commentDesc,
+      };
+      const {
+        notifications: { comment = [], data = {} },
+      } = state;
+      if (!notifications.data[id]) {
+        return {
+          ...state,
+          notifications: {
+            ...notifications,
+            comment: [...comment, id],
+            data: {
+              ...data,
+              [id]: notificationData,
+            },
+          },
+        };
+      }
+      return state;
+    }
     default:
       return state;
   }

@@ -184,8 +184,6 @@ export function* likePostActionChannel(socketConnection) {
       yield fork(saveNotification, {
         notifiedUser: postOwnerId,
         postId,
-        desc,
-        image,
         type: 'likePost',
       });
     }
@@ -212,6 +210,73 @@ export function* postLikeNotificationChannel(socketConnection) {
     while (true) {
       const payload = yield take(postLikedChannel);
       yield put({ type: types.SOCKET_POST_LIKE_NOTIFICATION_UPDATE, payload });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* commentPostActionChannel(socketConnection) {
+  const postCommentRequestChannel = yield actionChannel(
+    types.SOCKET_POST_COMMENT_REQUEST_UPDATE
+  );
+
+  while (1) {
+    const {
+      payload: {
+        postOwnerId,
+        id: commentId,
+        desc,
+        image,
+        commentDesc,
+        postId,
+      } = {},
+    } = yield take(postCommentRequestChannel);
+    const allSocketIds = yield select(getAllSocketsIds);
+    const userSocketId = allSocketIds[postOwnerId];
+    if (userSocketId) {
+      socketConnection.emit('postCommented', {
+        userSocketId,
+        postId,
+        desc,
+        image,
+        commentId,
+        commentDesc,
+      });
+    } else {
+      // yield fork for notificationData save in DB
+      yield fork(saveNotification, {
+        type: 'comment',
+        notifiedUser: postOwnerId,
+        commentId,
+      });
+    }
+  }
+}
+
+const createPostCommentedNotificationChannel = (socket) =>
+  eventChannel((emit) => {
+    const handler = (data) => {
+      emit(data);
+    };
+    socket.on('postCommentedNotification', handler);
+    return () => {
+      socket.off('postCommentedNotification', handler);
+    };
+  });
+
+export function* postCommentedNotificationChannel(socketConnection) {
+  const postCommentedChannel = yield call(
+    createPostCommentedNotificationChannel,
+    socketConnection
+  );
+  try {
+    while (true) {
+      const payload = yield take(postCommentedChannel);
+      yield put({
+        type: types.SOCKET_POST_COMMENT_NOTIFICATION_UPDATE,
+        payload,
+      });
     }
   } catch (error) {
     console.log(error);

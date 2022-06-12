@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { notifiedUser, type, postId, desc, image } = req.body;
+    const { notifiedUser, type, postId, commentId } = req.body;
     let dataForNotification = { initiatedUser: userId, notifiedUser };
     let remainingData = {};
     switch (type) {
@@ -28,8 +28,14 @@ router.post('/', async (req, res, next) => {
           type: 'likePost',
           onModel: 'Post',
           modelId: postId,
-          desc,
-          image,
+        };
+        break;
+      }
+      case 'comment': {
+        remainingData = {
+          type: 'comment',
+          onModel: 'Comment',
+          modelId: commentId,
         };
         break;
       }

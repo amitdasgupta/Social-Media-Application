@@ -36,6 +36,7 @@ const socketHelpers = {
     socketHelpers.followNotification(socket);
     socketHelpers.disconnectedEvent(socket);
     socketHelpers.postLikeEvent(socket);
+    socketHelpers.postCommentEvent(socket);
   },
   emitOnlineUsers: (socket, io) => {
     const users = {};
@@ -72,6 +73,16 @@ const socketHelpers = {
           postId,
           image,
           desc,
+        },
+      });
+    });
+  },
+  postCommentEvent: (socket) => {
+    socket.on('postCommented', ({ userSocketId, ...rest }) => {
+      socket.to(userSocketId).emit('postCommentedNotification', {
+        data: {
+          auth: socket.auth,
+          ...rest,
         },
       });
     });

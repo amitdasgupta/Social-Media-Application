@@ -13,10 +13,17 @@ export default function NotificationsCard(props) {
   }, [userFetched, getSingleUser, userId]);
 
   const giveNotificationCard = (notiData) => {
-    const { type, userName } = notiData;
+    const { type, userName, commentDesc } = notiData;
     switch (type) {
       case 'follow':
-        return <>followed you</>;
+        return (
+          <>
+            <span className={styles.userName}>
+              {`${userName} `}
+              <span>followed you</span>
+            </span>
+          </>
+        );
       case 'likePost':
         return (
           <>
@@ -25,9 +32,11 @@ export default function NotificationsCard(props) {
               <span>liked your post.</span>
             </span>
             <span className={styles.postLike}>
-              {` ${desc.slice(0, 10)}`}
-              {desc.length > 15 && '...'}
-              {image && <img alt="Jon Doe" src={image} />}
+              <div>
+                {` ${desc.slice(0, 10)}`}
+                {desc.length > 15 && '...'}
+              </div>
+              {image && <img alt="Post" src={image} />}
             </span>
           </>
         );
@@ -41,8 +50,18 @@ export default function NotificationsCard(props) {
       case 'comment':
         return (
           <>
-            commented on your
-            <span className={styles.postLike}>{` Post`}</span>
+            <span className={styles.userName}>
+              {`${userName} `}
+              <span> commented on your post.</span>
+            </span>
+            <span className={styles.postLike}>
+              <div>
+                {` ${desc.slice(0, 10)}`}
+                {desc.length > 15 && '...'}
+              </div>
+              {image && <img alt="Post" src={image} />}
+            </span>
+            <div className={styles.postComment}>{commentDesc}</div>
           </>
         );
       default:
