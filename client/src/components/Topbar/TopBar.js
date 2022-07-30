@@ -9,7 +9,8 @@ import { useHistory } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 
 export default function TopBar(props) {
-  const { isLoggedInUserDataFetched, userData: { profilepic } = {} } = props;
+  const { isLoggedInUserDataFetched, userData: { profilepic, username } = {} } =
+    props;
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
   const menuItems = [
@@ -38,7 +39,7 @@ export default function TopBar(props) {
               window.location.reload();
             }}
           >
-            Socialize
+            {`Socialize : ${username}`}
           </div>
         </div>
         <div

@@ -3,6 +3,7 @@ import userSaga from './userSaga';
 import postSaga from './postSaga';
 import socketSaga from './socketSaga';
 import commentSaga from './commentSaga';
+import notificationSaga from './notificationSaga';
 
 // Here, we register our watcher saga(s) and export as a single generator
 // function (startForeman) as our root Saga.
@@ -12,5 +13,6 @@ export default function* watchAll() {
     fork(postSaga),
     fork(socketSaga),
     fork(commentSaga),
+    fork(notificationSaga),
   ]);
 }

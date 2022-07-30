@@ -97,6 +97,7 @@ export default function Home(props) {
     loggedInUser: { isFetched },
     getLoggedInUserData,
     notificationCount,
+    getAllNotifications,
   } = props;
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -104,6 +105,9 @@ export default function Home(props) {
   useEffect(() => {
     if (!isFetched) getLoggedInUserData();
   }, [getLoggedInUserData, isFetched]);
+  useEffect(() => {
+    getAllNotifications();
+  }, [getAllNotifications]);
   let { path, url } = useRouteMatch();
   return isFetched ? (
     <SocketProvider>

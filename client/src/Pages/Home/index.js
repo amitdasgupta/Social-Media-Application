@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getLoggedInUserData } from '../../redux/actions/userActions';
+import { getAllNotifications } from '../../redux/actions/socketActions';
 import Home from './Home';
 
 const mapStateToProps = (state) => {
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getLoggedInUserData,
+  getAllNotifications,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

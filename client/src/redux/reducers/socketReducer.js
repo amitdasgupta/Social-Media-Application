@@ -136,6 +136,58 @@ export default function socketReducer(
       }
       return state;
     }
+    case types.FETCH_TIMELINE_NOTIFICATION_REQUEST: {
+      const { metaData } = notifications;
+      return {
+        ...state,
+        notifications: {
+          ...notifications,
+          isFetched: false,
+          metaData: {
+            ...metaData,
+            pageNo: metaData.pageNo + 1,
+          },
+        },
+      };
+    }
+    case types.FETCH_TIMELINE_NOTIFICATION_SUCCESS: {
+      console.log(payload);
+      const {
+        comment: newComments = [],
+        follow: newFollows = [],
+        likePost: newLikePosts = [],
+        likeComment: newLikeComments = [],
+        metaData,
+      } = payload;
+      const updatedData = {};
+      const updatedList = [
+        ...newComments,
+        ...newFollows,
+        ...newLikeComments,
+        ...newLikePosts,
+      ];
+      updatedList.forEach((data) => {
+        const { id } = data;
+        updatedData[id] = data;
+      });
+      const { data, follow, likePost, likeComment, comment } = notifications;
+      return {
+        ...state,
+        notifications: {
+          ...notifications,
+          data: {
+            ...data,
+            ...updatedData,
+          },
+          follow: [...follow, ...newFollows],
+          likePost: [...likePost, ...newLikePosts],
+          likeComment: [...likeComment, ...newLikeComments],
+          comment: [...comment, ...newComments],
+          metaData,
+          isFetched: true,
+        },
+      };
+    }
     default:
       return state;
   }

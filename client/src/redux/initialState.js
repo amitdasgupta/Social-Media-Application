@@ -80,7 +80,7 @@ const initialState = {
       //     commentId: 'commentId',
       //     postId: 'postId',
       //     id: 'userId_commentId_postId',
-      //     desc:"description",
+      //     commentDesc:"commentDesc"
       //   },
       //   commentId: {
       //     type: 'comment',
@@ -99,6 +99,12 @@ const initialState = {
       likePost: [],
       likeComment: [],
       comment: [],
+      isFetched: false,
+      metaData: {
+        pageNo: 0,
+        size: 25,
+        total: 25,
+      },
     },
     liveUsers: {
       isFetched: false,

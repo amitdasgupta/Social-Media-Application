@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { connectSocket } from '../../redux/actions/socketActions';
 import NotificationsList from './NotificationsList';
 
 const mapStateToProps = (state) => {
@@ -13,8 +12,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  connectSocket,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationsList);
+export default connect(mapStateToProps)(NotificationsList);
