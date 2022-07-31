@@ -17,7 +17,7 @@ DbConnection.init();
 
 app.use(cors());
 app.use(express.json());
-if (process.env === 'production') {
+if (process.env.MODE === 'production') {
   app.use(express.static(path.join(__dirname, './client/build')));
 }
 app.use(express.urlencoded({ extended: true }));
@@ -27,7 +27,7 @@ app.use(morgan('common'));
 app.use('/', rootController);
 app.use(errorMiddleware);
 
-if (process.env === 'production') {
+if (process.env.MODE === 'production') {
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, './client/build/index.html'));
   });
