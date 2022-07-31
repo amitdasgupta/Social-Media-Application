@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-
+const atob = require('atob');
 // Initialize firebase admin SDK
 admin.initializeApp({
   credential: admin.credential.cert(
