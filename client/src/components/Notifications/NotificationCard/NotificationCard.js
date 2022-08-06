@@ -36,7 +36,17 @@ export default function NotificationsCard(props) {
                 {` ${desc.slice(0, 10)}`}
                 {desc.length > 15 && '...'}
               </div>
-              {image && <img alt="Post" src={image} />}
+              {image && (
+                <img
+                  alt="Post"
+                  src={image}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src =
+                      'https://storage.googleapis.com/download/storage/v1/b/social-connect-4d3e3.appspot.com/o/29e18a8788acdf96b10dc12fee6fad77.jpeg?generation=1658328485730595&alt=media';
+                  }}
+                />
+              )}
             </span>
           </>
         );
@@ -59,7 +69,17 @@ export default function NotificationsCard(props) {
                 {` ${desc.slice(0, 10)}`}
                 {desc.length > 15 && '...'}
               </div>
-              {image && <img alt="Post" src={image} />}
+              {image && (
+                <img
+                  alt="Post"
+                  src={image}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src =
+                      'https://storage.googleapis.com/download/storage/v1/b/social-connect-4d3e3.appspot.com/o/29e18a8788acdf96b10dc12fee6fad77.jpeg?generation=1658328485730595&alt=media';
+                  }}
+                />
+              )}
             </span>
             <div className={styles.postComment}>{commentDesc}</div>
           </>
@@ -74,7 +94,16 @@ export default function NotificationsCard(props) {
       <div className={styles.item}>
         <div className={styles.start}>
           {userFetched && profilepic !== null ? (
-            <img alt="Jon Doe" src={profilepic} className={styles.icon} />
+            <img
+              alt="Jon Doe"
+              src={profilepic}
+              className={styles.icon}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src =
+                  'https://storage.googleapis.com/download/storage/v1/b/social-connect-4d3e3.appspot.com/o/29e18a8788acdf96b10dc12fee6fad77.jpeg?generation=1658328485730595&alt=media';
+              }}
+            />
           ) : (
             <AccountCircle className={styles.icon} />
           )}

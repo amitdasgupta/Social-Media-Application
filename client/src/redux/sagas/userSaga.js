@@ -131,6 +131,6 @@ export default function* userRoot() {
     takeLatest(types.FOLLOW_USER_REQUEST, followUserRequest),
     takeLatest(types.UNFOLLOW_USER_REQUEST, unFollowUserRequest),
     takeLatest(types.UPDATE_USER_REQUEST, updateUserRequest),
-    takeLatest(types.SINGLE_USER_DATA_REQUEST, getSingleUsersData),
+    takeEvery(types.SINGLE_USER_DATA_REQUEST, getSingleUsersData),
   ]);
 }

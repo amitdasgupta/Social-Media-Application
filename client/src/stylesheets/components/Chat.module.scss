@@ -1,0 +1,45 @@
+.onlineUsers {
+  background-color: #94a9c5;
+  height: 75vh;
+  border-radius: 5px;
+  padding: 50px;
+  overflow-y: scroll;
+  .onlineUsersList {
+    padding: 25px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .onlineUsersListItem {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      div:first-child {
+        margin: 10px 0;
+        width: 50px;
+        height: 50px;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+        margin-right: 50px;
+      }
+      .onlineStatus {
+        width: 10px;
+        height: 10px;
+        background-color: #0c990c;
+        left: 35px;
+        top: 50px;
+        border-radius: 12px;
+        position: absolute;
+      }
+      .loading {
+        background-color: #eee;
+        background-image: linear-gradient(90deg, #e4e8ff, #dedfec, #eee);
+      }
+    }
+  }
+}

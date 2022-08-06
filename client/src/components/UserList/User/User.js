@@ -35,7 +35,15 @@ const User = (props) => {
       <div className={styles.profileMainContent}>
         {profilepic && (
           <div className={styles.profilePic}>
-            <img src={profilepic} alt={username} />
+            <img
+              src={profilepic}
+              alt={username}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src =
+                  'https://storage.googleapis.com/download/storage/v1/b/social-connect-4d3e3.appspot.com/o/29e18a8788acdf96b10dc12fee6fad77.jpeg?generation=1658328485730595&alt=media';
+              }}
+            />
           </div>
         )}
         <div className={styles.profileMainContentData}>

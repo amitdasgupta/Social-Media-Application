@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const customResponse = require('../../helpers/customResponse');
-const Post = require('../../database/models/Post');
 const Comment = require('../../database/models/Comment');
 const { upload } = require('../../helpers/multer');
 

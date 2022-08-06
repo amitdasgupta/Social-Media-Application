@@ -110,6 +110,25 @@ const initialState = {
       isFetched: false,
       data: {},
     },
+    messageEngine: {
+      // data: {
+      //   [messageId]: {
+      //     from: 'userId',
+      //     to: 'userId',
+      //     message: 'some messgae',
+      //   },
+      // },
+      // chatWith:{
+      //   [userId]:{
+      //     messages:[],
+      //     metaData: {
+      //       pageNo: 0,
+      //       size: 25,
+      //       total: 25,
+      //     },
+      //   }
+      // }
+    },
   },
   comments: {
     postCommentDataMapping: {},

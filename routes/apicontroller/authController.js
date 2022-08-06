@@ -58,6 +58,8 @@ router.post('/login', async (req, res, next) => {
       // eslint-disable-next-line no-underscore-dangle
       userId: _id,
     });
+    const lastLogin = Date.now();
+    await User.findOneAndUpdate({ email }, { lastLogin });
     return customResponse(res, 200, {
       accessToken: jwtToken,
     });

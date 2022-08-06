@@ -151,7 +151,6 @@ export default function socketReducer(
       };
     }
     case types.FETCH_TIMELINE_NOTIFICATION_SUCCESS: {
-      console.log(payload);
       const {
         comment: newComments = [],
         follow: newFollows = [],

@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { Link, Switch, Route, useRouteMatch } from 'react-router-dom';
+import {
+  Link,
+  Switch,
+  Route,
+  useRouteMatch,
+  useHistory,
+} from 'react-router-dom';
 import Feed from '../Feed';
 import NotificationsComponent from '../../components/Notifications';
 import Skeleton from 'react-loading-skeleton';
@@ -14,6 +20,7 @@ import { DynamicFeed, Chat, Notifications } from '@material-ui/icons';
 import GroupsIcon from '@mui/icons-material/Groups';
 import useWindowSize from '../../hooks/useWindowSize';
 import SocketConnection from '../../components/SocketConnection';
+import ChatComponent from '../../components/Chat';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,7 +79,7 @@ function returnTabComponent(value, index) {
     case 3:
       component = (
         <>
-          <div>Implement Chatting here</div>;
+          <SearchComponent /> <ChatComponent />
         </>
       );
       break;
@@ -93,6 +100,7 @@ function returnTabComponent(value, index) {
 export default function Home(props) {
   const [value, setValue] = React.useState(giveSelectedTab());
   const [deviceWidth] = useWindowSize();
+  const history = useHistory();
   const {
     loggedInUser: { isFetched },
     getLoggedInUserData,
@@ -108,7 +116,14 @@ export default function Home(props) {
   useEffect(() => {
     getAllNotifications();
   }, [getAllNotifications]);
+  useEffect(() => {
+    const calculatedValue = giveSelectedTab();
+    if (value !== calculatedValue) {
+      setValue(calculatedValue);
+    }
+  }, [history.location.pathname, value]);
   let { path, url } = useRouteMatch();
+
   return isFetched ? (
     <SocketProvider>
       <SocketConnection />
