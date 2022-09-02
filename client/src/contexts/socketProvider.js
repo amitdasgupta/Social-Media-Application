@@ -11,7 +11,7 @@ export function SocketProvider({ id, children }) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:8000');
+    const newSocket = io('https://social-media-version-2.herokuapp.com');
     setSocket(newSocket);
     return () => newSocket.close();
   }, []);

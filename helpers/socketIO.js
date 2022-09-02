@@ -6,7 +6,7 @@ const socketHelpers = {
   connect: (server) => {
     const io = new socketIO.Server(server, {
       cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.APP_URL,
         methods: ['GET', 'POST'],
       },
     });
